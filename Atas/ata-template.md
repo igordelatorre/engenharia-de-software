@@ -1,4 +1,4 @@
-<!-- o arquivo deve ser nomeado como ata-${data}.md, por exemplo, `ata-2022.07.01.md` -->
+<!-- o arquivo deve ser nomeado como ata-${data}.md, por exemplo, `ata-2022-07-01.md` -->
 
 # Ata de Reunião
 

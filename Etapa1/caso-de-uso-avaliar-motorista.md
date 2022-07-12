@@ -1,14 +1,14 @@
 # Avaliar Motorista
 
-**Identificação:** UC3
+**Identificação:** UC3 <br/>
 
-**Caso de Uso:** Avaliação do Motorista
+**Caso de Uso:** Avaliação do Motorista <br/>
 
-**Ator:** Passageiro
+**Ator:** Passageiro <br/>
 
-**Descrição:** Permite ao passageiro conceder uma avaliação ao motorista de sua viagem.
-**Pré-condições:** A viagem foi confirmada e o tempo de chegada ao destino foi superado.
-**Pós-condições:** As métricas do motorista e do passageiro são, possivelmente, atualizadas.
+**Descrição:** Permite ao passageiro conceder uma avaliação ao motorista de sua viagem. <br/>
+**Pré-condições:** A viagem foi confirmada e o tempo de chegada ao destino foi superado. <br />
+**Pós-condições:** As métricas do motorista e do passageiro são, possivelmente, atualizadas. <br/>
 ## Sequência típica de Eventos 
 
 | Ação do Ator                                    | Resposta do Sistema                                |

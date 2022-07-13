@@ -15,10 +15,10 @@
 |-------------------------------------------------|----------------------------------------------------|
 | | 1. Esse Caso de Uso começa após o tempo previsto de chegada da viagem, quando o sistema emite uma solicitação de avaliação                                      |
 | 2. O passageiro possui a opção de conceder ao motorista uma, dentre duas, possibilidades de avaliação: positiva ou negativa                                              |                             |
-|                                    |  3. O sistema deve aguardar pelas avaliações de ambos motorista e passageiro ou por um período máximo de 24 horas                                   |
+|                                    |  3. O sistema deve aguardar o passageiro avaliar o motorista por um período máximo de 24 horas                                  |
 |  | 4. Se o passageiro avaliou a viagem, ver subseção **passageiro avalia viagem**
 
-## Sequência alternativo
+## Sequência alternativa
 
 3b: Caso o passaegeiro não avalie a viagem, o sistema deve incrementar a quantidade de likes do motorista.
 

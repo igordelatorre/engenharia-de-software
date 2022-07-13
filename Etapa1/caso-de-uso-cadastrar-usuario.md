@@ -1,6 +1,6 @@
 # Cadastrar usuário
 
-**Identificação:** UC5
+**Identificação:** UC4
 
 **Caso de Uso:** Cadastrar usuário
 

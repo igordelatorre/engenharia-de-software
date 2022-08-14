@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
+import 'antd/dist/antd.css'
+import './Web/Styles/general.css'
+import PlayersPage from './Web/Pages/Players/PlayersPage'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <PlayersPage />
   </React.StrictMode>,
   document.getElementById("root")
 );

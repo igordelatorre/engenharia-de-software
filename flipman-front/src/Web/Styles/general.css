@@ -1,0 +1,147 @@
+/* https://fonts.google.com/specimen/Montserrat */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* https://fonts.google.com/specimen/Noto+Sans*/
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* overrides */
+
+html,
+body {
+    font-family: 'Noto Sans', sans-serif !important;
+    color: var(--primary-dark-gray);
+    font-size: 62.5%;
+}
+
+
+/* fallback theme */
+
+:root {
+    /* Colors */
+    --primary-green: #48b96f;
+    --primary-blue: #164560;
+    --primary-gray: #8c8c8c;
+    --primary-dark-gray: #282828;
+    --primary-white: #ffffff;
+    --primary-black: #43425d;
+    --secondary-red: #ff93a2;
+    --secondary-yellow: #ffea98;
+    --secondary-gray: #a9a9a9;
+    --secondary-orange: #ffb55f;
+    --secondary-green: #92dfb5;
+    --secondary-blue: #a5c8f1;
+    --secondary-light-blue: #437a9e;
+    --secondary-lilac: #b97de9;
+    --tertiary-dark-red: #ff4d4f;
+    --tertiary-darker-gray: #4d4f5c;
+    --tertiary-dark-blue: #001e36;
+    --tertiary-lightest-blue: #daf1ff;
+    --tertiary-green: #D9EDDD;
+    --light-purple: #b1a5f1;
+    --text-over-primary: var(--primary-white);
+    --text-over-secondary: var(--primary-white);
+    --light-gray: #dee2e6;
+    --mild-gray: #eeeeee;
+    --background: #f7f7f7;
+    --disabled-background: #f7f7f7;
+    --table-header-text: #a3a6b4;
+    --table-hover: #f5f9f6;
+    --table-header: #f5f6fa;
+    --table-selected: #f2faff;
+    --border: #dee2e6;
+    --input-border: #e8e9ec;
+    --disabled-button: var(--secondary-gray);
+    --success: var(--primary-green);
+    --error: var(--secondary-red);
+    --warning: var(--secondary-yellow);
+    --almost-black: rgb(0, 0, 0, 0.85);
+    --button-shadow: #00000029;
+    --new-table-hover: #fafafa;
+    /* Opacity */
+    --shadow-opacity: 0.3;
+    --overlay-opacity: 0.2;
+    /* Font Weight */
+    --medium: 500;
+    --semi-bold: 600;
+}
+
+P {
+    margin-bottom: 0;
+}
+
+.card-title {
+    font-size: 2.8rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.label {
+    font-size: 1.5rem;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.ant-form-item-children {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.signing-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Noto Sans', sans-serif;
+    color: var(--primary-dark-gray);
+    font-weight: bold;
+    font-size: 3.2rem;
+}
+
+.ant-select-dropdown .ant-select-item-option-content {
+    color: var(--primary-dark-gray);
+}
+
+.calendar-addon {
+    display: block;
+    padding: 1.2rem;
+    width: 4rem;
+    background-color: var(--primary-blue);
+    height: 4rem;
+    top: 0;
+    right: 0px;
+    cursor: pointer;
+    border-radius: 0 0.4rem 0.4rem 0;
+    margin: 0;
+}
+
+.MuiTableCell-root {
+    border-bottom: 1px solid #f0f0f0 !important;
+}
+
+.MuiPickersDay-daySelected.MuiPickersDay-dayDisabled>span>p {
+    color: #fff !important;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.Mui-checked+.MuiFormControlLabel-label {
+    color: var(--primary-blue) !important;
+}
+
+.ant-form-vertical .ant-form-item {
+    margin-bottom: 1.2rem;
+}
+
+.ant-picker {
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+}

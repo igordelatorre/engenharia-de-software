@@ -20,13 +20,13 @@ docker run --name=postgres -e POSTGRES_PASSWORD=123456 --restart=always -p 5432:
 5. Criar db e tabelas
 
 ```sql
-CREATE DATABASE Flipman
+CREATE DATABASE flipman
 
 
-CREATE TABLE Players (
-    PlayerId SERIAL PRIMARY KEY, 
-    Name varchar(255) NOT NULL,
-    Email varchar(255) NOT NULL,
-    PhoneNumber char(11)
+CREATE TABLE players (
+    id int NOT NULL PRIMARY KEY, 
+    name varchar(255) NOT NULL,
+    email varchar(255),
+    phonenumber char(11)
 )
 ```

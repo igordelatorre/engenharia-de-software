@@ -1,3 +1,6 @@
+using Flipman.Api.Models;
+using Microsoft.EntityFrameworkCore;
+
 internal class Program
 {
     private static void Main(string[] args)
@@ -10,6 +13,10 @@ internal class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddDbContext<FlipmanDbContext>(
+            o => o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+        );
 
         var app = builder.Build();
 

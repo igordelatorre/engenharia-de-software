@@ -24,9 +24,10 @@ CREATE DATABASE flipman
 
 
 CREATE TABLE players (
-    id int NOT NULL PRIMARY KEY, 
+    id SERIAL PRIMARY KEY, 
+    card int NOT NULL,
     name varchar(255) NOT NULL,
     email varchar(255),
-    phonenumber char(11)
+    cellphone char(11)
 )
 ```

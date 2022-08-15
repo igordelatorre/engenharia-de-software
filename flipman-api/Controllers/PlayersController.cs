@@ -39,22 +39,24 @@ public class PlayersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> PostPlayer([FromBody] PostPlayerRequest request)
     {
-        if (request.name == null || request.id == null)
+        if (request.name == null || request.card == null)
         {
             return BadRequest();
         }
 
-        var isIdAlreadyInUse = await DbContext.Players.Where(player => player.id == request.id).FirstOrDefaultAsync() != null;
+        var isCardAlreadyInUse = await DbContext.Players.Where(player => player.card == request.card).FirstOrDefaultAsync() != null;
 
-        if (isIdAlreadyInUse)
+        if (isCardAlreadyInUse)
         {
-            return BadRequest("ID_ALREADY_IN_USE");
+            return BadRequest("CARD_ALREADY_IN_USE");
         }
 
         var newPlayer = new Player 
         {
-            id = (int)request.id,
-            name = request.name
+            card = (int)request.card,
+            name = request.name,
+            email = request.email,
+            cellphone = request.cellphone
         };
 
         await DbContext.Players.AddAsync(newPlayer);
@@ -65,8 +67,10 @@ public class PlayersController : ControllerBase
 
     public class PostPlayerRequest 
     {
-        public int? id {get; set;}
+        public int? card {get; set;}
         public string? name {get; set;}
+        public string? email {get; set;}
+        public string? cellphone {get; set;}
     }
 
     [HttpPut]
@@ -86,6 +90,8 @@ public class PlayersController : ControllerBase
         }
 
         player.name = request.name;
+        player.cellphone = request.cellphone;
+        player.email = request.email;
 
         await DbContext.SaveChangesAsync();
 
@@ -95,5 +101,7 @@ public class PlayersController : ControllerBase
     public class PutPlayerRequest
     {
         public string? name {get; set;}
+        public string? email {get; set;}
+        public string? cellphone {get; set;}
     }
 }

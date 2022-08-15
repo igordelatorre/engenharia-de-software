@@ -6,10 +6,9 @@ import {ReactComponent as RemoveIcon} from '../../../Assets/remove_icon.svg'
 
 type Props = {
 	player: Player
-	removePlayer: (player: Player) => void
 }
 
-function HolidaysRow({ player, removePlayer }: Props) {
+function HolidaysRow({ player }: Props) {
 
 	return (
 		<Row>
@@ -17,7 +16,6 @@ function HolidaysRow({ player, removePlayer }: Props) {
 			<Cell>{player.email}</Cell>
 			<Cell>{player.cellphone}</Cell>
 			<Cell>{player.card}</Cell>
-			<Cell><RemoveIcon onClick={() => removePlayer(player)}/></Cell>
 		</Row>
 	)
 }

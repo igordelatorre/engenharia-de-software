@@ -58,12 +58,12 @@ function PlayerSidebar({ isOpen, onClose, addPlayer}: Props) {
 				<Row gutter={16}>
 					<Col xs={12} lg={12}>
 						<Form.Item label={'Telefone'}>
-							<Input {...handlers.string(formik, 'cellphone')} />
+							<Input {...handlers.number(formik, 'cellphone')} />
 						</Form.Item>
 					</Col>
 					<Col xs={12} lg={12}>
 						<Form.Item label={'Cartão'}>
-							<Input {...handlers.string(formik, 'card')} />
+							<Input {...handlers.number(formik, 'card')} />
 						</Form.Item>
 					</Col>
                 </Row>

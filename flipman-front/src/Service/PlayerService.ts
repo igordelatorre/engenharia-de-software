@@ -4,6 +4,9 @@ import Player, {PlayerFactory} from '../Domain/Player'
 export type ResponsePlayer = {
     id: number
 	name: string
+	card: number
+	email: string 
+	cellphone: string
 }
 
 type PayloadPlayer = {

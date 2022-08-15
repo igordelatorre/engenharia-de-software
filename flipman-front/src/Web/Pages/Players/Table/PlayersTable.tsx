@@ -8,7 +8,6 @@ import Player from '../../../../Domain/Player'
 
 type Props = {
 	players : Player[]
-	removePlayer: (player: Player) => void
 }
 
 type ColumnHead<T> = {
@@ -16,27 +15,24 @@ type ColumnHead<T> = {
 	width: string
 }
 
-function PlayersTable({ players, removePlayer}: Props) {
+function PlayersTable({ players}: Props) {
 
 	const columnHeads: ColumnHead<Player>[] = [
 		{
 			label: 'Nome',
-			width: '20%',
+			width: '25%',
 		},
 		{
 			label: 'Email',
-			width: '20%',
+			width: '25%',
 		},
 		{
 			label: 'Telefone',
-			width: '20%',
+			width: '25%',
 		},
 		{
 			label: 'Cartão',
-			width: '20%'
-		},
-		{
-			width: '20%'
+			width: '25%'
 		}
 	]
 
@@ -63,7 +59,6 @@ function PlayersTable({ players, removePlayer}: Props) {
 							<Row
 								key={idx}
 								player={player}
-								removePlayer={removePlayer}
 							/>
 						))}
 					</TableBody>

@@ -13,13 +13,12 @@ import ConfirmButton from '../../Components/Button/ConfirmButton'
 import PlayerSidebar from './PlayerSidebar'
 import FixedCard from '../../Components/FixedCard/FixedCard'
 import PlayerService from '../../../Service/PlayerService'
+import { ResponsePlayer } from '../../../Service/PlayerService'
 
 
 const id = 'holidays-page'
 
 function PlayersPage() {
-
-    const [Players, setPlayers] = useState<Player[]>([])
 
 	const [sidebar, setSidebar] = useState<boolean>(false)
 
@@ -27,19 +26,23 @@ function PlayersPage() {
 
 	const handleCloseSidebar = () => setSidebar(false)
 
+	const [players, setPlayers] = useState<ResponsePlayer[]>([])
+	
+	const getAllPlayers = async () => 
+	{
+		const response = await PlayerService.getAll()
+		setPlayers(response.results)
+
+	}
+
+
 	const addPlayer = async (newPlayer: Player) => 
 	{
-		const newPlayers = Players 
-		newPlayers.push(newPlayer)
-		setPlayers(newPlayers)
 		await PlayerService.add(newPlayer);
+		getAllPlayers()
 	}
 
-	const removePlayer = (player: Player) => 
-	{
-		setPlayers(Players.filter((p) => p.card != player.card))
-	}
-
+	getAllPlayers()
 
 	return (
 			<PageContainer id={id}>
@@ -55,8 +58,7 @@ function PlayersPage() {
 								</ConfirmButton>
 							</AlignedPageButtonContainer>
 							<PlayersTable
-								players={Players}
-								removePlayer={removePlayer}
+								players={players}
 							/>
 							<PlayerSidebar
 								isOpen={sidebar}

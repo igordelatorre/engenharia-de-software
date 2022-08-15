@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	ContentContainer,
 	ContentMenu,
@@ -12,6 +12,7 @@ import PlayersTable from './Table/PlayersTable'
 import ConfirmButton from '../../Components/Button/ConfirmButton'
 import PlayerSidebar from './PlayerSidebar'
 import FixedCard from '../../Components/FixedCard/FixedCard'
+import PlayerService from '../../../Service/PlayerService'
 
 
 const id = 'holidays-page'
@@ -26,11 +27,12 @@ function PlayersPage() {
 
 	const handleCloseSidebar = () => setSidebar(false)
 
-	const addPlayer = (newPlayer: Player) => 
+	const addPlayer = async (newPlayer: Player) => 
 	{
 		const newPlayers = Players 
 		newPlayers.push(newPlayer)
 		setPlayers(newPlayers)
+		await PlayerService.add(newPlayer);
 	}
 
 	const removePlayer = (player: Player) => 

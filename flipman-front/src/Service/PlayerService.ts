@@ -7,8 +7,10 @@ export type ResponsePlayer = {
 }
 
 type PayloadPlayer = {
-    id: number
 	name: string
+	card: number
+	email: string
+	cellphone: string
 }
 
 type GetCollaboratorsResponse = {
@@ -28,8 +30,10 @@ class PlayerService {
 
 	static into(data: Player): PayloadPlayer {
 		return {
-            id: data.id,
-			name: data.name
+			name: data.name,
+			card: data.card,
+			email: data.email,
+			cellphone: data.cellphone
 		}
 	}
 

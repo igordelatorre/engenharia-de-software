@@ -5,10 +5,12 @@
   "type": "module",
   "dependencies": {
     "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
     "antd": "^4.22.4",
     "axios": "^0.27.2",
     "concurrently": "^7.3.0",
     "cross-env": "^7.0.3",
+    "formik": "^2.2.9",
     "material-ui-core": "^5.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

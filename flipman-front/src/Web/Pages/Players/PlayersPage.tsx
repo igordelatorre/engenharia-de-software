@@ -31,7 +31,7 @@ function PlayersPage() {
 	const getAllPlayers = async () => 
 	{
 		const response = await PlayerService.getAll()
-		setPlayers(response.results)
+		setPlayers(response)
 
 	}
 
@@ -42,7 +42,7 @@ function PlayersPage() {
 		getAllPlayers()
 	}
 
-	getAllPlayers()
+	getAllPlayers();
 
 	return (
 			<PageContainer id={id}>

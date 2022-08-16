@@ -16,10 +16,7 @@ type PayloadPlayer = {
 	cellphone: string
 }
 
-type GetCollaboratorsResponse = {
-	results: ResponsePlayer[]
-	totalResults: number
-}
+type GetCollaboratorsResponse = ResponsePlayer[];
 
 class PlayerService {
 	private static model = '/players'
@@ -47,6 +44,8 @@ class PlayerService {
 				undefined
 			)
 		).data
+
+		console.log(response);
 
 		return response
 	}

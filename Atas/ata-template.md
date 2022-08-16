@@ -2,7 +2,7 @@
 
 # Ata de Reunião
 
-Realizada em `{data}` com duração de `${duração}` minutos.
+Realizada em `{data}` começou às `{}` e terminou às `{}`.
 
 ## Participantes
 

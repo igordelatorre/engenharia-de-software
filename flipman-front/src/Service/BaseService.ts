@@ -1,11 +1,12 @@
 import axios, { AxiosResponse } from "axios";
 
-const baseURL = process.env.NODE_ENV === "development" || !process.env.NODE_ENV
-  ? "https://localhost:7021"
-  : `${process.env.REACT_APP_API_BASE_URL}/api`;
+const baseURL =
+  process.env.NODE_ENV === "development" || !process.env.NODE_ENV
+    ? "https://localhost:7021"
+    : `http://18.229.239.33`;
 
 const api = axios.create({
-  baseURL
+  baseURL,
 });
 
 class BaseService {

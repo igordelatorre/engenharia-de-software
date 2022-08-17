@@ -14,3 +14,15 @@ Install all dependencies
 
 Runs the api in the development mode.\
 Open [http://localhost:7021/weather-forecast](http://localhost:7021/weather-forecast) to view it in the browser.
+
+### `docker build`
+
+```cmd
+docker build . -t flipman/api
+```
+
+### `docker run`
+
+```cmd
+docker run --name=flipman-api -p 8080:80 --restart=always -d flipman/api
+```

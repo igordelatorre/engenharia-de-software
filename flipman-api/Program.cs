@@ -14,11 +14,27 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddDbContext<FlipmanDbContext>(
-            o => o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
-        );
+        String? connectionString;
 
-        builder.Services.AddCors(p => p.AddPolicy("corsapp", builder => {
+        if (builder.Environment.IsProduction())
+        {
+            connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+
+            if (connectionString == null)
+            {
+                throw new Exception("DB_CONNECTION_STRING_NOT_FOUND");
+            }
+
+        }
+        else
+        {
+            connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        }
+
+        builder.Services.AddDbContext<FlipmanDbContext>(o => o.UseNpgsql(connectionString));
+
+        builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+        {
             builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
         }));
 

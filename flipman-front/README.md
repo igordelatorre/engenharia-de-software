@@ -1,3 +1,11 @@
+# Electron
+
+Rodar `yarn electron:start` para rodar a aplicação desktop no modo dev
+Rodar `yarn start` para rodar a aplicação só no navegador
+Rodar `yarn electron:build` para gerar o executável
+
+Os arquivos do executável ficam na pasta "dist"
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

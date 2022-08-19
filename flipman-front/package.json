@@ -10,6 +10,7 @@
     "axios": "^0.27.2",
     "concurrently": "^7.3.0",
     "cross-env": "^7.0.3",
+    "electron-is": "^3.0.0",
     "formik": "^2.2.9",
     "material-ui-core": "^5.0.1",
     "react": "^18.2.0",
@@ -32,21 +33,32 @@
     "@types/react-redux": "^7.1.24",
     "@types/react-router": "^5.1.18",
     "@types/styled-components": "^5.1.26",
-    "electron": "^20.0.1",
+    "electron": "^20.0.3",
+    "electron-builder": "^23.3.3",
     "prettier": "^2.7.1",
     "react-scripts": "5.0.1",
     "typescript": "^4.4.2"
   },
-  "main": "public/main.ts",
+  "main": "electron/main.ts",
   "homepage": "./",
+  "build": {
+    "appId": "com.app.id",
+    "productName": "Filpman",
+    "files": [
+      "build/**/*",
+      "electron/main.ts",
+      "package.json"
+    ],
+    "extends": null
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron:serve": "concurrently -k \"cross-env BROWSER=none yarn start\" \"yarn electron:start\"",
-    "electron:build": "",
-    "electron:start": "wait-on tcp:3000 && electron ."
+    "electron:build": "yarn build && electron-builder build --publish never",
+    "electron:start": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "eslintConfig": {
     "extends": [

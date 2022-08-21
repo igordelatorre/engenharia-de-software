@@ -8,6 +8,9 @@ import Player from '../../../../Domain/Player'
 
 type Props = {
 	players : Player[]
+	removePlayer: (player: Player) => void 
+	editPlayer: (player : Player) => void 
+	addTicket: (player: Player) => void
 }
 
 type ColumnHead<T> = {
@@ -15,24 +18,28 @@ type ColumnHead<T> = {
 	width: string
 }
 
-function PlayersTable({ players}: Props) {
+function PlayersTable({ players, removePlayer, editPlayer, addTicket}: Props) {
 
 	const columnHeads: ColumnHead<Player>[] = [
 		{
 			label: 'Nome',
-			width: '25%',
+			width: '20%',
 		},
 		{
 			label: 'Email',
-			width: '25%',
+			width: '20%',
 		},
 		{
 			label: 'Telefone',
-			width: '25%',
+			width: '20%',
 		},
 		{
 			label: 'Cartão',
-			width: '25%'
+			width: '20%'
+		},
+		{
+			label: 'Ações',
+			width: '20%'
 		}
 	]
 
@@ -57,6 +64,9 @@ function PlayersTable({ players}: Props) {
 					<TableBody>
 						{players.map((player, idx) => (
 							<Row
+								removePlayer={removePlayer}
+								editPlayer={editPlayer}
+								addTicket={addTicket}
 								key={idx}
 								player={player}
 							/>

@@ -7,8 +7,9 @@ class Player {
 		public id: number,
 		public name: string,
 		public email: string,
-		public cellphone: string, 
-		public card: number
+		public card: number,
+		public tickets: number, 
+		public cellphone?: string
 	) {}
 }
 
@@ -18,7 +19,7 @@ return new Player(
 	obj.id || 0,
 	obj.name || "",
 	obj.email || "",
-	obj.cellphone || "",
+	obj.tickets || 0,
 	obj.card || 0
 )
 }
@@ -30,6 +31,7 @@ obj: Partial<Player>
 	obj.name = undefined
 	obj.email = undefined 
 	obj.cellphone = undefined 
+	obj.tickets = undefined
 	obj.card = undefined 
 	return Object.setPrototypeOf(obj, Player.prototype)
 }

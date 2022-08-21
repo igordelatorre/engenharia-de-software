@@ -5,40 +5,46 @@ import validate from "./validate";
 import { SidebarButtonContainer } from "../../Styles/style";
 import Player, {
   PlayerFactory,
-  IncompletePlayerFactory,
 } from "../../../Domain/Player";
 import { SidebarPlayer } from "../../Components/Sidebar/style";
 import Input from "../../Components/Input/Input";
 import ConfirmButton from "../../Components/Button/ConfirmButton";
 import CancelButton from "../../Components/Button/CancelButton";
+import PlayerService from "../../../Service/PlayerService";
+import Incomplete from "../../../Common/Incomplete";
 
 type Props = {
   isOpen: boolean;
-  onClose(): void;
-  addPlayer: (player: Player) => void;
+  onClose(): void
+  player?: Player
 };
 
-function PlayerSidebar({ isOpen, onClose, addPlayer }: Props) {
+function EditPlayerSidebar({ isOpen, onClose, player}: Props) {
   const onSubmit = async (
-    values: Partial<Player>,
-    formik: FormikHelpers<Partial<Player>>
+    values: Incomplete<Player>
   ) => {
     const newPlayer = PlayerFactory(values);
     formik.resetForm();
-    addPlayer(newPlayer);
+    updatePlayer(newPlayer);
     onClose();
   };
 
-  const formik = useFormik<Partial<Player>>({
-    initialValues: IncompletePlayerFactory({}),
+
+  const formik = useFormik<Incomplete<Player>>({
+    initialValues: player || PlayerFactory({}),
     onSubmit,
     validate: (values: Partial<Player>) => validate(values),
     enableReinitialize: true,
   });
 
+  const updatePlayer = async (newPlayer: Player) => {
+    await PlayerService.update(newPlayer);
+  };
+
+
   return (
     <SidebarPlayer
-      header={"Novo Jogador"}
+      header={"Editar Jogador"}
       isOpen={isOpen}
       onClose={onClose}
       width={"47.5rem"}
@@ -76,4 +82,4 @@ function PlayerSidebar({ isOpen, onClose, addPlayer }: Props) {
     </SidebarPlayer>
   );
 }
-export default PlayerSidebar;
+export default EditPlayerSidebar;

@@ -6,14 +6,16 @@ export type ResponsePlayer = {
 	name: string
 	card: number
 	email: string 
-	cellphone: string
+	cellphone?: string
+	tickets: number
 }
 
 type PayloadPlayer = {
 	name: string
 	card: number
 	email: string
-	cellphone: string
+	tickets: number
+	cellphone?: string
 }
 
 type GetCollaboratorsResponse = ResponsePlayer[];
@@ -33,7 +35,8 @@ class PlayerService {
 			name: data.name,
 			card: data.card,
 			email: data.email,
-			cellphone: data.cellphone
+			cellphone: data.cellphone,
+			tickets: data.tickets
 		}
 	}
 
@@ -62,6 +65,18 @@ class PlayerService {
 	static async update(player: Player): Promise<Player> {
 		const response = (
 			await BaseService.put<PayloadPlayer, ResponsePlayer>(
+				this.model,
+				this.into(player),
+				`/${player.id}`
+			)
+		).data
+
+		return this.from(response)
+	}
+
+	static async remove(player: Player): Promise<Player> {
+		const response = (
+			await BaseService.remove<PayloadPlayer, ResponsePlayer>(
 				this.model,
 				this.into(player),
 				`/${player.id}`

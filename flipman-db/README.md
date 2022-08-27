@@ -4,30 +4,28 @@
 
 2. Inicializar container com o postgres
 
-```cmd
-docker run --name=postgres -e POSTGRES_PASSWORD=123456 --restart=always -p 5432:5432 -d postgres:14
-```
+- Linux
 
-3. Instalar gerenciador de banco de dados
+  ```shell
+  start-database.sh
+  ```
 
-- Eu tô usando o [Azure Data Studio](https://docs.microsoft.com/en-us/sql/azure-data-studio/download-azure-data-studio?view=sql-server-ver16), mas pode ser qualquer outro.
+- Windows
 
-4. Conectar com o banco:
+  ```cmd
+  start-database.bat
+  ```
 
-- username: `postgres`
+  Pronto!
+
+## Acessar o banco utilizando um SGBD
+
+- server: `localhost`
+- username: `flipman`
 - senha: `123456`
 
-5. Criar db e tabelas
+- Eu recomendo o [Azure Data Studio](https://docs.microsoft.com/en-us/sql/azure-data-studio/download-azure-data-studio?view=sql-server-ver16), com a extensão para Postgres, mas pode ser qualquer outro.
 
-```sql
-CREATE DATABASE flipman
+## Modelagem ER
 
-
-CREATE TABLE players (
-    id SERIAL PRIMARY KEY, 
-    card int NOT NULL,
-    name varchar(255) NOT NULL,
-    email varchar(255),
-    cellphone char(11)
-)
-```
+![modelagem](./modelagem-er.png)

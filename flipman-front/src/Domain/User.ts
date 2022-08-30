@@ -1,5 +1,6 @@
 export enum UserAuth {
     NO_AUTH,
     EMPLOYEE,
-    MANAGER
+    MANAGER,
+    DEVELOPER
 }

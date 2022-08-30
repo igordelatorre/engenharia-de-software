@@ -9,7 +9,6 @@ import PrizesPage from "../Pages/Prizes/PrizesPage";
 import PrizeSalePage from "../Pages/PrizeSale/PrizeSalePage";
 import LoginPage from "../Pages/Login/LoginPage";
 import { UserAuth } from "../../Domain/User";
-import { RoutePath } from "./RoutesEnum"
 
 function AppRoutes() {
 

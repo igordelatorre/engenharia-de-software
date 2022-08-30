@@ -12,11 +12,11 @@ interface PrivateRouteProps {
 function PrivateRoute({auth, redirectPath="/", children}: PrivateRouteProps) {
 
     //Depois será trocado pra pegar o user logado
-    const userAuth: UserAuth = UserAuth.NO_AUTH
+    const userAuth: UserAuth = UserAuth.DEVELOPER
 
 
     const isLoggedIn: boolean = userAuth !== undefined
-    const isAllowed: boolean = auth.includes(userAuth)
+    const isAllowed: boolean = auth.includes(userAuth) || userAuth === UserAuth.DEVELOPER
 
     if (!isLoggedIn) {
         return <Navigate to="/login" />

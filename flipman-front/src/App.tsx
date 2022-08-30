@@ -1,8 +1,12 @@
 import AppRoutes from "./Web/Routes/AppRoutes";
+import Navbar from "./Web/Components/Navbar/Navbar";
 
 function App() {
   return (
-    <AppRoutes />
+    <>
+      <Navbar />
+      <AppRoutes />
+    </>
   );
 }
 

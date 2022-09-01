@@ -72,7 +72,7 @@ function AddPlayerSidebar({ isOpen, onClose, setPlayers, players}: Props) {
           </Col>
           <Col xs={12} lg={12}>
             <Form.Item label={"Cartão"}>
-              <Input {...handlers.number(formik, "card")} />
+              <Input {...handlers.string(formik, "card")} />
             </Form.Item>
           </Col>
         </Row>

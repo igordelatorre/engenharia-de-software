@@ -4,17 +4,19 @@ import Player, {PlayerFactory} from '../Domain/Player'
 export type ResponsePlayer = {
     id: number
 	name: string
-	card: number
+	card: string
 	email: string 
 	cellphone?: string
 	tickets: number
+	tokens: number
 }
 
 type PayloadPlayer = {
 	name: string
-	card: number
+	card: string
 	email: string
 	tickets: number
+	tokens: number
 	cellphone?: string
 }
 
@@ -36,7 +38,8 @@ class PlayerService {
 			card: data.card,
 			email: data.email,
 			cellphone: data.cellphone,
-			tickets: data.tickets
+			tickets: data.tickets,
+			tokens: data.tokens
 		}
 	}
 
@@ -47,8 +50,6 @@ class PlayerService {
 				undefined
 			)
 		).data
-
-		console.log(response);
 
 		return response
 	}

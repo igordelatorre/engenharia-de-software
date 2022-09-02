@@ -74,7 +74,9 @@ export const PageTitle = styled.span`
 	text-transform: capitalize;
 	width: 100%;
 `
-
+export const NameSearch = styled(Input)`
+	width: 30rem;
+`
 
 
 export const SearchFilter = styled(Input)`

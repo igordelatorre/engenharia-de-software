@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { color } from '../..//Styles/colors'
+import Input from './Input'
 
 type Props = {
 	error?: string

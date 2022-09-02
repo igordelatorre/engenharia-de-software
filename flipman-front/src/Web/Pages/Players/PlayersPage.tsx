@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import {
   ContentContainer,
   ContentMenu,
@@ -17,6 +17,8 @@ import { ResponsePlayer } from "../../../Service/PlayerService";
 import EditPlayerSidebar from "./EditPlayerSidebar";
 import RemovePlayerModal from "./RemovePlayerModal";
 import AddTicketModal from "./AddTicketModal";
+import useDebounce from "../../../Hooks/useDebounce";
+import { NameSearch } from "../../Styles/style";
 
 const id = "holidays-page";
 
@@ -32,11 +34,17 @@ function PlayersPage() {
 
   const [display, setDisplay] = useState<Displays>();
   const [selectedPlayer, setSelectedPlayer] = useState<Player>()
-  const [players, setPlayers] = useState<ResponsePlayer[]>([]);
+  const [players, setPlayers] = useState<ResponsePlayer[]>([])
+  const [nameSearch, setNameSearch] = useState<string>('')
+  const [cardSearch, setCardSearch] = useState<string>('') 
+  const debouncedNameSearch = useDebounce<string>(nameSearch)
+  const debouncedCardSearch = useDebounce<string>(cardSearch)
+
 
   const getAllPlayers = async () => {
     const response = await PlayerService.getAll();
-    setPlayers(response);
+    var filteredPlayers = players.filter(p => p.card.includes(cardSearch) && p.name.includes(nameSearch))
+    setPlayers(filteredPlayers);
   };
 
   const handleRemovePlayer = (player : Player) => {
@@ -56,8 +64,8 @@ function PlayersPage() {
 
 
   useEffect(() => {
-    getAllPlayers();
-  }, []);
+    getAllPlayers()
+  }, [debouncedNameSearch, debouncedCardSearch]);
 
   return (
     <PageContainer id={id}>
@@ -72,12 +80,31 @@ function PlayersPage() {
                 {"Novo Jogador"}
               </ConfirmButton>
             </AlignedPageButtonContainer>
+            <div style={{'display': 'flex', }}> 
+                <div style={{'marginRight' : '2rem'}}>
+                  <NameSearch
+                  placeholder={'Nome'}
+                  value={nameSearch}
+                  onChange={setNameSearch}
+                  search
+                  />
+                </div>
+
+                <NameSearch
+                placeholder={'Cartão'}
+                value={cardSearch}
+                onChange={setCardSearch}
+                search
+
+                />
+            </div> 
+
             <PlayersTable 
 				        players={players}
 				        removePlayer={handleRemovePlayer}
 				        editPlayer={handleEditPlayer}
 				        addTicket={handleAddTicket}
-			/>
+			      />
             <AddPlayerSidebar
               isOpen={Displays.ADD === display}
               onClose={() => setDisplay(undefined)}

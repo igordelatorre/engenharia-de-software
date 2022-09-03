@@ -7,4 +7,7 @@ public class Player
     public string? name { get; set; }
     public string? email { get; set; }
     public string? cellphone { get; set; }
+    public int tokens {get; set;}
+    public int tickets {get; set;}
+    public bool isActive {get; set;}
 }

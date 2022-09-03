@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Flipman.Api.Controllers;
 
-[Route("prizeSale")]
+[Route("prizes")]
 [ApiController]
 public class PrizesController : ControllerBase
 {

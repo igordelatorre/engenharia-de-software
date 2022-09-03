@@ -65,7 +65,7 @@ public class PrizesController : ControllerBase
 
   [HttpPut]
   [Route("{id}")]
-  public async Task<IActionResult> UpdatePrizeQuantity([FromRoute] int id, [FromBody] PutPrizeRequest request)
+  public async Task<IActionResult> UpdatePrizeAmount([FromRoute] int id, [FromBody] PutPrizeRequest request)
   {
     if (request.amount == null) 
     {

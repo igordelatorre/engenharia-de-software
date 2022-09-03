@@ -86,7 +86,7 @@ public class PrizesController : ControllerBase
     return Ok();
   }
 
-  public class PutPlayerRequest
+  public class PutPrizeRequest
   {
     public int? amount {get; set;}
   }

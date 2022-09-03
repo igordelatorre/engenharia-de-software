@@ -29,7 +29,7 @@ public class PrizesController : ControllerBase
 
     if (prize == null) 
     {
-      return NoContent();
+      return BadRequest("PRIZE_NOT_FOUND");
     }
 
     return Ok(prize);
@@ -72,7 +72,12 @@ public class PrizesController : ControllerBase
       return BadRequest("AMOUNT_CANNOT_BE_NULL");
     }
 
-    var prize = await DbContext.Prizes.Where(prize => prize.id == id);
+    var prize = await DbContext.Prizes.Where(prize => prize.id == id).FirstOrDefaultAsync();
+
+    if (prize == null) 
+    {
+      return BadRequest("PRIZE_NOT_FOUND");
+    }
 
     if (request.amount > prize.amount) 
     {

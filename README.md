@@ -35,3 +35,21 @@ Tudo vai ter IDs únicos
 - amount (int)
 - price (int)
 ```
+
+## PrizeTransaction
+```
+- playerId
+- prizeId
+- amount (int)
+- dateTime 
+```
+
+## TicketTransaction
+```
+- playerId
+- machineId 
+- amount (int)
+- dateTime
+```
+
+

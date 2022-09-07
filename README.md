@@ -26,6 +26,7 @@ Tudo vai ter IDs únicos
 - playerId
 - machineId
 - tickets
+- tokensEarned
 - playTime (int em segundos)
 ```
 

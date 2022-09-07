@@ -56,7 +56,10 @@ public class PlayersController : ControllerBase
             card = (int)request.card,
             name = request.name,
             email = request.email,
-            cellphone = request.cellphone
+            cellphone = request.cellphone,
+            tokens = request.tokens,
+            tickets = request.tickets,
+            isActive = request.isActive
         };
 
         await DbContext.Players.AddAsync(newPlayer);
@@ -71,6 +74,9 @@ public class PlayersController : ControllerBase
         public string? name {get; set;}
         public string? email {get; set;}
         public string? cellphone {get; set;}
+        public int? tokens {get; set;}
+        public int? tickets {get; set;}
+        public bool? isActive {get; set;}
     }
 
     [HttpPut]
@@ -92,6 +98,9 @@ public class PlayersController : ControllerBase
         player.name = request.name;
         player.cellphone = request.cellphone;
         player.email = request.email;
+        player.tokens = request.tokens;
+        player.tickets = request.tickets;
+        player.isActive = request.isActive;
 
         await DbContext.SaveChangesAsync();
 
@@ -103,5 +112,8 @@ public class PlayersController : ControllerBase
         public string? name {get; set;}
         public string? email {get; set;}
         public string? cellphone {get; set;}
+        public int? tokens {get; set;}
+        public int? tickets {get; set;}
+        public bool? isActive {get; set;}
     }
 }

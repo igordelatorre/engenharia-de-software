@@ -79,12 +79,22 @@ public class PrizesController : ControllerBase
       return BadRequest("PRIZE_NOT_FOUND");
     }
 
-    if (request.amount > prize.amount) 
+    if (request.amount == prize.amount)
     {
-      return BadRequest("AMOUNT_MUST_BE_LESS_THAN_CURRENT_AMOUNT");
+      return BadRequest("SPECIFY_A_VALUE");
     }
 
-    prize.amount = prize.amount - request.amount;
+    prize.amount = request.amount;
+
+    if (request.price != null && request.price != prize.price) 
+    {
+      prize.price = request.price;
+    }
+
+    if (request.name != null && request.name != prize.name) 
+    {
+      prize.name = request.name;
+    }
 
     await DbContext.SaveChangesAsync();
 
@@ -93,6 +103,8 @@ public class PrizesController : ControllerBase
 
   public class PutPrizeRequest
   {
+    public string? name {get; set;}
     public int? amount {get; set;}
+    public int? price {get; set;}
   }
 }

@@ -17,27 +17,16 @@ public class TransactionsController : ControllerBase
   [HttpGet]
   public async Task<IActionResult> GetPrizes()
   {
-    var prizes = await DbContext.Prizes.ToArrayAsync();
-
-    return Ok(prizes);
+    var prizesController = new PrizesController();
+    return Ok(prizesController.GetPrizes());
   }
 
   [HttpGet]
   [Route("{id}")]
   public async Task<IActionResult> GetPrize([FromRoute] int id) {
-    var prize = await DbContext.Prizes.Where(prize => prize.id == id).FirstOrDefaultAsync();
-
-    if (prize == null) 
-    {
-      return BadRequest("PRIZE_NOT_FOUND");
-    }
-
-    return Ok(prize);
-  } 
-
-  // O que deve ser informado quando o jogador quiser retirar um prêmio
-  // 1. id do jogador
-  // 2. quantidade do prêmio a ser retirado
+    var prizesController = new PrizesController();
+    return Ok(prizesController.GetPrize(id));
+  }
 
   [HttpPost]
   [Route("{id}")]

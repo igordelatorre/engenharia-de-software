@@ -29,8 +29,15 @@ public class FlipmanDbContext : DbContext
             b.ToTable("transactions");
             b.HasKey(transaction => transaction.id);
         });
+
+        modelBuilder.Entity<Employee>(b =>
+        {
+            b.ToTable("employees");
+            b.HasKey(employee => employee.id);
+        });
     }
     public DbSet<Player> Players { get; set; }
     public DbSet<Prize> Prizes { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<Employee> Employees { get; set; }
 }

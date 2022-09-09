@@ -48,7 +48,8 @@ CREATE TABLE transactions(
 CREATE TABLE employees(
     id SERIAL PRIMARY KEY, 
     username varchar(255) NOT NULL,
-    password varchar(255) NOT NULL,
+    passwordhash bytea NOT NULL,
+    passwordsalt bytea NOT NULL,
     name varchar(255) NOT NULL,
     isAdmin boolean NOT NULL DEFAULT false
 );

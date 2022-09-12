@@ -1,3 +1,4 @@
+using Flipman.Api.Authorization;
 using Flipman.Api.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,14 @@ internal class Program
                     ValidateAudience = false,
                 };
             });
+
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy(AppPolicies.Manager, policy => policy.RequireAuthenticatedUser().RequireClaim(AppClaims.ManagerId));
+            options.AddPolicy(AppPolicies.Employee, policy => policy.RequireAuthenticatedUser().RequireClaim(AppClaims.EmployeeId));
+            options.AddPolicy(AppPolicies.Player, policy => policy.RequireAuthenticatedUser().RequireClaim(AppClaims.PlayerId));
+            options.AddPolicy(AppPolicies.Machine, policy => policy.RequireAuthenticatedUser().RequireClaim(AppClaims.MachineId));
+        });
 
         builder.Services.AddDbContext<FlipmanDbContext>(
             o => o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))

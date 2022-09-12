@@ -8,6 +8,8 @@ import ErrorPage from "../Pages/Error/ErrorPage";
 import PrizesPage from "../Pages/Prizes/PrizesPage";
 import PrizeSalePage from "../Pages/PrizeSale/PrizeSalePage";
 import LoginPage from "../Pages/Login/LoginPage";
+import PlayersManagerPage from "../Pages/PlayersManager/PlayersManager";
+import UsersPage from "../Pages/Users/Users";
 import { UserAuth } from "../../Domain/User";
 
 function AppRoutes() {
@@ -39,6 +41,16 @@ function AppRoutes() {
             <Route path="/prizes" element={
                 <PrivateRoute auth={[UserAuth.MANAGER]}>
                     <PrizesPage />
+                </PrivateRoute>}
+            />
+            <Route path="/playersManager" element={
+                <PrivateRoute auth={[UserAuth.MANAGER]}>
+                    <PlayersManagerPage />
+                </PrivateRoute>}
+            />
+            <Route path="/users" element={
+                <PrivateRoute auth={[UserAuth.MANAGER]}>
+                    <UsersPage />
                 </PrivateRoute>}
             />
             <Route path="*" element={<ErrorPage />}/>

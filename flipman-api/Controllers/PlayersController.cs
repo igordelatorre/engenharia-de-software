@@ -8,7 +8,7 @@ namespace Flipman.Api.Controllers;
 [ApiController]
 public class PlayersController : ControllerBase
 {
-    private FlipmanDbContext DbContext {get;}
+    private FlipmanDbContext DbContext { get; }
     public PlayersController(FlipmanDbContext dbContext)
     {
         DbContext = dbContext;
@@ -18,7 +18,7 @@ public class PlayersController : ControllerBase
     public async Task<IActionResult> GetPlayers()
     {
         var players = await DbContext.Players.ToArrayAsync();
-        
+
         return Ok(players);
     }
 
@@ -32,7 +32,7 @@ public class PlayersController : ControllerBase
         {
             return NoContent();
         }
-        
+
         return Ok(player);
     }
 
@@ -51,15 +51,15 @@ public class PlayersController : ControllerBase
             return BadRequest("CARD_ALREADY_IN_USE");
         }
 
-        var newPlayer = new Player 
+        var newPlayer = new Player
         {
             card = (int)request.card,
             name = request.name,
             email = request.email,
             cellphone = request.cellphone,
-            tokens = request.tokens,
-            tickets = request.tickets,
-            isActive = request.isActive
+            tokens = request.tokens ?? 0,
+            tickets = 0,
+            isActive = true,
         };
 
         await DbContext.Players.AddAsync(newPlayer);
@@ -68,15 +68,13 @@ public class PlayersController : ControllerBase
         return Ok();
     }
 
-    public class PostPlayerRequest 
+    public class PostPlayerRequest
     {
-        public int? card {get; set;}
-        public string? name {get; set;}
-        public string? email {get; set;}
-        public string? cellphone {get; set;}
-        public int? tokens {get; set;}
-        public int? tickets {get; set;}
-        public bool? isActive {get; set;}
+        public int? card { get; set; }
+        public string? name { get; set; }
+        public string? email { get; set; }
+        public string? cellphone { get; set; }
+        public int? tokens { get; set; }
     }
 
     [HttpPut]
@@ -98,9 +96,9 @@ public class PlayersController : ControllerBase
         player.name = request.name;
         player.cellphone = request.cellphone;
         player.email = request.email;
-        player.tokens = request.tokens;
-        player.tickets = request.tickets;
-        player.isActive = request.isActive;
+        player.tokens = request.tokens ?? player.tokens;
+        player.tickets = request.tickets ?? player.tickets;
+        player.isActive = request.isActive ?? player.isActive;
 
         await DbContext.SaveChangesAsync();
 
@@ -109,11 +107,11 @@ public class PlayersController : ControllerBase
 
     public class PutPlayerRequest
     {
-        public string? name {get; set;}
-        public string? email {get; set;}
-        public string? cellphone {get; set;}
-        public int? tokens {get; set;}
-        public int? tickets {get; set;}
-        public bool? isActive {get; set;}
+        public string? name { get; set; }
+        public string? email { get; set; }
+        public string? cellphone { get; set; }
+        public int? tokens { get; set; }
+        public int? tickets { get; set; }
+        public bool? isActive { get; set; }
     }
 }

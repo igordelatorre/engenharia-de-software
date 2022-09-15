@@ -3,15 +3,13 @@ import BaseService from './BaseService'
 export type ResponsePrizeTransaction = {
     id: number
 	playerId: number 
-    prizeId: number 
-    amount: number 
+    prizeId: number  
     date: Date
 }
 
 type PayloadPrizeTransaction = {
 	playerId: number 
     prizeId: number 
-    amount: number 
     date: Date
 }
 

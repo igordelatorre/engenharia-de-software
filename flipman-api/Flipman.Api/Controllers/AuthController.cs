@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 using Flipman.Api.Authorization;
 using Flipman.Api.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,12 @@ namespace Flipman.Api.Controllers;
 public class AuthController : ControllerBase
 {
     private FlipmanDbContext DbContext { get; }
-    public AuthController(FlipmanDbContext dbContext)
+    private IConfiguration Configuration { get; }
+
+    public AuthController(FlipmanDbContext dbContext, IConfiguration configuration)
     {
         DbContext = dbContext;
+        Configuration = configuration;
     }
 
     [HttpPost]
@@ -89,7 +93,7 @@ public class AuthController : ControllerBase
             new Claim(AppClaims.ManagerId, employee.Id.ToString())
         };
 
-        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("foobarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("AppSettings:Token").Value));
 
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
@@ -111,7 +115,7 @@ public class AuthController : ControllerBase
             new Claim(AppClaims.PlayerId, player.Id.ToString())
         };
 
-        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("foobarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("AppSettings:Token").Value));
 
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 

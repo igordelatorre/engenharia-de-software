@@ -37,7 +37,9 @@ internal class Program
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("foobarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")),
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
+                            builder.Configuration.GetSection("AppSettings:Token").Value
+                        )),
                     ValidateIssuer = false,
                     ValidateAudience = false,
                 };

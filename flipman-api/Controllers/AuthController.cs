@@ -25,14 +25,14 @@ public class AuthController : ControllerBase
         if (string.IsNullOrEmpty(request.username) || string.IsNullOrEmpty(request.password))
             return BadRequest("INVALID_INPUT");
 
-        var employee = await DbContext.Employees.Where(e => e.username == request.username).FirstOrDefaultAsync();
+        var employee = await DbContext.Employees.Where(e => e.Username == request.username).FirstOrDefaultAsync();
 
         if (employee == null)
         {
             return BadRequest("EMPLOYEE_NOT_FOUND");
         }
 
-        if (!VerifyPasswordHash(request.password, employee.passwordhash, employee.passwordsalt))
+        if (!VerifyPasswordHash(request.password, employee.PasswordHash, employee.PasswordSalt))
         {
             return BadRequest();
         }
@@ -55,7 +55,7 @@ public class AuthController : ControllerBase
         if (request.card == null)
             return BadRequest("INVALID_INPUT");
 
-        var player = await DbContext.Players.Where(p => p.card == request.card).FirstOrDefaultAsync();
+        var player = await DbContext.Players.Where(p => p.Card == request.card).FirstOrDefaultAsync();
 
         if (player == null)
         {
@@ -85,8 +85,8 @@ public class AuthController : ControllerBase
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, employee.username),
-            new Claim(AppClaims.ManagerId, employee.id.ToString())
+            new Claim(ClaimTypes.Name, employee.Username),
+            new Claim(AppClaims.ManagerId, employee.Id.ToString())
         };
 
         var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("foobarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"));
@@ -108,7 +108,7 @@ public class AuthController : ControllerBase
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim(AppClaims.PlayerId, player.id.ToString())
+            new Claim(AppClaims.PlayerId, player.Id.ToString())
         };
 
         var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("foobarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"));

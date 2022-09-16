@@ -21,7 +21,7 @@ public class EmployeesControlLer : ControllerBase
     public async Task<IActionResult> GetEmployees()
     {
         var employees = await DbContext.Employees
-            .Select(e => new GetEmployeeResponseElement(e.id, e.username, e.name, e.isadmin))
+            .Select(e => new GetEmployeeResponseElement(e.Id, e.Username, e.Name, e.IsAdmin))
             .ToArrayAsync();
 
         return Ok(employees);
@@ -34,14 +34,14 @@ public class EmployeesControlLer : ControllerBase
     [Authorize(policy: "Manager")]
     public async Task<IActionResult> GetEmployee(int id)
     {
-        var employee = await DbContext.Employees.Where(e => e.id == id).FirstOrDefaultAsync();
+        var employee = await DbContext.Employees.Where(e => e.Id == id).FirstOrDefaultAsync();
 
         if (employee == null)
         {
             return BadRequest("EMPLOYEE_NOT_FOUND");
         }
 
-        return Ok(new GetEmployeeResponseElement(employee.id, employee.username, employee.name, employee.isadmin));
+        return Ok(new GetEmployeeResponseElement(employee.Id, employee.Username, employee.Name, employee.IsAdmin));
     }
 
     [HttpPost]
@@ -56,11 +56,11 @@ public class EmployeesControlLer : ControllerBase
 
         var newEmployee = new Employee
         {
-            username = request.username,
-            passwordhash = passwordHash,
-            passwordsalt = passwordSalt,
-            name = request.name,
-            isadmin = request.isAdmin ?? false
+            Username = request.username,
+            PasswordHash = passwordHash,
+            PasswordSalt = passwordSalt,
+            Name = request.name,
+            IsAdmin = request.isAdmin ?? false
         };
 
         await DbContext.Employees.AddAsync(newEmployee);

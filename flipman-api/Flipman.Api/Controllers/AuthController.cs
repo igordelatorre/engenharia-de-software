@@ -90,7 +90,7 @@ public class AuthController : ControllerBase
         List<Claim> claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, employee.Username),
-            new Claim(AppClaims.ManagerId, employee.Id.ToString())
+            new Claim(employee.IsAdmin ? AppClaims.ManagerId : AppClaims.EmployeeId, employee.Id.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("AppSettings:Token").Value));

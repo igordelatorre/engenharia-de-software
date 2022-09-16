@@ -1,4 +1,5 @@
 using Flipman.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,7 @@ public class PrizesController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetPrizes()
     {
         var prizes = await DbContext.Prizes.ToArrayAsync();
@@ -24,6 +26,8 @@ public class PrizesController : ControllerBase
 
     [HttpGet]
     [Route("{id}")]
+    [Authorize(policy: "Manager")]
+
     public async Task<IActionResult> GetPrize([FromRoute] int id)
     {
         var prize = await DbContext.Prizes.Where(prize => prize.Id == id).FirstOrDefaultAsync();
@@ -37,6 +41,7 @@ public class PrizesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(policy: "Manager")]
     public async Task<IActionResult> PostPrize([FromBody] PostPrizeRequest request)
     {
         if (request.name == null || request.amount == null || request.price == null)
@@ -66,6 +71,7 @@ public class PrizesController : ControllerBase
 
     [HttpPut]
     [Route("{id}")]
+    [Authorize(policy: "Manager")]
     public async Task<IActionResult> UpdatePrizeAmount([FromRoute] int id, [FromBody] PutPrizeRequest request)
     {
         if (request.amount == null)

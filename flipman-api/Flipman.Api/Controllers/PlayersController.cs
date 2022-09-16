@@ -1,4 +1,5 @@
 using Flipman.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,7 @@ public class PlayersController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetPlayers()
     {
         var players = await DbContext.Players.ToArrayAsync();
@@ -24,6 +26,7 @@ public class PlayersController : ControllerBase
 
     [HttpGet]
     [Route("{id}")]
+    [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetPlayer([FromRoute] int id)
     {
         var player = await DbContext.Players.Where(player => player.Id == id).FirstOrDefaultAsync();
@@ -37,6 +40,7 @@ public class PlayersController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(policy: "Employee")]
     public async Task<IActionResult> PostPlayer([FromBody] PostPlayerRequest request)
     {
         if (request.name == null || request.card == null)
@@ -79,6 +83,7 @@ public class PlayersController : ControllerBase
 
     [HttpPut]
     [Route("{id}")]
+    [Authorize(policy: "Employee")]
     public async Task<IActionResult> UpdatePlayer([FromRoute] int id, [FromBody] PutPlayerRequest request)
     {
         if (request.name == null)

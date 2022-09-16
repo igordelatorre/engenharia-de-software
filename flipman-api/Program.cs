@@ -52,7 +52,7 @@ internal class Program
         });
 
         builder.Services.AddDbContext<FlipmanDbContext>(
-            o => o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+            o => o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).UseSnakeCaseNamingConvention()
         );
 
         builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>

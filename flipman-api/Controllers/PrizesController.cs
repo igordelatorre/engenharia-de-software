@@ -26,7 +26,7 @@ public class PrizesController : ControllerBase
     [Route("{id}")]
     public async Task<IActionResult> GetPrize([FromRoute] int id)
     {
-        var prize = await DbContext.Prizes.Where(prize => prize.id == id).FirstOrDefaultAsync();
+        var prize = await DbContext.Prizes.Where(prize => prize.Id == id).FirstOrDefaultAsync();
 
         if (prize == null)
         {
@@ -46,9 +46,9 @@ public class PrizesController : ControllerBase
 
         var newPrize = new Prize
         {
-            name = request.name,
-            amount = (int)request.amount,
-            price = (int)request.price
+            Name = request.name,
+            Amount = (int)request.amount,
+            Price = (int)request.price
         };
 
         await DbContext.Prizes.AddAsync(newPrize);
@@ -73,28 +73,28 @@ public class PrizesController : ControllerBase
             return BadRequest("AMOUNT_CANNOT_BE_NULL");
         }
 
-        var prize = await DbContext.Prizes.Where(prize => prize.id == id).FirstOrDefaultAsync();
+        var prize = await DbContext.Prizes.Where(prize => prize.Id == id).FirstOrDefaultAsync();
 
         if (prize == null)
         {
             return BadRequest("PRIZE_NOT_FOUND");
         }
 
-        if (request.amount == prize.amount)
+        if (request.amount == prize.Amount)
         {
             return BadRequest("SPECIFY_A_VALUE");
         }
 
-        prize.amount = (int)request.amount;
+        prize.Amount = (int)request.amount;
 
-        if (request.price != null && request.price != prize.price)
+        if (request.price != null && request.price != prize.Price)
         {
-            prize.price = (int)request.price;
+            prize.Price = (int)request.price;
         }
 
-        if (request.name != null && request.name != prize.name)
+        if (request.name != null && request.name != prize.Name)
         {
-            prize.name = request.name;
+            prize.Name = request.name;
         }
 
         await DbContext.SaveChangesAsync();

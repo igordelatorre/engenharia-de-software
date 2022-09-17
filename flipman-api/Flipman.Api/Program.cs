@@ -1,5 +1,6 @@
 using Flipman.Api.Authorization;
 using Flipman.Api.Models;
+using Flipman.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -11,6 +12,8 @@ internal class Program
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddScoped<IPrizesService, PrizesService>();
 
         // Add services to the container.
 

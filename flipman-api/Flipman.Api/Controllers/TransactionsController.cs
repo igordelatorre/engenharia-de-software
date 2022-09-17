@@ -1,4 +1,5 @@
 using Flipman.Api.Models;
+using Flipman.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,9 +10,24 @@ namespace Flipman.Api.Controllers;
 public class TransactionsController : ControllerBase
 {
     private FlipmanDbContext DbContext { get; }
-    public TransactionsController(FlipmanDbContext dbContext)
+    private readonly IPrizesService _prizesService;
+    public TransactionsController(FlipmanDbContext dbContext, IPrizesService prizesService)
     {
         DbContext = dbContext;
+        _prizesService = prizesService;
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetPrizes()
+    {
+        return await _prizesService.GetPrizes();
+    }
+
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<IActionResult> GetPrize([FromRoute] int id)
+    {
+        return await _prizesService.GetPrize(id);
     }
 
     [HttpPost]

@@ -1,4 +1,5 @@
 using Flipman.Api.Models;
+using Flipman.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,18 +11,19 @@ namespace Flipman.Api.Controllers;
 public class PrizesController : ControllerBase
 {
     private FlipmanDbContext DbContext { get; }
-    public PrizesController(FlipmanDbContext dbContext)
+    private readonly IPrizesService _prizesService;
+    public PrizesController(FlipmanDbContext dbContext, IPrizesService prizesService)
     {
         DbContext = dbContext;
+        _prizesService = prizesService;
     }
+
 
     [HttpGet]
     [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetPrizes()
     {
-        var prizes = await DbContext.Prizes.ToArrayAsync();
-
-        return Ok(prizes);
+        return await _prizesService.GetPrizes();
     }
 
     [HttpGet]
@@ -30,14 +32,7 @@ public class PrizesController : ControllerBase
 
     public async Task<IActionResult> GetPrize([FromRoute] int id)
     {
-        var prize = await DbContext.Prizes.Where(prize => prize.Id == id).FirstOrDefaultAsync();
-
-        if (prize == null)
-        {
-            return BadRequest("PRIZE_NOT_FOUND");
-        }
-
-        return Ok(prize);
+        return await _prizesService.GetPrize(id);
     }
 
     [HttpPost]

@@ -38,9 +38,16 @@ public class AppDbContext : DbContext
             b.ToTable("employees");
             b.HasKey(employee => employee.Id);
         });
+
+        modelBuilder.Entity<Match>(b =>
+        {
+            b.ToTable("matches");
+            b.HasKey(match => match.Id);
+        });
     }
     public DbSet<Player> Players { get; set; }
     public DbSet<Prize> Prizes { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Employee> Employees { get; set; }
+    public DbSet<Match> Matches { get; set; }
 }

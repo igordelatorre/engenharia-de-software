@@ -17,7 +17,6 @@ public class MatchesController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetMatches()
     {
         var matches = await DbContext.Matches.ToArrayAsync();
@@ -26,11 +25,10 @@ public class MatchesController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{id]")]
-    [Authorize(policy: "Employee")]
-    public async Task<IActionResult> GetMatch([FromRoute] int id)
+    [Route("{id}/machine")]
+    public async Task<IActionResult> GetMatchesByMachine([FromRoute] int id)
     {
-        var match = await DbContext.Matches.Where(match => match.Id == id).FirstOrDefaultAsync();
+        var match = await DbContext.Matches.Where(match => match.MachineId == id).FirstOrDefaultAsync();
 
         if (match == null)
         {
@@ -40,8 +38,21 @@ public class MatchesController : ControllerBase
         return Ok(match);
     }
 
+    [HttpGet]
+    [Route("{id}/player")]
+    public async Task<IActionResult> GetMatchesByPlayer([FromRoute] int id)
+    {
+        var match = await DbContext.Matches.Where(match => match.PlayerId == id).FirstOrDefaultAsync();
+
+        if (match == null) 
+        {
+            return BadRequest("MATCH_NOT_FOUND");
+        }
+
+        return Ok(match);
+    }
+
     [HttpPost]
-    [Authorize(policy: "Employee")]
     public async Task<IActionResult> PostMatch([FromBody] PostMatchRequest request)
     {
         if (

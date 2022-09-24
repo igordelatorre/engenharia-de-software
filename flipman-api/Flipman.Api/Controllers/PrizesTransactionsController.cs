@@ -14,8 +14,6 @@ public class TransactionsController : ControllerBase
         DbContext = dbContext;
     }
 
-    []
-
     [HttpGet]
     public async Task<IActionResult> GetPrizeTransactions() 
     {

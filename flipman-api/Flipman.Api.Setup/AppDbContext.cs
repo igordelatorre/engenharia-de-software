@@ -27,7 +27,7 @@ public class AppDbContext : DbContext
             b.HasKey(prize => prize.Id);
         });
 
-        modelBuilder.Entity<Transaction>(b =>
+        modelBuilder.Entity<PrizeTransaction>(b =>
         {
             b.ToTable("transactions");
             b.HasKey(transaction => transaction.Id);
@@ -47,7 +47,7 @@ public class AppDbContext : DbContext
     }
     public DbSet<Player> Players { get; set; }
     public DbSet<Prize> Prizes { get; set; }
-    public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<PrizeTransaction> PrizeTransactions { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Match> Matches { get; set; }
 }

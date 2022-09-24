@@ -32,7 +32,8 @@ CREATE TABLE prizes(
     id SERIAL PRIMARY KEY, 
     name varchar(255) NOT NULL,
     amount int NOT NULL DEFAULT 0,
-    price int NOT NULL DEFAULT 0
+    price int NOT NULL DEFAULT 0,
+    is_active boolean NOT NULL DEFAULT true
 );
 
 CREATE TABLE transactions(

@@ -6,4 +6,5 @@ public class Prize
     public string? Name { get; set; }
     public int Amount { get; set; }
     public int Price { get; set; }
+    public bool IsActive { get; set; }
 }

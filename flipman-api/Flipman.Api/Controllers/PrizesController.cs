@@ -105,8 +105,27 @@ public class PrizesController : ControllerBase
 
     public class PutPrizeRequest
     {
-        public string? name { get; set; }
-        public int? amount { get; set; }
-        public int? price { get; set; }
+        public string? Name { get; set; }
+        public int? Amount { get; set; }
+        public int? Price { get; set; }
+        public bool? IsActive { get; set; }
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    [Authorize(policy: "Manager")]
+    public async Task<IActionResult> DeletePrize([FromRoute] int id) {
+        var prize = DbContext.Prizes.Where(prize => prize.Id == id).firstOrDefaultAsync();
+
+        if (prize == null) 
+        {
+            return BadRequest("PRIZE_NOT_FOUND");
+        }
+
+        prize.IsActive = false;
+
+        await DbContext.SaveChangesAsync();
+
+        return Ok();
     }
 }

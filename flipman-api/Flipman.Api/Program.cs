@@ -51,7 +51,6 @@ internal class Program
             options.AddPolicy(AppPolicies.Employee, policy => policy.RequireAuthenticatedUser().RequireClaim(AppClaims.EmployeeId));
             options.AddPolicy(AppPolicies.Player, policy => policy.RequireAuthenticatedUser().RequireClaim(AppClaims.PlayerId));
             options.AddPolicy(AppPolicies.Machine, policy => policy.RequireAuthenticatedUser().RequireClaim(AppClaims.MachineId));
-            options.AddPolicy(AppPolicies.Match, policy => policy.RequireAuthenticatedUser().RequireClaim(AppClaims.MatchId));
         });
 
         builder.Services.AddDbContext<FlipmanDbContext>(

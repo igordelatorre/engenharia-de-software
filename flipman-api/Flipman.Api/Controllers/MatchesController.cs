@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Flipman.Api.Controllers;
 
-[Route("matches")]
+[Route("Matches")]
 [ApiController]
 public class MatchesController : ControllerBase
 {
@@ -44,8 +44,14 @@ public class MatchesController : ControllerBase
     [Authorize(policy: "Employee")]
     public async Task<IActionResult> PostMatch([FromBody] PostMatchRequest request)
     {
-        if (request.PlayerId == null || request.MachineId == null || request.Points == null ||
-            request.PlayTime == null || request.Datetime == null)
+        if (request.PlayerId == null || 
+            request.MachineId == null || 
+            request.Points == null ||
+            request.PlayTime == null || 
+            request.Datetime == null ||
+            request.Tokens == null ||
+            request.Tickets == null
+            )
         {
             return BadRequest();
         }
@@ -56,10 +62,16 @@ public class MatchesController : ControllerBase
             MachineId = (int)request.MachineId,
             Points = (int)request.Points,
             PlayTime = (int)request.PlayTime,
-            Datetime = request.Datetime
+            Datetime = System.DateTime.UtcNow
         };
 
         await DbContext.Matches.AddAsync(newMatch);
+        await DbContext.SaveChangesAsync();
+
+        var player = await DbContext.Players.Where(player => player.id == request.PlayerId);
+
+        player.Tokens -= request.Tokens;
+        player.Tickets += request.Tickets;
         await DbContext.SaveChangesAsync();
 
         return Ok();
@@ -71,6 +83,8 @@ public class MatchesController : ControllerBase
         public int? MachineId { get; set; }
         public int? Points { get; set; }
         public int? PlayTime { get; set; }
-        public string? Datetime { get; set; }
+        public DateTime? Datetime { get; set; }
+        public int? Tokens { get; set; }
+        public int? Tickets { get; set; }
     }
 }

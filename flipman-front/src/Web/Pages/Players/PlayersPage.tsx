@@ -8,64 +8,47 @@ import {
   PageTitleContainer,
 } from "../../Styles/style";
 import Player, {PlayerFactory} from "../../../Domain/Player";
-import PlayersTable from "./Table/PlayersTable";
+import PlayersTable from "./PlayersTable";
 import ConfirmButton from "../../Components/Button/ConfirmButton";
-import AddPlayerSidebar from "./AddPlayerSidebar";
+import AddPlayer from "./AddPlayer";
 import FixedCard from "../../Components/FixedCard/FixedCard";
 import PlayerService from "../../../Service/PlayerService";
 import { ResponsePlayer } from "../../../Service/PlayerService";
-import EditPlayerSidebar from "./EditPlayerSidebar";
-import RemovePlayerModal from "./RemovePlayerModal";
-import AddTicketModal from "./AddTicketModal";
+import AddTicket from "./AddTicket";
 import useDebounce from "../../../Hooks/useDebounce";
 import { NameSearch } from "../../Styles/style";
+import { Input } from "antd";
 
+const {Search} = Input
 const id = "holidays-page";
 
 function PlayersPage() {
 
-  enum Displays {
-	ADD = 'Add',
-	EDIT = 'Edit',
-	REMOVE = 'Remove',
-	TICKET = 'Ticket'
-
-  }
-
-  const [display, setDisplay] = useState<Displays>();
   const [selectedPlayer, setSelectedPlayer] = useState<Player>()
-  const [players, setPlayers] = useState<ResponsePlayer[]>([])
-  const [nameSearch, setNameSearch] = useState<string>('')
-  const [cardSearch, setCardSearch] = useState<string>('') 
-  const debouncedNameSearch = useDebounce<string>(nameSearch)
-  const debouncedCardSearch = useDebounce<string>(cardSearch)
-
+  const [isAddingTicket, setIsAddingTicket] = useState<boolean>(false)
+  const [isAddingPlayer, setIsAddingPlayer] = useState<boolean>(false)
+  const [players, setPlayers] = useState<ResponsePlayer[]>([{id: 5, name: 'joao', card: '1231', email: 'joao@email.com', tickets: 5, tokens: 4}])
 
   const getAllPlayers = async () => {
     const response = await PlayerService.getAll();
-    var filteredPlayers = players.filter(p => p.card.includes(cardSearch) && p.name.includes(nameSearch))
-    setPlayers(filteredPlayers);
+    setPlayers(response);
   };
 
-  const handleRemovePlayer = (player : Player) => {
-	  setSelectedPlayer(player)
-	  setDisplay(Displays.REMOVE)
-  }
-
-  const handleEditPlayer = (player : Player) => {
-	setSelectedPlayer(player)
-	setDisplay(Displays.EDIT)
-  }
-
   const handleAddTicket = (player : Player) => {
-	setSelectedPlayer(player)
-	setDisplay(Displays.TICKET)
+	  setSelectedPlayer(player)
+	  setIsAddingTicket(true)
   }
 
+  const onCardSearch = (card: string) => {
+    const filteredPlayers = players.filter(p => p.card.includes(card))
+    setPlayers(filteredPlayers)
+  }
 
-  useEffect(() => {
-    getAllPlayers()
-  }, [debouncedNameSearch, debouncedCardSearch]);
+  const onNameSearch = (name: string) => {
+    const filteredPlayers = players.filter(p => p.name.includes(name))
+    setPlayers(filteredPlayers)
+  }
+
 
   return (
     <PageContainer id={id}>
@@ -76,54 +59,46 @@ function PlayersPage() {
         <FixedCard>
           <ContentMenu>
             <AlignedPageButtonContainer>
-              <ConfirmButton onClick={() => setDisplay(Displays.ADD)}>
+              <ConfirmButton onClick={() => setIsAddingPlayer(true)}>
                 {"Novo Jogador"}
-              </ConfirmButton>
+              </ConfirmButton> 
             </AlignedPageButtonContainer>
             <div style={{'display': 'flex', }}> 
                 <div style={{'marginRight' : '2rem'}}>
-                  <NameSearch
-                  placeholder={'Nome'}
-                  value={nameSearch}
-                  onChange={setNameSearch}
-                  search
+                  <Search
+                    placeholder="Busca por nome"
+                    allowClear
+                    onSearch={onNameSearch}
+                    style={{
+                      width: 200,
+                    }}
                   />
-                </div>
+                  </div>
 
-                <NameSearch
-                placeholder={'Cartão'}
-                value={cardSearch}
-                onChange={setCardSearch}
-                search
-
-                />
+                  <Search
+                    placeholder="Busca por Cartão"
+                    allowClear
+                    onSearch={onCardSearch}
+                    style={{
+                       width: 200,
+                      }}
+                  />
             </div> 
 
-            <PlayersTable 
-				        players={players}
-				        removePlayer={handleRemovePlayer}
-				        editPlayer={handleEditPlayer}
-				        addTicket={handleAddTicket}
-			      />
-            <AddPlayerSidebar
-              isOpen={Displays.ADD === display}
-              onClose={() => setDisplay(undefined)}
-              setPlayers={setPlayers}
+            <PlayersTable
               players={players}
-            />
-			<EditPlayerSidebar
-				isOpen={Displays.EDIT === display}
-				onClose={() => setDisplay(undefined)}
-				player={selectedPlayer}
-		  />
-			<RemovePlayerModal
-				isOpen={Displays.REMOVE === display}
-				onClose={() => setDisplay(undefined)}
-				player={selectedPlayer}
-			/>
-			<AddTicketModal
-				isOpen={Displays.TICKET === display}
-				onClose={() => setDisplay(undefined)}
+              onRowClick={handleAddTicket}
+
+
+			      />
+      <AddPlayer
+        isOpen={isAddingPlayer}
+				onClose={() => setIsAddingPlayer(false)}
+      />
+
+			<AddTicket
+				isOpen={isAddingTicket}
+				onClose={() => setIsAddingTicket(false)}
 				player={selectedPlayer}
 			/>
 
@@ -135,3 +110,5 @@ function PlayersPage() {
 }
 
 export default PlayersPage;
+
+

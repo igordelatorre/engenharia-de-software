@@ -11,7 +11,7 @@ type Props = {
     player?: Player
 }
 
-function AddTicketModal({
+function AddTicket({
 	isOpen, 
     onClose, 
     player
@@ -49,4 +49,4 @@ function AddTicketModal({
 	)
 }
 
-export default AddTicketModal
+export default AddTicket

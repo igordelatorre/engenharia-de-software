@@ -1,4 +1,5 @@
 using Flipman.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,7 @@ public class PrizesController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetPrizes()
     {
         var prizes = await DbContext.Prizes.ToArrayAsync();
@@ -24,9 +26,11 @@ public class PrizesController : ControllerBase
 
     [HttpGet]
     [Route("{id}")]
+    [Authorize(policy: "Manager")]
+
     public async Task<IActionResult> GetPrize([FromRoute] int id)
     {
-        var prize = await DbContext.Prizes.Where(prize => prize.id == id).FirstOrDefaultAsync();
+        var prize = await DbContext.Prizes.Where(prize => prize.Id == id).FirstOrDefaultAsync();
 
         if (prize == null)
         {
@@ -37,6 +41,7 @@ public class PrizesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(policy: "Manager")]
     public async Task<IActionResult> PostPrize([FromBody] PostPrizeRequest request)
     {
         if (request.name == null || request.amount == null || request.price == null)
@@ -46,9 +51,9 @@ public class PrizesController : ControllerBase
 
         var newPrize = new Prize
         {
-            name = request.name,
-            amount = (int)request.amount,
-            price = (int)request.price
+            Name = request.name,
+            Amount = (int)request.amount,
+            Price = (int)request.price
         };
 
         await DbContext.Prizes.AddAsync(newPrize);
@@ -66,6 +71,7 @@ public class PrizesController : ControllerBase
 
     [HttpPut]
     [Route("{id}")]
+    [Authorize(policy: "Manager")]
     public async Task<IActionResult> UpdatePrizeAmount([FromRoute] int id, [FromBody] PutPrizeRequest request)
     {
         if (request.amount == null)
@@ -73,28 +79,28 @@ public class PrizesController : ControllerBase
             return BadRequest("AMOUNT_CANNOT_BE_NULL");
         }
 
-        var prize = await DbContext.Prizes.Where(prize => prize.id == id).FirstOrDefaultAsync();
+        var prize = await DbContext.Prizes.Where(prize => prize.Id == id).FirstOrDefaultAsync();
 
         if (prize == null)
         {
             return BadRequest("PRIZE_NOT_FOUND");
         }
 
-        if (request.amount == prize.amount)
+        if (request.amount == prize.Amount)
         {
             return BadRequest("SPECIFY_A_VALUE");
         }
 
-        prize.amount = (int)request.amount;
+        prize.Amount = (int)request.amount;
 
-        if (request.price != null && request.price != prize.price)
+        if (request.price != null && request.price != prize.Price)
         {
-            prize.price = (int)request.price;
+            prize.Price = (int)request.price;
         }
 
-        if (request.name != null && request.name != prize.name)
+        if (request.name != null && request.name != prize.Name)
         {
-            prize.name = request.name;
+            prize.Name = request.name;
         }
 
         await DbContext.SaveChangesAsync();

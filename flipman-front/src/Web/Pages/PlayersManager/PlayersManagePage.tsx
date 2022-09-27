@@ -21,9 +21,6 @@ const id = "holidays-page";
 
 function PlayersManager() {
 
-  const [selectedPlayer, setSelectedPlayer] = useState<Player>()
-  const [isAddingTicket, setIsAddingTicket] = useState<boolean>(false)
-  const [isAddingPlayer, setIsAddingPlayer] = useState<boolean>(false)
   const [players, setPlayers] = useState<ResponsePlayer[]>([{id: 5, name: 'joao', card: '1231', email: 'joao@email.com', tickets: 5, tokens: 4}])
 
   const getAllPlayers = async () => {
@@ -38,6 +35,7 @@ function PlayersManager() {
   }
 
   const onNameSearch = (name: string) => {
+    console.log(name)
     const filteredPlayers = players.filter(p => p.name.includes(name))
     setPlayers(filteredPlayers)
   }

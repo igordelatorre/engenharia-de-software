@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Player from '../../../Domain/Player'
 import {Modal} from 'antd'
 import PlayerService from '../../../Service/PlayerService'
-import {Input} from 'antd'
+import {InputNumber} from 'antd'
 
 
 type Props = {
@@ -19,7 +19,7 @@ function AddTicket({
 
     const addTickets = () => {
         const newTickets = (tickets || 0) + (player?.tickets || 0)
-        PlayerService.update({...player!, tickets : newTickets})
+        //Chama o transaction Service aqui
         setTickets(undefined)
         onClose()
     }
@@ -36,12 +36,12 @@ function AddTicket({
             okText={'Adicionar'}
             cancelText={'Cancelar'}
         >
-            <Input style={{'width' : '6rem'}}
+            <InputNumber style={{'width' : '6rem'}}
                 value={tickets}  
                 type="number" 
-                onChange={(e) => setTickets(parseInt(e.target.value))}
+                onChange={(e) => setTickets(e)}
             >
-            </Input>
+            </InputNumber>
         </Modal>
         
 	)

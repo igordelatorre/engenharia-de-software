@@ -63,29 +63,6 @@ class PlayerService {
 		return this.from(response.data)
 	}
 
-	static async update(player: Player): Promise<Player> {
-		const response = (
-			await BaseService.put<PayloadPlayer, ResponsePlayer>(
-				this.model,
-				this.into(player),
-				`/${player.id}`
-			)
-		).data
-
-		return this.from(response)
-	}
-
-	static async remove(player: Player): Promise<Player> {
-		const response = (
-			await BaseService.remove<PayloadPlayer, ResponsePlayer>(
-				this.model,
-				this.into(player),
-				`/${player.id}`
-			)
-		).data
-
-		return this.from(response)
-	}
 
 	static async getSelf(): Promise<Player> {
 		const response = await BaseService.get<ResponsePlayer, null>(

@@ -5,4 +5,6 @@ export type RoutePath =
     "/playerStats" |
     "/machines" |
     "/prizes" |
-    "/prizeSale";
+    "/prizeSale" |
+    "/playersManager" |
+    "users"

@@ -1,4 +1,5 @@
 using Flipman.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,35 +9,38 @@ namespace Flipman.Api.Controllers;
 [ApiController]
 public class PlayersController : ControllerBase
 {
-    private FlipmanDbContext DbContext {get;}
+    private FlipmanDbContext DbContext { get; }
     public PlayersController(FlipmanDbContext dbContext)
     {
         DbContext = dbContext;
     }
 
     [HttpGet]
+    [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetPlayers()
     {
         var players = await DbContext.Players.ToArrayAsync();
-        
+
         return Ok(players);
     }
 
     [HttpGet]
     [Route("{id}")]
+    [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetPlayer([FromRoute] int id)
     {
-        var player = await DbContext.Players.Where(player => player.id == id).FirstOrDefaultAsync();
+        var player = await DbContext.Players.Where(player => player.Id == id).FirstOrDefaultAsync();
 
         if (player == null)
         {
             return NoContent();
         }
-        
+
         return Ok(player);
     }
 
     [HttpPost]
+    [Authorize(policy: "Employee")]
     public async Task<IActionResult> PostPlayer([FromBody] PostPlayerRequest request)
     {
         if (request.name == null || request.card == null)
@@ -44,19 +48,22 @@ public class PlayersController : ControllerBase
             return BadRequest();
         }
 
-        var isCardAlreadyInUse = await DbContext.Players.Where(player => player.card == request.card).FirstOrDefaultAsync() != null;
+        var isCardAlreadyInUse = await DbContext.Players.Where(player => player.Card == request.card).FirstOrDefaultAsync() != null;
 
         if (isCardAlreadyInUse)
         {
             return BadRequest("CARD_ALREADY_IN_USE");
         }
 
-        var newPlayer = new Player 
+        var newPlayer = new Player
         {
-            card = (int)request.card,
-            name = request.name,
-            email = request.email,
-            cellphone = request.cellphone
+            Card = (int)request.card,
+            Name = request.name,
+            Email = request.email,
+            Cellphone = request.cellphone,
+            Tokens = request.tokens ?? 0,
+            Tickets = 0,
+            IsActive = true,
         };
 
         await DbContext.Players.AddAsync(newPlayer);
@@ -65,16 +72,18 @@ public class PlayersController : ControllerBase
         return Ok();
     }
 
-    public class PostPlayerRequest 
+    public class PostPlayerRequest
     {
-        public int? card {get; set;}
-        public string? name {get; set;}
-        public string? email {get; set;}
-        public string? cellphone {get; set;}
+        public int? card { get; set; }
+        public string? name { get; set; }
+        public string? email { get; set; }
+        public string? cellphone { get; set; }
+        public int? tokens { get; set; }
     }
 
     [HttpPut]
     [Route("{id}")]
+    [Authorize(policy: "Employee")]
     public async Task<IActionResult> UpdatePlayer([FromRoute] int id, [FromBody] PutPlayerRequest request)
     {
         if (request.name == null)
@@ -82,16 +91,19 @@ public class PlayersController : ControllerBase
             return BadRequest("NAME_CANNOT_BE_NULL");
         }
 
-        var player = await DbContext.Players.Where(player => player.id == id).FirstOrDefaultAsync();
+        var player = await DbContext.Players.Where(player => player.Id == id).FirstOrDefaultAsync();
 
         if (player == null)
         {
             return BadRequest("PLAYER_NOT_FOUND");
         }
 
-        player.name = request.name;
-        player.cellphone = request.cellphone;
-        player.email = request.email;
+        player.Name = request.name;
+        player.Cellphone = request.cellphone;
+        player.Email = request.email;
+        player.Tokens = request.tokens ?? player.Tokens;
+        player.Tickets = request.tickets ?? player.Tickets;
+        player.IsActive = request.isActive ?? player.IsActive;
 
         await DbContext.SaveChangesAsync();
 
@@ -100,8 +112,11 @@ public class PlayersController : ControllerBase
 
     public class PutPlayerRequest
     {
-        public string? name {get; set;}
-        public string? email {get; set;}
-        public string? cellphone {get; set;}
+        public string? name { get; set; }
+        public string? email { get; set; }
+        public string? cellphone { get; set; }
+        public int? tokens { get; set; }
+        public int? tickets { get; set; }
+        public bool? isActive { get; set; }
     }
 }

@@ -1,15 +1,15 @@
 import AppRoutes from "./Web/Routes/AppRoutes";
-import Navbar from "./Web/Components/Navbar/Navbar";
 import Theme from "./Web/MUI_config/Theme"
+import NewNavbar from "./Web/Components/Navbar/NewNavbar"
 
 function App() {
   return (
     <>
       <Theme>
-        <Navbar />
-        <AppRoutes />
+          <NewNavbar />
+            <AppRoutes />
+          <NewNavbar />
       </Theme>
-        
     </>
   );
 }

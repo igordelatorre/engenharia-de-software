@@ -8,11 +8,11 @@ import { ChakraProvider } from '@chakra-ui/react'
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
     <ChakraProvider>
-      <App/>
+      <BrowserRouter>
+        <App/>
+      </BrowserRouter>
     </ChakraProvider>
-    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

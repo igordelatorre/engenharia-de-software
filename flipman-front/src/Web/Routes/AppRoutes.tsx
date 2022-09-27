@@ -8,7 +8,7 @@ import ErrorPage from "../Pages/Error/ErrorPage";
 import PrizesPage from "../Pages/Prizes/PrizesPage";
 import PrizeSalePage from "../Pages/PrizeSale/PrizeSalePage";
 import LoginPage from "../Pages/Login/LoginPage";
-import PlayersManagerPage from "../Pages/PlayersManager/PlayersManager";
+import PlayersManagerPage from "../Pages/PlayersManager/PlayersManagePage";
 import UsersPage from "../Pages/Users/Users";
 import { UserAuth } from "../../Domain/User";
 

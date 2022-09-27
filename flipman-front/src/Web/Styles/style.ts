@@ -74,6 +74,16 @@ export const PageTitle = styled.span`
 	text-transform: capitalize;
 	width: 100%;
 `
+
+export const Label = styled.span`
+	font-family: Montserrat;
+	font-style: normal;
+	font-size: 15px;
+	line-height: 15px;
+	letter-spacing: -0.01em;
+	text-transform: capitalize;
+	width: 100%;
+`
 export const NameSearch = styled(Input)`
 	width: 30rem;
 `

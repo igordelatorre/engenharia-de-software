@@ -13,7 +13,7 @@ export const TableActions = styled.div<ActionProps>`
 `
 
 export const PageContainer = styled.div`
-	position: absolute;
+	position: relative;
 	bottom: 0;
 	top: 0;
 	left: 0;

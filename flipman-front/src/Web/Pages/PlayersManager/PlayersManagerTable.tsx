@@ -4,11 +4,10 @@ import { Space, Table, Input} from 'antd';
 import Player from '../../../Domain/Player';
 
 type Props = {
-    onRowClick: (player: Player) => void
     players: Player[]
 }
 
-function PlayersManagerTable({onRowClick, players} : Props){
+function PlayersManagerTable({players} : Props){
 
 
     const columns = [
@@ -33,22 +32,30 @@ function PlayersManagerTable({onRowClick, players} : Props){
             dataIndex: 'card',
             key: 'card',
             sorter: true
+        },
+        {
+            title: 'Tokens Obtidos',
+            dataIndex: 'tokens',
+            key: 'tokens',
+            sorter: true
         }
     ]
+
+    const playersWithTotalTokens = players.map(p => {
+        //CHAMADA PARA O TOTAL DE TICKETS AQUI.
+        return p
+    })
+
+
 
     return (
         <Table 
             style={{'paddingTop' : '3rem'}} 
             size={'small'} 
             columns={columns} 
-            dataSource={players} 
-            onRow={(columns, rowIndex) => {
-                return {
-                    onClick: () => onRowClick(players[rowIndex || 0])
-                }
-            }} />
-    )
-
+            dataSource={playersWithTotalTokens} 
+        />)
+    
 }
 
 export default PlayersManagerTable

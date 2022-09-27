@@ -8,7 +8,6 @@ function App() {
       <Theme>
           <NewNavbar />
             <AppRoutes />
-          <NewNavbar />
       </Theme>
     </>
   );

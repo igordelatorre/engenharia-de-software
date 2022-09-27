@@ -9,7 +9,6 @@ import {
 } from "../../Styles/style";
 import Player, {PlayerFactory} from "../../../Domain/Player";
 import PlayersTable from "./PlayersTable";
-import ConfirmButton from "../../Components/Button/ConfirmButton";
 import AddPlayer from "./AddPlayer";
 import FixedCard from "../../Components/FixedCard/FixedCard";
 import PlayerService from "../../../Service/PlayerService";
@@ -17,7 +16,7 @@ import { ResponsePlayer } from "../../../Service/PlayerService";
 import AddTicket from "./AddTicket";
 import useDebounce from "../../../Hooks/useDebounce";
 import { NameSearch } from "../../Styles/style";
-import { Input } from "antd";
+import { Input, Button } from "antd";
 
 const {Search} = Input
 const id = "holidays-page";
@@ -59,9 +58,9 @@ function PlayersPage() {
         <FixedCard>
           <ContentMenu>
             <AlignedPageButtonContainer>
-              <ConfirmButton onClick={() => setIsAddingPlayer(true)}>
+              <Button onClick={() => setIsAddingPlayer(true)}>
                 {"Novo Jogador"}
-              </ConfirmButton> 
+              </Button> 
             </AlignedPageButtonContainer>
             <div style={{'display': 'flex', }}> 
                 <div style={{'marginRight' : '2rem'}}>

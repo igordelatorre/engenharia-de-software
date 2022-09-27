@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Player from '../../../Domain/Player'
 import {Modal} from 'antd'
 import PlayerService from '../../../Service/PlayerService'
-import Input from '../../Components/Input/Input'
+import {Input} from 'antd'
 
 
 type Props = {
@@ -36,14 +36,12 @@ function AddTicket({
             okText={'Adicionar'}
             cancelText={'Cancelar'}
         >
-            <input 
+            <Input style={{'width' : '6rem'}}
                 value={tickets}  
                 type="number" 
                 onChange={(e) => setTickets(parseInt(e.target.value))}
             >
-            </input>
-            <p>Quantia Atual: {player?.tickets}</p>
-
+            </Input>
         </Modal>
         
 	)

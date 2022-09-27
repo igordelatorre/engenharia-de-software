@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flipman.Api", "Flipman.Api\Flipman.Api.csproj", "{6C0171C1-6063-4AAC-BC31-0A932A1BA76C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flipman.Api.Setup", "Flipman.Api.Setup\Flipman.Api.Setup.csproj", "{CDDC9339-1B36-4AEB-987E-C3A6482E654D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C0171C1-6063-4AAC-BC31-0A932A1BA76C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C0171C1-6063-4AAC-BC31-0A932A1BA76C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C0171C1-6063-4AAC-BC31-0A932A1BA76C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C0171C1-6063-4AAC-BC31-0A932A1BA76C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDDC9339-1B36-4AEB-987E-C3A6482E654D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDDC9339-1B36-4AEB-987E-C3A6482E654D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDDC9339-1B36-4AEB-987E-C3A6482E654D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDDC9339-1B36-4AEB-987E-C3A6482E654D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

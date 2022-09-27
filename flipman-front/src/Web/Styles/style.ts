@@ -185,3 +185,15 @@ export const ContentMenu = styled.div`
 		`
 	)}
 `
+
+export const CenteredContentContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`
+
+export const HorizontalCenteredContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+`

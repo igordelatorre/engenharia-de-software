@@ -11,21 +11,11 @@ import {MenuItem} from 'material-ui-core';
 import { UserAuth } from '../../../Domain/User.ts';
 import {useNavigate} from "react-router-dom"
 import {NavItemText} from "./style.ts"
+import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
+ 
 
-function logout() {
-  console.log("logout!")
-}
 
-const pages = [
-  {text: "Jogadores", path: "/players", auth: [UserAuth.EMPLOYEE]},
-  {text: "Consultar Jogador", path: "/playerStats", auth: [UserAuth.NO_AUTH]},
-  {text: "Trocar prêmios", path: "/prizeSale", auth: [UserAuth.EMPLOYEE]},
-  {text: "Gerenciar prêmios", path: "/prizes", auth: [UserAuth.MANAGER]},
-  {text: "Máquinas", path: "/machines", auth: [UserAuth.MANAGER]}
-]
-const settings = [{text: 'Logout', onClick: logout()}]
-
-const ResponsiveAppBar = () => {
+const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -34,6 +24,19 @@ const ResponsiveAppBar = () => {
    //Depois será trocado pra pegar o user logado
    const userAuth = UserAuth.DEVELOPER
 
+
+   function logout() {
+    console.log("logout!")
+  }
+  
+  const pages = [
+    {text: "Jogadores", path: "/players", auth: [UserAuth.EMPLOYEE]},
+    {text: "Consultar Jogador", path: "/playerStats", auth: [UserAuth.NO_AUTH]},
+    {text: "Trocar prêmios", path: "/prizeSale", auth: [UserAuth.EMPLOYEE]},
+    {text: "Gerenciar prêmios", path: "/prizes", auth: [UserAuth.MANAGER]},
+    {text: "Máquinas", path: "/machines", auth: [UserAuth.MANAGER]}
+  ]
+  const settings = [{text: 'Logout', onClick: logout()}]
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -54,23 +57,9 @@ const ResponsiveAppBar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            FLIPMAN
-          </Typography>
+          <IconButton>
+            <VideogameAssetIcon fontSize='large'/>
+          </IconButton>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -148,4 +137,4 @@ const ResponsiveAppBar = () => {
     </AppBar>
   );
 };
-export default ResponsiveAppBar;
+export default Navbar;

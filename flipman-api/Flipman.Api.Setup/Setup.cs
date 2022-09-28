@@ -21,8 +21,14 @@ public class Setup
             PasswordSalt = passwordSalt,
             IsAdmin = true
         };
-
         await dbContext.Employees.AddAsync(admin);
+
+        var player = new Player(44, "fulano", "fulano", "fulano@email.com", "55999887710");
+        await dbContext.Players.AddAsync(player);
+
+        var machine = new Machine("PacMan", 5);
+        await dbContext.Machines.AddAsync(machine);
+
         await dbContext.SaveChangesAsync();
     }
 

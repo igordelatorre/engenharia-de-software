@@ -25,7 +25,7 @@ public class PlayersController : ControllerBase
     }
 
     [HttpGet]
-    [Route("player/{playerCard}")]
+    [Route("player-info/{playerCard}")]
     public async Task<IActionResult> GetPlayerInfo([FromRoute] int playerCard)
     {
         var player = await DbContext.Players.Where(player => player.Card == playerCard && player.IsActive).FirstOrDefaultAsync();
@@ -85,47 +85,9 @@ public class PlayersController : ControllerBase
         public string? Cellphone { get; set; }
     }
 
-    [HttpPut]
-    [Route("player/{playerCard}")]
-    [Authorize(policy: "Employee")]
-    public async Task<IActionResult> UpdatePlayer([FromRoute] int playerCard, [FromBody] PutPlayerRequest request)
-    {
-        if (request.name == null)
-        {
-            return BadRequest("NAME_CANNOT_BE_NULL");
-        }
-
-        var player = await DbContext.Players.Where(player => player.Card == playerCard).FirstOrDefaultAsync();
-
-        if (player == null)
-        {
-            return BadRequest("PLAYER_NOT_FOUND");
-        }
-
-        player.Name = request.name;
-        player.Cellphone = request.cellphone;
-        player.Email = request.email;
-        player.Tokens = request.tokens ?? player.Tokens;
-        player.Tickets = request.tickets ?? player.Tickets;
-        player.IsActive = request.isActive ?? player.IsActive;
-
-        await DbContext.SaveChangesAsync();
-
-        return Ok();
-    }
-
-    public class PutPlayerRequest
-    {
-        public string? name { get; set; }
-        public string? email { get; set; }
-        public string? cellphone { get; set; }
-        public int? tokens { get; set; }
-        public int? tickets { get; set; }
-        public bool? isActive { get; set; }
-    }
-
     [HttpGet]
     [Route("player-tickets/{playerCard}")]
+    [Authorize(policy: "Manager")]
     public async Task<IActionResult> GetPlayerAllTickets([FromRoute] int playerCard)
     {
         var player = await DbContext.Players.Where(player => player.Card == playerCard && player.IsActive).FirstOrDefaultAsync();

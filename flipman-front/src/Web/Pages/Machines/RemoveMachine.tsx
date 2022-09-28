@@ -6,31 +6,32 @@ import handlers from '../../Components/handlers'
 import validate from './validate'
 import { Col, Form, Row } from "antd";
 import { FormikHelpers, useFormik } from "formik";
+import Machine, {MachineFactory} from '../../../Domain/Machine'
 
 
 type Props = {
     isOpen : boolean
     onClose: () => void
-    prize?: Prize
+    machine?: Machine
 }
 
-function RemovePrize({
+function RemoveMachine({
 	isOpen, 
     onClose, 
-    prize
+    machine
 }: Props) {
 
     const onSubmit = async (
-      values: Partial<Prize>,
-      formik: FormikHelpers<Partial<Prize>>
+      values: Partial<Machine>,
+      formik: FormikHelpers<Partial<Machine>>
     ) => {
-      const newPrize = PrizeFactory(values);
+      const newMachine = MachineFactory(values);
       formik.resetForm();
-      removePrize(newPrize);
+      removePrize(newMachine);
       onClose();
     };
 
-    const removePrize = async (newPrier: Prize) => {
+    const removePrize = async (machine: Machine) => {
       // Remove o Prize Aqui
     };
 
@@ -47,18 +48,18 @@ function RemovePrize({
 
 	return (
         <Modal 
-            title={"Remover Prêmio:"}
+            title={"Remover Máquina"}
             visible={isOpen}
             onCancel={onClose}
             onOk={formik.submitForm}
             okText={'Remover'}
             cancelText={'Cancelar'}
         >
-            <p>{'Tem certeza que deseja remover o prêmio ' + prize?.name + '?'}</p>
+            <p>{'Tem certeza que deseja remover a máquina ' + machine?.name + '?'}</p>
 
         </Modal>
         
 	)
 }
 
-export default RemovePrize
+export default RemoveMachine

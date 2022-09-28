@@ -5,13 +5,13 @@ export type ResponseMachine = {
     id: number
 	name: string
 	playCost: number 
-	pointsPerTicket: number
+	pointsPerToken: number
 }
 
 type PayloadMachine = {
 	name: string
 	playCost: number 
-	pointsPerTicket: number
+	pointsPerToken: number
 }
 
 type GetMachinesResponse = ResponseMachine[];
@@ -30,7 +30,7 @@ class MachineService {
 		return {
 			name: data.name,
 			playCost: data.playCost, 
-			pointsPerTicket: data.pointsPerTicket
+			pointsPerToken: data.pointsPerToken
 		}
 	}
 

@@ -1,31 +1,31 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import { Table} from 'antd';
-import Prize from '../../../Domain/Prize';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons'
+import Machine from '../../../Domain/Machine';
 
 
 type Props = {
-    prizes: Prize[]
-    onClickEdit: (prize: Prize) => void 
-    onClickRemove: (prize: Prize) => void 
+    machines: Machine[]
+    onClickEdit: (machine: Machine) => void 
+    onClickRemove: (machine: Machine) => void 
 }
 
-function PrizesTable({prizes, onClickEdit, onClickRemove} : Props){
+function MachineTable({machines, onClickEdit, onClickRemove} : Props){
 
     const handleEditClick = (id : number) => {
-        const prize = prizes.find(p => p.id === id)
-        if (prize)
+        const machine = machines.find(p => p.id === id)
+        if (machine)
         {
-            onClickEdit(prize) 
+            onClickEdit(machine) 
         }
     }
 
     const handleDeleteClick = (id : number) => {
-        const prize = prizes.find(p => p.id === id)
-        if (prize)
+        const machine = machines.find(p => p.id === id)
+        if (machine)
         {
-            onClickRemove(prize) 
+            onClickRemove(machine) 
         }
 
     }
@@ -38,15 +38,15 @@ function PrizesTable({prizes, onClickEdit, onClickRemove} : Props){
             sorter: true
         },
         {
-            title: 'Preço',
-            dataIndex: 'price',
-            key: 'price',
+            title: 'Preço para Jogar',
+            dataIndex: 'playCost',
+            key: 'playCost',
             sorter: true
         },
         {
-            title: 'Estoque',
-            dataIndex: 'amount',
-            key: 'amount',
+            title: 'Pontos por Ficha',
+            dataIndex: 'pointsPerToken',
+            key: 'pointsPerToken',
             sorter: true
         },
         {
@@ -66,10 +66,10 @@ function PrizesTable({prizes, onClickEdit, onClickRemove} : Props){
             style={{'paddingTop' : '3rem'}} 
             size={'small'} 
             columns={columns} 
-            dataSource={prizes}
+            dataSource={machines}
         /> 
     )
 
 }
 
-export default PrizesTable
+export default MachineTable

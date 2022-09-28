@@ -123,4 +123,22 @@ public class PlayersController : ControllerBase
         public int? tickets { get; set; }
         public bool? isActive { get; set; }
     }
+
+    [HttpGet]
+    [Route("player-tickets/{playerCard}")]
+    public async Task<IActionResult> GetPlayerAllTickets([FromRoute] int playerCard)
+    {
+        var player = await DbContext.Players.Where(player => player.Card == playerCard && player.IsActive).FirstOrDefaultAsync();
+
+        if (player == null)
+        {
+            return BadRequest("PLAYER_NOT_FOUND");
+        }
+
+        var allTimeTickets = await DbContext.Matches
+            .Where(match => match.PlayerCard == playerCard)
+            .SumAsync(match => match.Tickets);
+
+        return Ok(new { Name = player.Name, tickets = allTimeTickets });
+    }
 }

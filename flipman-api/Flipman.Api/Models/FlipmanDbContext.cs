@@ -41,10 +41,17 @@ public class FlipmanDbContext : DbContext
             b.ToTable("matches");
             b.HasKey(match => match.Id);
         });
+
+        modelBuilder.Entity<Machine>(b =>
+        {
+            b.ToTable("machines");
+            b.HasKey(machine => machine.Id);
+        });
     }
     public DbSet<Player> Players { get; set; }
     public DbSet<Prize> Prizes { get; set; }
     public DbSet<PrizeTransaction> PrizeTransactions { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Match> Matches { get; set; }
+    public DbSet<Machine> Machines { get; set; }
 }

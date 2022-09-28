@@ -13,7 +13,6 @@ CREATE TABLE machines(
     id SERIAL PRIMARY KEY, 
     name varchar(255) NOT NULL,
     play_cost int NOT NULL DEFAULT 0,
-    points_per_ticket int NOT NULL DEFAULT 0,
     is_active boolean NOT NULL DEFAULT true   
 );
 

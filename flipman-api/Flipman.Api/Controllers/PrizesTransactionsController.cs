@@ -110,7 +110,7 @@ public class PrizesTransactionsController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("{id]")]
+    [Route("{id}")]
     public async Task<IActionResult> DeletePrizeTransaction([FromRoute] int id)
     {
         var transaction = await DbContext.PrizeTransactions.Where(transaction => transaction.Id == id).FirstOrDefaultAsync();

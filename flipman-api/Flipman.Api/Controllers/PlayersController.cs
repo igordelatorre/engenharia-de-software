@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Flipman.Api.Controllers;
 
-[Route("players")]
 [ApiController]
 public class PlayersController : ControllerBase
 {
@@ -16,6 +15,7 @@ public class PlayersController : ControllerBase
     }
 
     [HttpGet]
+    [Route("players")]
     [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetPlayers()
     {
@@ -25,7 +25,7 @@ public class PlayersController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{playerCard}")]
+    [Route("player/{playerCard}")]
     [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetPlayer([FromRoute] int playerCard)
     {
@@ -40,31 +40,28 @@ public class PlayersController : ControllerBase
     }
 
     [HttpPost]
+    [Route("player")]
     [Authorize(policy: "Employee")]
     public async Task<IActionResult> PostPlayer([FromBody] PostPlayerRequest request)
     {
-        if (request.name == null || request.card == null)
-        {
+        if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Name) || string.IsNullOrEmpty(request.Email) || request.Card == null)
             return BadRequest();
-        }
 
-        var isCardAlreadyInUse = await DbContext.Players.Where(player => player.Card == request.card).FirstOrDefaultAsync() != null;
+        var isCardAlreadyInUse = await DbContext.Players.Where(player => player.Card == request.Card).FirstOrDefaultAsync() != null;
 
         if (isCardAlreadyInUse)
         {
             return BadRequest("CARD_ALREADY_IN_USE");
         }
 
-        var newPlayer = new Player
+        var isUserNameAlreadyInUse = await DbContext.Players.Where(player => player.Username == request.Username).FirstOrDefaultAsync() != null;
+
+        if (isUserNameAlreadyInUse)
         {
-            Card = (int)request.card,
-            Name = request.name,
-            Email = request.email,
-            Cellphone = request.cellphone,
-            Tokens = request.tokens ?? 0,
-            Tickets = 0,
-            IsActive = true,
-        };
+            return BadRequest("USERNAME_ALREADY_IN_USE");
+        }
+
+        var newPlayer = new Player((int)request.Card, request.Name, request.Username, request.Email, request.Cellphone);
 
         await DbContext.Players.AddAsync(newPlayer);
         await DbContext.SaveChangesAsync();
@@ -74,15 +71,15 @@ public class PlayersController : ControllerBase
 
     public class PostPlayerRequest
     {
-        public int? card { get; set; }
-        public string? name { get; set; }
-        public string? email { get; set; }
-        public string? cellphone { get; set; }
-        public int? tokens { get; set; }
+        public int? Card { get; set; }
+        public string? Name { get; set; }
+        public string? Username { get; set; }
+        public string? Email { get; set; }
+        public string? Cellphone { get; set; }
     }
 
     [HttpPut]
-    [Route("{playerCard}")]
+    [Route("player/{playerCard}")]
     [Authorize(policy: "Employee")]
     public async Task<IActionResult> UpdatePlayer([FromRoute] int playerCard, [FromBody] PutPlayerRequest request)
     {

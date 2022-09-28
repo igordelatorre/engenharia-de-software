@@ -26,7 +26,7 @@ public class PrizesTransactionsController : ControllerBase
     [Route("{id}/player")]
     public async Task<IActionResult> GetPrizeTransactionByPlayer([FromRoute] int id)
     {
-        var transaction = await DbContext.PrizeTransactions.Where(transaction => transaction.PlayerId == id).FirstOrDefaultAsync();
+        var transaction = await DbContext.PrizeTransactions.Where(transaction => transaction.PlayerCard == id).FirstOrDefaultAsync();
 
         if (transaction == null)
         {
@@ -66,7 +66,7 @@ public class PrizesTransactionsController : ControllerBase
             return BadRequest("PRIZE_NOT_FOUND");
         }
 
-        var player = await DbContext.Players.Where(player => player.Id == request.playerId).FirstOrDefaultAsync();
+        var player = await DbContext.Players.Where(player => player.Card == request.PlayerCard).FirstOrDefaultAsync();
 
         if (player == null)
         {
@@ -90,7 +90,7 @@ public class PrizesTransactionsController : ControllerBase
 
         var newTransaction = new PrizeTransaction
         {
-            PlayerId = player.Id,
+            PlayerCard = player.Card,
             PrizeId = prize.Id,
             Datetime = DateTime.UtcNow,
             Quantity = quantity
@@ -104,7 +104,7 @@ public class PrizesTransactionsController : ControllerBase
 
     public class PostTransactionRequest
     {
-        public int? playerId { get; set; }
+        public int? PlayerCard { get; set; }
         public int? prizeId { get; set; }
         public int? quantity { get; set; }
     }

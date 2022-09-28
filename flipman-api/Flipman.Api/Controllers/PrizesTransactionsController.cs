@@ -15,7 +15,7 @@ public class TransactionsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetPrizeTransactions() 
+    public async Task<IActionResult> GetPrizeTransactions()
     {
         var transaction = await DbContext.PrizeTransactions.ToArrayAsync();
 
@@ -88,7 +88,7 @@ public class TransactionsController : ControllerBase
         player.Tickets = player.Tickets - quantity * prize.Price;
         prize.Amount = prize.Amount - quantity;
 
-        var newTransaction = new Transaction
+        var newTransaction = new PrizeTransaction
         {
             PlayerId = player.Id,
             PrizeId = prize.Id,
@@ -115,12 +115,10 @@ public class TransactionsController : ControllerBase
     {
         var transaction = await DbContext.PrizeTransactions.Where(transaction => transaction.Id == id).FirstOrDefaultAsync();
 
-        if (transaction == null) 
+        if (transaction == null)
         {
             return BadRequest("TRANSACTION_NOT_FOUND");
         }
-
-        transaction.IsActive = false;
 
         await DbContext.SaveChangesAsync();
 

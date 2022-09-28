@@ -26,7 +26,7 @@ public class FlipmanDbContext : DbContext
 
         modelBuilder.Entity<PrizeTransaction>(b =>
         {
-            b.ToTable("transactions");
+            b.ToTable("prizes_transactions");
             b.HasKey(transaction => transaction.Id);
         });
 

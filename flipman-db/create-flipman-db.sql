@@ -36,7 +36,7 @@ CREATE TABLE prizes(
     is_active boolean NOT NULL DEFAULT true
 );
 
-CREATE TABLE transactions(
+CREATE TABLE prizes_transactions(
     id SERIAL PRIMARY KEY,
     player_id int NOT NULL,
     prize_id int NOT NULL,

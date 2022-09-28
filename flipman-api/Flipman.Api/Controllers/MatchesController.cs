@@ -77,7 +77,6 @@ public class MatchesController : ControllerBase
         {
             PlayerCard = (int)request.PlayerCard,
             MachineId = (int)request.MachineId,
-            Points = (int)request.Points,
             PlayTime = (int)request.PlayTime,
             Datetime = System.DateTime.UtcNow
         };

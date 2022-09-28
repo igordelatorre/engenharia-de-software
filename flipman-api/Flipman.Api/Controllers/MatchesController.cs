@@ -42,7 +42,7 @@ public class MatchesController : ControllerBase
     [Route("{id}/player")]
     public async Task<IActionResult> GetMatchesByPlayer([FromRoute] int id)
     {
-        var match = await DbContext.Matches.Where(match => match.PlayerId == id).FirstOrDefaultAsync();
+        var match = await DbContext.Matches.Where(match => match.PlayerCard == id).FirstOrDefaultAsync();
 
         if (match == null)
         {
@@ -56,7 +56,7 @@ public class MatchesController : ControllerBase
     public async Task<IActionResult> PostMatch([FromBody] PostMatchRequest request)
     {
         if (
-            request.PlayerId == null ||
+            request.PlayerCard == null ||
             request.MachineId == null ||
             request.Points == null ||
             request.PlayTime == null ||
@@ -67,7 +67,7 @@ public class MatchesController : ControllerBase
             return BadRequest();
         }
 
-        var player = await DbContext.Players.Where(player => player.Id == request.PlayerId).FirstOrDefaultAsync();
+        var player = await DbContext.Players.Where(player => player.Card == request.PlayerCard).FirstOrDefaultAsync();
 
         if (player == null)
             return BadRequest();
@@ -75,7 +75,7 @@ public class MatchesController : ControllerBase
 
         var newMatch = new Match
         {
-            PlayerId = (int)request.PlayerId,
+            PlayerCard = (int)request.PlayerCard,
             MachineId = (int)request.MachineId,
             Points = (int)request.Points,
             PlayTime = (int)request.PlayTime,
@@ -94,7 +94,7 @@ public class MatchesController : ControllerBase
 
     public class PostMatchRequest
     {
-        public int? PlayerId { get; set; }
+        public int? PlayerCard { get; set; }
         public int? MachineId { get; set; }
         public int? Points { get; set; }
         public int? PlayTime { get; set; }

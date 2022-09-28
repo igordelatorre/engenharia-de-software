@@ -25,11 +25,11 @@ public class PlayersController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{id}")]
+    [Route("{playerCard}")]
     [Authorize(policy: "Employee")]
-    public async Task<IActionResult> GetPlayer([FromRoute] int id)
+    public async Task<IActionResult> GetPlayer([FromRoute] int playerCard)
     {
-        var player = await DbContext.Players.Where(player => player.Id == id).FirstOrDefaultAsync();
+        var player = await DbContext.Players.Where(player => player.Card == playerCard).FirstOrDefaultAsync();
 
         if (player == null)
         {
@@ -82,16 +82,16 @@ public class PlayersController : ControllerBase
     }
 
     [HttpPut]
-    [Route("{id}")]
+    [Route("{playerCard}")]
     [Authorize(policy: "Employee")]
-    public async Task<IActionResult> UpdatePlayer([FromRoute] int id, [FromBody] PutPlayerRequest request)
+    public async Task<IActionResult> UpdatePlayer([FromRoute] int playerCard, [FromBody] PutPlayerRequest request)
     {
         if (request.name == null)
         {
             return BadRequest("NAME_CANNOT_BE_NULL");
         }
 
-        var player = await DbContext.Players.Where(player => player.Id == id).FirstOrDefaultAsync();
+        var player = await DbContext.Players.Where(player => player.Card == playerCard).FirstOrDefaultAsync();
 
         if (player == null)
         {

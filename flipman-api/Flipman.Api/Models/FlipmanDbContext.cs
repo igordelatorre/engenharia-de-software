@@ -15,7 +15,7 @@ public class FlipmanDbContext : DbContext
         modelBuilder.Entity<Player>(b =>
         {
             b.ToTable("players");
-            b.HasKey(player => player.Id);
+            b.HasKey(player => player.Card);
         });
 
         modelBuilder.Entity<Prize>(b =>

@@ -112,7 +112,7 @@ public class AuthController : ControllerBase
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim(AppClaims.PlayerId, player.Id.ToString())
+            new Claim(AppClaims.PlayerId, player.Card.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("AppSettings:Token").Value));

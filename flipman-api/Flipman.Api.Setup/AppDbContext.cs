@@ -18,7 +18,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Player>(b =>
         {
             b.ToTable("players");
-            b.HasKey(player => player.Id);
+            b.HasKey(player => player.Card);
         });
 
         modelBuilder.Entity<Prize>(b =>
@@ -43,7 +43,7 @@ public class AppDbContext : DbContext
         {
             b.ToTable("matches");
             b.HasKey(match => match.Id);
-        });        
+        });
     }
     public DbSet<Player> Players { get; set; }
     public DbSet<Prize> Prizes { get; set; }

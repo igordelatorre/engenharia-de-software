@@ -1,8 +1,8 @@
 CREATE TABLE players(
-    id SERIAL PRIMARY KEY, 
+    card int PRIMARY KEY,
     name varchar(255) NOT NULL,
+    username varchar(255) NOT NULL,
     email varchar(255) NOT NULL,
-    card int NOT NULL,
     tokens int NOT NULL DEFAULT 0,
     tickets int NOT NULL DEFAULT 0,
     is_active boolean NOT NULL DEFAULT true,   
@@ -19,12 +19,12 @@ CREATE TABLE machines(
 
 CREATE TABLE matches(
     id SERIAL PRIMARY KEY,
-    player_id int NOT NULL,
+    player_card int NOT NULL,
     machine_id int NOT NULL, 
     points int NOT NULL,
     play_time int NOT NULL,
     datetime timestamp NOT NULL, 
-    CONSTRAINT fk_player FOREIGN KEY (player_id) REFERENCES players(id),
+    CONSTRAINT fk_player FOREIGN KEY (player_card) REFERENCES players(card),
     CONSTRAINT fk_machine FOREIGN KEY (machine_id) REFERENCES machines(id)
 );
 
@@ -38,12 +38,12 @@ CREATE TABLE prizes(
 
 CREATE TABLE prizes_transactions(
     id SERIAL PRIMARY KEY,
-    player_id int NOT NULL,
+    player_card int NOT NULL,
     prize_id int NOT NULL,
     datetime timestamp NOT NULL,
     quantity int NOT NULL,
     is_active boolean NOT NULL,
-    CONSTRAINT fk_player FOREIGN KEY (player_id) REFERENCES players(id),
+    CONSTRAINT fk_player FOREIGN KEY (player_card) REFERENCES players(card),
     CONSTRAINT fk_prize FOREIGN KEY (prize_id) REFERENCES prizes(id)
 );
 

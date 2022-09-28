@@ -69,7 +69,7 @@ public class PrizesController : ControllerBase
     [Authorize(policy: "Manager")]
     public async Task<IActionResult> UpdatePrizeAmount([FromRoute] int id, [FromBody] PutPrizeRequest request)
     {
-        if (request.amount == null)
+        if (request.Amount == null)
         {
             return BadRequest("AMOUNT_CANNOT_BE_NULL");
         }
@@ -81,21 +81,21 @@ public class PrizesController : ControllerBase
             return BadRequest("PRIZE_NOT_FOUND");
         }
 
-        if (request.amount == prize.Amount)
+        if (request.Amount == prize.Amount)
         {
             return BadRequest("SPECIFY_A_VALUE");
         }
 
-        prize.Amount = (int)request.amount;
+        prize.Amount = (int)request.Amount;
 
-        if (request.price != null && request.price != prize.Price)
+        if (request.Price != null && request.Price != prize.Price)
         {
-            prize.Price = (int)request.price;
+            prize.Price = (int)request.Price;
         }
 
-        if (request.name != null && request.name != prize.Name)
+        if (request.Name != null && request.Name != prize.Name)
         {
-            prize.Name = request.name;
+            prize.Name = request.Name;
         }
 
         await DbContext.SaveChangesAsync();
@@ -114,10 +114,11 @@ public class PrizesController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     [Authorize(policy: "Manager")]
-    public async Task<IActionResult> DeletePrize([FromRoute] int id) {
-        var prize = DbContext.Prizes.Where(prize => prize.Id == id).firstOrDefaultAsync();
+    public async Task<IActionResult> DeletePrize([FromRoute] int id)
+    {
+        var prize = await DbContext.Prizes.Where(prize => prize.Id == id).FirstOrDefaultAsync();
 
-        if (prize == null) 
+        if (prize == null)
         {
             return BadRequest("PRIZE_NOT_FOUND");
         }

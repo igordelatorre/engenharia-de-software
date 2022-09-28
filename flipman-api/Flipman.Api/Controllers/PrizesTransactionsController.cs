@@ -6,10 +6,10 @@ namespace Flipman.Api.Controllers;
 
 [Route("transactions/prizes")]
 [ApiController]
-public class TransactionsController : ControllerBase
+public class PrizesTransactionsController : ControllerBase
 {
     private FlipmanDbContext DbContext { get; }
-    public TransactionsController(FlipmanDbContext dbContext)
+    public PrizesTransactionsController(FlipmanDbContext dbContext)
     {
         DbContext = dbContext;
     }

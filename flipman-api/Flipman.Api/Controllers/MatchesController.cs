@@ -44,7 +44,7 @@ public class MatchesController : ControllerBase
     {
         var match = await DbContext.Matches.Where(match => match.PlayerId == id).FirstOrDefaultAsync();
 
-        if (match == null) 
+        if (match == null)
         {
             return BadRequest("MATCH_NOT_FOUND");
         }
@@ -56,17 +56,22 @@ public class MatchesController : ControllerBase
     public async Task<IActionResult> PostMatch([FromBody] PostMatchRequest request)
     {
         if (
-            request.PlayerId == null || 
-            request.MachineId == null || 
+            request.PlayerId == null ||
+            request.MachineId == null ||
             request.Points == null ||
-            request.PlayTime == null || 
-            request.Datetime == null ||
-            request.Tokens == null || 
+            request.PlayTime == null ||
+            request.Tokens == null ||
             request.Tickets == null
           )
         {
             return BadRequest();
         }
+
+        var player = await DbContext.Players.Where(player => player.Id == request.PlayerId).FirstOrDefaultAsync();
+
+        if (player == null)
+            return BadRequest();
+
 
         var newMatch = new Match
         {
@@ -79,10 +84,8 @@ public class MatchesController : ControllerBase
 
         await DbContext.Matches.AddAsync(newMatch);
 
-        var player = DbContext.Players.Where(player => player.Id == request.PlayerId);
-
-        player.Tokens -= request.Tokens;
-        player.Tickets += request.Tickets;
+        player.Tokens -= (int)request.Tokens;
+        player.Tickets += (int)request.Tickets;
 
         await DbContext.SaveChangesAsync();
 

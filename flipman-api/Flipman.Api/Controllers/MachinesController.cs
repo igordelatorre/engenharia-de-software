@@ -45,7 +45,7 @@ public class MachinesController : ControllerBase
         public int? PlayCost { get; set; }
     }
 
-    [HttpPut]
+    [HttpDelete]
     [Route("machine/{machineId}")]
     [Authorize(policy: "Manager")]
     public async Task<IActionResult> DeleteMachine([FromRoute] int machineId)
@@ -61,6 +61,45 @@ public class MachinesController : ControllerBase
         await DbContext.SaveChangesAsync();
 
         return Ok();
+    }
+
+    [HttpPut]
+    [Route("machine/{machineId}")]
+    [Authorize(policy: "Manager")]
+    public async Task<IActionResult> PutMachine([FromRoute] int machineId, [FromBody] PutMachineRequest request)
+    {
+        if (string.IsNullOrEmpty(request.Name) || request.PlayCost == null || request.IsActive == null)
+            return BadRequest();
+
+        var machine = await DbContext.Machines.Where(machine => machine.Id == machineId).FirstOrDefaultAsync();
+
+        if (machine == null)
+        {
+            return BadRequest("MACHINE_NOT_FOUND");
+        }
+
+        var isMachineNameAlreadyInUse = await DbContext.Machines
+            .Where(machine => machine.Name == request.Name && machine.IsActive).FirstOrDefaultAsync() != null;
+
+        if (isMachineNameAlreadyInUse)
+        {
+            return BadRequest("NAME_ALREADY_IN_USE");
+        }
+
+        machine.Name = request.Name;
+        machine.PlayCost = (int)request.PlayCost;
+        machine.IsActive = (bool)request.IsActive;
+
+        await DbContext.SaveChangesAsync();
+
+        return Ok();
+    }
+
+    public class PutMachineRequest
+    {
+        public string? Name { get; set; }
+        public int? PlayCost { get; set; }
+        public bool? IsActive { get; set; }
     }
 
     [HttpGet]

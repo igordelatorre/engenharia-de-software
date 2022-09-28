@@ -11,11 +11,13 @@ import { FormikHelpers, useFormik } from "formik";
 type Props = {
     isOpen : boolean
     onClose: () => void
+    machine?: Machine
 }
 
 function AddMachine({
-	isOpen, 
+	  isOpen, 
     onClose, 
+    machine
 }: Props) {
 
     const onSubmit = async (
@@ -68,7 +70,7 @@ function AddMachine({
         <Row gutter={16}>
           <Col xs={12} lg={12}>
             <Form.Item label={"Pontos por Ticket"}>
-              <Input font-size={1.0} height={2} {...handlers.number(formik, "pointsPerTicket")} />
+              <Input font-size={1.0} height={2} {...handlers.number(formik, "pointsPerToken")} />
             </Form.Item>
           </Col>
         </Row>

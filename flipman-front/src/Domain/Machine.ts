@@ -7,7 +7,7 @@ class Machine {
 		public id: number,
 		public name: string,
         public playCost: number, 
-        public pointsPerTicket: number
+        public pointsPerToken: number
 	) {}
 }
 
@@ -18,7 +18,7 @@ return new Machine(
 	obj.id || 0,
 	obj.name || "",
 	obj.playCost || 0, 
-    obj.pointsPerTicket || 0
+    obj.pointsPerToken || 0
 )
 }
 
@@ -28,7 +28,7 @@ obj: Partial<Machine>
 	obj.id = undefined
 	obj.name = undefined
 	obj.playCost = undefined 
-    obj.pointsPerTicket = undefined
+    obj.pointsPerToken = undefined
 	return Object.setPrototypeOf(obj, Machine.prototype)
 }
 

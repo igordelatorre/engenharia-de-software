@@ -24,20 +24,20 @@ const id = "prizes-page";
 function MachinesPage() {
 
 
-  const [prizes, setPrizes] = useState<Prize[]>([{id: 4, name: 'boneco', amount: 10, price : 4}])
-  const [selectedPrize, setSelectedPrize] = useState<Prize | undefined>()
-  const [isAddingPrize, setIsAddingPrize] = useState<boolean>(false)
-  const [isRemovingPrize, setIsRemovingPrize] = useState<boolean>(false)
-  const [isEditingPrize, setIsEditingPrize] = useState<boolean>(false)
+  const [machines, setMachines] = useState<Machine[]>([{id: 4, name: 'Pacman', playCost: 5, pointsPerToken: 10}])
+  const [selectedMachine, setSelectedMachine] = useState<Machine | undefined>()
+  const [isAddingMachine, setIsAddingMachine] = useState<boolean>(false)
+  const [isRemovingMachine, setIsRemovingMachine] = useState<boolean>(false)
+  const [isEditingMachine, setIsEditingMachine] = useState<boolean>(false)
 
-  const handleClickEdit = (prize: Prize) => {
-    setIsEditingPrize(true)
-    setSelectedPrize(prize)
+  const handleClickEdit = (machine: Machine) => {
+    setIsEditingMachine(true)
+    setSelectedMachine(machine)
   }
 
-  const handleClickRemove = (prize: Prize) => {
-    setIsRemovingPrize(true)
-    setSelectedPrize(prize)
+  const handleClickRemove = (machine: Machine) => {
+    setIsRemovingMachine(true)
+    setSelectedMachine(machine)
   }
 
   return (
@@ -48,30 +48,30 @@ function MachinesPage() {
         </PageTitleContainer>
         <FixedCard>
             <AlignedPageButtonContainer>
-              <Button onClick={() => setIsAddingPrize(true)}>
+              <Button onClick={() => setIsAddingMachine(true)}>
                 {"Novo Prêmio"}
               </Button> 
             </AlignedPageButtonContainer>
 
           <ContentMenu>
-            <PrizesTable prizes={prizes} onClickEdit={handleClickEdit} onClickRemove={handleClickRemove}/>
+            <MachineTable machines={machines} onClickEdit={handleClickEdit} onClickRemove={handleClickRemove}/>
           </ContentMenu>
 
-          <AddPrize 
-            isOpen={isAddingPrize}
-            onClose={() => setIsAddingPrize(false)}
+          <AddMachine 
+            isOpen={isAddingMachine}
+            onClose={() => setIsAddingMachine(false)}
             />
 
-            <EditPrize
-                isOpen={isEditingPrize}
-                onClose={() => setIsEditingPrize(false)}
-                prize={selectedPrize}
+            <EditMachine
+                isOpen={isEditingMachine}
+                onClose={() => setIsEditingMachine(false)}
+                machine={selectedMachine}
             />
 
-            <RemovePrize
-                isOpen={isRemovingPrize}
-                onClose={() => setIsRemovingPrize(false)}
-                prize={selectedPrize}
+            <RemoveMachine
+                isOpen={isRemovingMachine}
+                onClose={() => setIsRemovingMachine(false)}
+                machine={selectedMachine}
             />
 
         </FixedCard>
@@ -80,6 +80,6 @@ function MachinesPage() {
   );
 }
 
-export default PrizesPage;
+export default MachinesPage;
 
 

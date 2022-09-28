@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import Player, {IncompletePlayerFactory, PlayerFactory} from '../../../Domain/Player'
+import Prize, {IncompletePrizeFactory, PrizeFactory} from '../../../Domain/Prize'
 import {Modal} from 'antd'
-import PlayerService from '../../../Service/PlayerService'
 import Input from '../../Components/Input/Input'
 import handlers from '../../Components/handlers'
 import validate from './validate'
@@ -12,32 +11,34 @@ import { FormikHelpers, useFormik } from "formik";
 type Props = {
     isOpen : boolean
     onClose: () => void
+    prize?: Prize
 }
 
-function AddPlayer({
+function EditPrize({
 	isOpen, 
     onClose, 
+    prize
 }: Props) {
 
     const onSubmit = async (
-      values: Partial<Player>,
-      formik: FormikHelpers<Partial<Player>>
+      values: Partial<Prize>,
+      formik: FormikHelpers<Partial<Prize>>
     ) => {
-      const newPlayer = PlayerFactory(values);
+      const newPrize = PrizeFactory(values);
       formik.resetForm();
-      addPlayer(newPlayer);
+      editPrize(newPrize);
       onClose();
     };
 
-    const addPlayer = async (newPlayer: Player) => {
-      await PlayerService.add(newPlayer);
+    const editPrize = async (newPrier: Prize) => {
+      // Edita o Prize Aqui
     };
 
 
-    const formik = useFormik<Partial<Player>>({
-      initialValues: IncompletePlayerFactory({}),
+    const formik = useFormik<Partial<Prize>>({
+      initialValues: IncompletePrizeFactory({}),
       onSubmit,
-      validate: (values: Partial<Player>) => validate(values),
+      validate: (values: Partial<Prize>) => validate(values),
       enableReinitialize: true,
     });
 
@@ -46,11 +47,11 @@ function AddPlayer({
 
 	return (
         <Modal 
-            title={"Novo Jogador"}
+            title={"Editar Prêmio"}
             visible={isOpen}
             onCancel={onClose}
             onOk={formik.submitForm}
-            okText={'Adicionar'}
+            okText={'Editar'}
             cancelText={'Cancelar'}
         >
             <Form onSubmitCapture={(e) => e.preventDefault()} layout="vertical">
@@ -61,20 +62,15 @@ function AddPlayer({
             </Form.Item>
           </Col>
           <Col xs={12} lg={12}>
-            <Form.Item label={"Email"}>
-              <Input  font-size={1.0} height={2} {...handlers.string(formik, "email")} />
+            <Form.Item label={"Quantidade"}>
+              <Input  font-size={1.0} height={2} {...handlers.string(formik, "amount")} />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={16}>
           <Col xs={12} lg={12}>
-            <Form.Item label={"Telefone"}>
-              <Input font-size={1.0} height={2} {...handlers.string(formik, "cellphone")} />
-            </Form.Item>
-          </Col>
-          <Col xs={12} lg={12}>
-            <Form.Item label={"Cartão"}>
-              <Input font-size={1.0} height={2} {...handlers.string(formik, "card")} />
+            <Form.Item label={"Preço"}>
+              <Input font-size={1.0} height={2} {...handlers.string(formik, "price")} />
             </Form.Item>
           </Col>
         </Row>
@@ -85,4 +81,4 @@ function AddPlayer({
 	)
 }
 
-export default AddPlayer
+export default EditPrize

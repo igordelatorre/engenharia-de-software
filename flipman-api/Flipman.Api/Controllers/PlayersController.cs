@@ -26,17 +26,21 @@ public class PlayersController : ControllerBase
 
     [HttpGet]
     [Route("player/{playerCard}")]
-    [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetPlayer([FromRoute] int playerCard)
     {
         var player = await DbContext.Players.Where(player => player.Card == playerCard).FirstOrDefaultAsync();
 
         if (player == null)
         {
-            return NoContent();
+            return BadRequest("PLAYER_NOT_FOUND");
         }
 
-        return Ok(player);
+        var hoursPlayedByMachine = await DbContext.Matches.Where(match => match.PlayerCard == player.Card)
+            .GroupBy(match => match.MachineId)
+            .Select(match => new { machineId = match.Key, hoursPlayed = match.Sum(m => m.PlayTime) })
+            .ToArrayAsync();
+
+        return Ok(new { tickets = player.Tickets, tokens = player.Tokens, hoursPlayedByMachine });
     }
 
     [HttpPost]

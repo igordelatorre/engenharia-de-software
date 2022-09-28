@@ -23,7 +23,8 @@ public class MachinesController : ControllerBase
         if (string.IsNullOrEmpty(request.Name) || request.PlayCost == null)
             return BadRequest();
 
-        var isMachineNameAlreadyInUse = await DbContext.Machines.Where(machine => machine.Name == request.Name).FirstOrDefaultAsync() != null;
+        var isMachineNameAlreadyInUse = await DbContext.Machines
+            .Where(machine => machine.Name == request.Name && machine.IsActive).FirstOrDefaultAsync() != null;
 
         if (isMachineNameAlreadyInUse)
         {
@@ -42,5 +43,23 @@ public class MachinesController : ControllerBase
     {
         public string? Name { get; set; }
         public int? PlayCost { get; set; }
+    }
+
+    [HttpPut]
+    [Route("machine/{machineId}")]
+    [Authorize(policy: "Manager")]
+    public async Task<IActionResult> DeleteMachine([FromRoute] int machineId)
+    {
+        var machine = await DbContext.Machines.Where(machine => machine.Id == machineId).FirstOrDefaultAsync();
+
+        if (machine == null)
+        {
+            return BadRequest("MACHINE_NOT_FOUND");
+        }
+
+        machine.IsActive = false;
+        await DbContext.SaveChangesAsync();
+
+        return Ok();
     }
 }

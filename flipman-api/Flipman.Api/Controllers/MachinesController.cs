@@ -103,6 +103,15 @@ public class MachinesController : ControllerBase
     }
 
     [HttpGet]
+    [Route("machines")]
+    public async Task<IActionResult> GetMachines()
+    {
+        var machines = await DbContext.Machines.ToArrayAsync();
+
+        return Ok(machines);
+    }
+
+    [HttpGet]
     [Route("machine/{machineId}")]
     [Authorize(policy: "Manager")]
     public async Task<IActionResult> GetMachineStats([FromRoute] int machineId)
@@ -118,12 +127,12 @@ public class MachinesController : ControllerBase
 
         var machineStats = await DbContext.Matches.Where(match => match.MachineId == machine.Id)
             .GroupBy(match => true)
-            .Select(match => new MachineStats(match.Sum(m => m.PlayTime) / 60, match.Sum(m => m.Tickets)))
+            .Select(match => new MachineStats(match.Sum(m => m.PlayTime) / 60.0, match.Sum(m => m.Tickets)))
             .FirstOrDefaultAsync();
 
         return Ok(machineStats ?? new MachineStats(0, 0));
     }
 
-    public record MachineStats(int hours, int tickets);
+    public record MachineStats(double hours, int tickets);
 
 }

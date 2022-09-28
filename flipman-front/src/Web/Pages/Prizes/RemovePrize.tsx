@@ -47,14 +47,14 @@ function RemovePrize({
 
 	return (
         <Modal 
-            title={"Remover Prêmio"}
+            title={"Remover Prêmio:"}
             visible={isOpen}
             onCancel={onClose}
             onOk={formik.submitForm}
             okText={'Remover'}
             cancelText={'Cancelar'}
         >
-            <p>{'Tem certeza que deseja remover o prêmio?'}</p>
+            <p>{'Tem certeza que deseja remover o prêmio ' + prize?.name + '?'}</p>
 
         </Modal>
         

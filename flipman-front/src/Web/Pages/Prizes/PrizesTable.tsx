@@ -55,8 +55,8 @@ function PrizesTable({prizes, onClickEdit, onClickRemove} : Props){
             key: 'id',
             render: (id : number) => (
                 <>
-                  <DeleteOutlined style={{paddingLeft: '1rem'}} onClick={() => handleEditClick(id)}/>
-                  <EditOutlined style={{paddingLeft: '1rem'}} onClick={() => handleDeleteClick(id)}/>                  
+                  <DeleteOutlined style={{paddingLeft: '1rem'}} onClick={() => handleDeleteClick(id)}/>
+                  <EditOutlined style={{paddingLeft: '1rem'}} onClick={() => handleEditClick(id)}/>                  
                 </>)
         }
     ]

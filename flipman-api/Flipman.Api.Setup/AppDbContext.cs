@@ -18,7 +18,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Player>(b =>
         {
             b.ToTable("players");
-            b.HasKey(player => player.Id);
+            b.HasKey(player => player.Card);
         });
 
         modelBuilder.Entity<Prize>(b =>
@@ -27,9 +27,9 @@ public class AppDbContext : DbContext
             b.HasKey(prize => prize.Id);
         });
 
-        modelBuilder.Entity<Transaction>(b =>
+        modelBuilder.Entity<PrizeTransaction>(b =>
         {
-            b.ToTable("transactions");
+            b.ToTable("prizes_transactions");
             b.HasKey(transaction => transaction.Id);
         });
 
@@ -38,9 +38,23 @@ public class AppDbContext : DbContext
             b.ToTable("employees");
             b.HasKey(employee => employee.Id);
         });
+
+        modelBuilder.Entity<Match>(b =>
+        {
+            b.ToTable("matches");
+            b.HasKey(match => match.Id);
+        });
+
+        modelBuilder.Entity<Machine>(b =>
+        {
+            b.ToTable("machines");
+            b.HasKey(machine => machine.Id);
+        });
     }
     public DbSet<Player> Players { get; set; }
     public DbSet<Prize> Prizes { get; set; }
-    public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<PrizeTransaction> PrizeTransactions { get; set; }
     public DbSet<Employee> Employees { get; set; }
+    public DbSet<Match> Matches { get; set; }
+    public DbSet<Machine> Machines { get; set; }
 }

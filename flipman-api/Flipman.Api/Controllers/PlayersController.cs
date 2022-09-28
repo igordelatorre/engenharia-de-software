@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Flipman.Api.Controllers;
 
-[Route("players")]
 [ApiController]
 public class PlayersController : ControllerBase
 {
@@ -16,6 +15,7 @@ public class PlayersController : ControllerBase
     }
 
     [HttpGet]
+    [Route("players")]
     [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetPlayers()
     {
@@ -25,46 +25,50 @@ public class PlayersController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{id}")]
-    [Authorize(policy: "Employee")]
-    public async Task<IActionResult> GetPlayer([FromRoute] int id)
+    [Route("player-info/{playerCard}")]
+    public async Task<IActionResult> GetPlayerInfo([FromRoute] int playerCard)
     {
-        var player = await DbContext.Players.Where(player => player.Id == id).FirstOrDefaultAsync();
+        var player = await DbContext.Players.Where(player => player.Card == playerCard && player.IsActive).FirstOrDefaultAsync();
 
         if (player == null)
         {
-            return NoContent();
+            return BadRequest("PLAYER_NOT_FOUND");
         }
 
-        return Ok(player);
+        var gameStats = await DbContext.Matches.Where(match => match.PlayerCard == player.Card)
+            .GroupBy(match => match.MachineId)
+            .Select(match => new PlayerGameStats(match.Key, (double)match.Sum(m => m.PlayTime) / 60.0))
+            .ToArrayAsync();
+
+        return Ok(new PlayerInfo(player.Name ?? "---", player.Tickets, player.Tokens, gameStats));
     }
 
+    public record PlayerGameStats(int machineId, double hoursPlayed);
+    public record PlayerInfo(string Name, int Tickets, int Tokens, PlayerGameStats[] GameStats);
+
     [HttpPost]
+    [Route("player")]
     [Authorize(policy: "Employee")]
     public async Task<IActionResult> PostPlayer([FromBody] PostPlayerRequest request)
     {
-        if (request.name == null || request.card == null)
-        {
+        if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Name) || string.IsNullOrEmpty(request.Email) || request.Card == null)
             return BadRequest();
-        }
 
-        var isCardAlreadyInUse = await DbContext.Players.Where(player => player.Card == request.card).FirstOrDefaultAsync() != null;
+        var isCardAlreadyInUse = await DbContext.Players.Where(player => player.Card == request.Card).FirstOrDefaultAsync() != null;
 
         if (isCardAlreadyInUse)
         {
             return BadRequest("CARD_ALREADY_IN_USE");
         }
 
-        var newPlayer = new Player
+        var isUserNameAlreadyInUse = await DbContext.Players.Where(player => player.Username == request.Username).FirstOrDefaultAsync() != null;
+
+        if (isUserNameAlreadyInUse)
         {
-            Card = (int)request.card,
-            Name = request.name,
-            Email = request.email,
-            Cellphone = request.cellphone,
-            Tokens = request.tokens ?? 0,
-            Tickets = 0,
-            IsActive = true,
-        };
+            return BadRequest("USERNAME_ALREADY_IN_USE");
+        }
+
+        var newPlayer = new Player((int)request.Card, request.Name, request.Username, request.Email, request.Cellphone);
 
         await DbContext.Players.AddAsync(newPlayer);
         await DbContext.SaveChangesAsync();
@@ -74,49 +78,29 @@ public class PlayersController : ControllerBase
 
     public class PostPlayerRequest
     {
-        public int? card { get; set; }
-        public string? name { get; set; }
-        public string? email { get; set; }
-        public string? cellphone { get; set; }
-        public int? tokens { get; set; }
+        public int? Card { get; set; }
+        public string? Name { get; set; }
+        public string? Username { get; set; }
+        public string? Email { get; set; }
+        public string? Cellphone { get; set; }
     }
 
-    [HttpPut]
-    [Route("{id}")]
-    [Authorize(policy: "Employee")]
-    public async Task<IActionResult> UpdatePlayer([FromRoute] int id, [FromBody] PutPlayerRequest request)
+    [HttpGet]
+    [Route("player-tickets/{playerCard}")]
+    [Authorize(policy: "Manager")]
+    public async Task<IActionResult> GetPlayerAllTickets([FromRoute] int playerCard)
     {
-        if (request.name == null)
-        {
-            return BadRequest("NAME_CANNOT_BE_NULL");
-        }
-
-        var player = await DbContext.Players.Where(player => player.Id == id).FirstOrDefaultAsync();
+        var player = await DbContext.Players.Where(player => player.Card == playerCard && player.IsActive).FirstOrDefaultAsync();
 
         if (player == null)
         {
             return BadRequest("PLAYER_NOT_FOUND");
         }
 
-        player.Name = request.name;
-        player.Cellphone = request.cellphone;
-        player.Email = request.email;
-        player.Tokens = request.tokens ?? player.Tokens;
-        player.Tickets = request.tickets ?? player.Tickets;
-        player.IsActive = request.isActive ?? player.IsActive;
+        var allTimeTickets = await DbContext.Matches
+            .Where(match => match.PlayerCard == playerCard)
+            .SumAsync(match => match.Tickets);
 
-        await DbContext.SaveChangesAsync();
-
-        return Ok();
-    }
-
-    public class PutPlayerRequest
-    {
-        public string? name { get; set; }
-        public string? email { get; set; }
-        public string? cellphone { get; set; }
-        public int? tokens { get; set; }
-        public int? tickets { get; set; }
-        public bool? isActive { get; set; }
+        return Ok(new { Name = player.Name, tickets = allTimeTickets });
     }
 }

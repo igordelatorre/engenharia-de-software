@@ -87,8 +87,6 @@ function PlayersPage() {
             <PlayersTable
               players={players}
               onRowClick={handleAddTicket}
-
-
 			      />
       <AddPlayer
         isOpen={isAddingPlayer}

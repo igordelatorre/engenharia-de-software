@@ -20,7 +20,7 @@ CREATE TABLE matches(
     id SERIAL PRIMARY KEY,
     player_card int NOT NULL,
     machine_id int NOT NULL, 
-    points int NOT NULL,
+    tickets int NOT NULL,
     play_time int NOT NULL,
     datetime timestamp NOT NULL, 
     CONSTRAINT fk_player FOREIGN KEY (player_card) REFERENCES players(card),

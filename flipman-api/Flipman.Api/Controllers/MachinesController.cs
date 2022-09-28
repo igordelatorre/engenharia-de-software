@@ -62,4 +62,29 @@ public class MachinesController : ControllerBase
 
         return Ok();
     }
+
+    [HttpGet]
+    [Route("machine/{machineId}")]
+    [Authorize(policy: "Manager")]
+    public async Task<IActionResult> GetMachineStats([FromRoute] int machineId)
+    {
+        var machine = await DbContext.Machines.Where(machine => machine.Id == machineId && machine.IsActive).FirstOrDefaultAsync();
+
+        if (machine == null)
+        {
+            return BadRequest("MACHINE_NOT_FOUND");
+        }
+
+        float hoursPlayed = await DbContext.Matches.Where(match => match.MachineId == machine.Id).SumAsync(match => match.PlayTime) / 60.0f;
+
+        var machineStats = await DbContext.Matches.Where(match => match.MachineId == machine.Id)
+            .GroupBy(match => true)
+            .Select(match => new MachineStats(match.Sum(m => m.PlayTime) / 60, match.Sum(m => m.Tickets)))
+            .FirstOrDefaultAsync();
+
+        return Ok(machineStats ?? new MachineStats(0, 0));
+    }
+
+    public record MachineStats(int hours, int tickets);
+
 }

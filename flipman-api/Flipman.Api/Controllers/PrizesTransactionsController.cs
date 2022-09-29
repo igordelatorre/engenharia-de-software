@@ -1,10 +1,10 @@
 using Flipman.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Flipman.Api.Controllers;
 
-[Route("transactions/prizes")]
 [ApiController]
 public class PrizesTransactionsController : ControllerBase
 {
@@ -15,6 +15,7 @@ public class PrizesTransactionsController : ControllerBase
     }
 
     [HttpGet]
+    [Route("prizes-transactions")]
     public async Task<IActionResult> GetPrizeTransactions()
     {
         var transaction = await DbContext.PrizeTransactions.ToArrayAsync();
@@ -23,7 +24,7 @@ public class PrizesTransactionsController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{id}/player")]
+    [Route("prizes-transactions/{id}/player")]
     public async Task<IActionResult> GetPrizeTransactionByPlayer([FromRoute] int id)
     {
         var transaction = await DbContext.PrizeTransactions.Where(transaction => transaction.PlayerCard == id).FirstOrDefaultAsync();
@@ -37,7 +38,7 @@ public class PrizesTransactionsController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{id}/prize")]
+    [Route("prizes-transactions/{id}/prize")]
     public async Task<IActionResult> GetPrizeTransactionByPrize([FromRoute] int id)
     {
         var transaction = await DbContext.PrizeTransactions.Where(transaction => transaction.PrizeId == id).FirstOrDefaultAsync();
@@ -51,15 +52,15 @@ public class PrizesTransactionsController : ControllerBase
     }
 
     [HttpPost]
-    [Route("{id}")]
-    public async Task<IActionResult> PostTransaction([FromRoute] int id, [FromBody] PostTransactionRequest request)
+    [Route("prize-transaction")]
+    [Authorize(policy: "Employee")]
+    public async Task<IActionResult> PostTransaction([FromBody] PostTransactionRequest request)
     {
-        if (request.quantity == null)
-        {
-            return BadRequest("QUANTITY_CANNOT_BE_NULL");
-        }
+        if (request.PlayerCard == null || request.PrizeId == null || request.Quantity == null)
+            return BadRequest();
 
-        var prize = await DbContext.Prizes.Where(prize => prize.Id == id).FirstOrDefaultAsync();
+
+        var prize = await DbContext.Prizes.Where(prize => prize.Id == request.PrizeId).FirstOrDefaultAsync();
 
         if (prize == null)
         {
@@ -73,27 +74,25 @@ public class PrizesTransactionsController : ControllerBase
             return BadRequest("PLAYER_NOT_FOUND");
         }
 
-        if (request.quantity > prize.Amount)
+        if (request.Quantity > prize.Amount)
         {
             return BadRequest("QUANTITY_MUST_BE_LESS_THAN_PRIZE_AMOUNT");
         }
 
-        if (player.Tickets < request.quantity * prize.Price)
+        if (player.Tickets < request.Quantity * prize.Price)
         {
             return BadRequest("NOT_ENOUGH_TICKETS");
         }
 
-        var quantity = (int)request.quantity;
-
-        player.Tickets = player.Tickets - quantity * prize.Price;
-        prize.Amount = prize.Amount - quantity;
+        player.Tickets = player.Tickets - (int)request.Quantity * prize.Price;
+        prize.Amount = prize.Amount - (int)request.Quantity;
 
         var newTransaction = new PrizeTransaction
         {
             PlayerCard = player.Card,
             PrizeId = prize.Id,
             Datetime = DateTime.UtcNow,
-            Quantity = quantity
+            Quantity = (int)request.Quantity
         };
 
         await DbContext.PrizeTransactions.AddAsync(newTransaction);
@@ -105,23 +104,7 @@ public class PrizesTransactionsController : ControllerBase
     public class PostTransactionRequest
     {
         public int? PlayerCard { get; set; }
-        public int? prizeId { get; set; }
-        public int? quantity { get; set; }
-    }
-
-    [HttpDelete]
-    [Route("{id}")]
-    public async Task<IActionResult> DeletePrizeTransaction([FromRoute] int id)
-    {
-        var transaction = await DbContext.PrizeTransactions.Where(transaction => transaction.Id == id).FirstOrDefaultAsync();
-
-        if (transaction == null)
-        {
-            return BadRequest("TRANSACTION_NOT_FOUND");
-        }
-
-        await DbContext.SaveChangesAsync();
-
-        return Ok();
+        public int? PrizeId { get; set; }
+        public int? Quantity { get; set; }
     }
 }

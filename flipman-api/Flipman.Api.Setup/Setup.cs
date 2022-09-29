@@ -43,6 +43,7 @@ public class Setup
         var player = new Player(playerCard, "fulano", "fulano", "fulano@email.com", "55999887710")
         {
             Tokens = 4422,
+            Tickets = 2244,
         };
         await dbContext.Players.AddAsync(player);
 
@@ -106,6 +107,17 @@ public class Setup
             Tickets = 11
         };
         await dbContext.Matches.AddAsync(match3);
+
+        var prizeId = await dbContext.Prizes.Select(p => p.Id).FirstOrDefaultAsync();
+
+        var prizeTransaction = new PrizeTransaction
+        {
+            PlayerCard = playerCard,
+            PrizeId = prizeId,
+            Datetime = System.DateTime.UtcNow,
+            Quantity = 2
+        };
+        await dbContext.PrizeTransactions.AddAsync(prizeTransaction);
 
         await dbContext.SaveChangesAsync();
     }

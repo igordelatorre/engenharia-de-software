@@ -34,7 +34,7 @@ public class Setup
             Username = "atendente",
             PasswordHash = employeePasswordHash,
             PasswordSalt = employeePasswordSalt,
-            IsAdmin = true
+            IsAdmin = false
         };
         await dbContext.Employees.AddAsync(employee);
 

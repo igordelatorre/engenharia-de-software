@@ -26,30 +26,30 @@ public class AuthController : ControllerBase
     [Route("login/employee")]
     public async Task<IActionResult> EmployeeLogin([FromBody] EmployeeLoginRequest request)
     {
-        if (string.IsNullOrEmpty(request.username) || string.IsNullOrEmpty(request.password))
+        if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
             return BadRequest("INVALID_INPUT");
 
-        var employee = await DbContext.Employees.Where(e => e.Username == request.username).FirstOrDefaultAsync();
+        var employee = await DbContext.Employees.Where(e => e.Username == request.Username).FirstOrDefaultAsync();
 
         if (employee == null)
         {
             return BadRequest("EMPLOYEE_NOT_FOUND");
         }
 
-        if (!VerifyPasswordHash(request.password, employee.PasswordHash, employee.PasswordSalt))
+        if (!VerifyPasswordHash(request.Password, employee.PasswordHash, employee.PasswordSalt))
         {
             return BadRequest();
         }
 
         var token = CreateToken(employee);
 
-        return Ok(token);
+        return Ok(new { token });
     }
 
     public class EmployeeLoginRequest
     {
-        public string? username { get; set; }
-        public string? password { get; set; }
+        public string? Username { get; set; }
+        public string? Password { get; set; }
     }
 
     [HttpPost]

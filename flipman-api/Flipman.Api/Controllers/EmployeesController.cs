@@ -27,7 +27,7 @@ public class EmployeesControlLer : ControllerBase
         return Ok(employees);
     }
 
-    public record GetEmployeeResponseElement(long Id, string Username, string? Name, bool IsAdmin);
+    public record GetEmployeeResponseElement(int EmployeeId, string Username, string? Name, bool IsAdmin);
 
     [HttpGet]
     [Route("{id}")]
@@ -49,17 +49,22 @@ public class EmployeesControlLer : ControllerBase
     [Authorize(policy: "Manager")]
     public async Task<IActionResult> RegisterEmployee([FromBody] RegisterEmployeeRequest request)
     {
-        if (string.IsNullOrEmpty(request.username) || string.IsNullOrEmpty(request.password))
-            return BadRequest("INVALID_INPUT");
+        if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
+            return BadRequest();
 
-        CreatePasswordHash(request.password, out byte[] passwordHash, out byte[] passwordSalt);
+        var isUserNameAlreadyInUse = await DbContext.Employees.Where(e => e.Username == request.Username).FirstOrDefaultAsync() != null;
+
+        if (isUserNameAlreadyInUse)
+            return BadRequest("USERNAME_ALREADY_IN_USE");
+
+        CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
         var newEmployee = new Employee
         {
-            Username = request.username,
+            Username = request.Username,
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt,
-            Name = request.name,
+            Name = request.Name,
             IsAdmin = request.isAdmin ?? false
         };
 
@@ -71,9 +76,9 @@ public class EmployeesControlLer : ControllerBase
 
     public class RegisterEmployeeRequest
     {
-        public string? username { get; set; }
-        public string? password { get; set; }
-        public string? name { get; set; }
+        public string? Username { get; set; }
+        public string? Password { get; set; }
+        public string? Name { get; set; }
         public bool? isAdmin { get; set; }
     }
 

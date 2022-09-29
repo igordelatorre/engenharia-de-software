@@ -8,6 +8,8 @@ import {
   PageTitleContainer,
   Label
 } from "../../Styles/style";
+
+import Player, {PlayerFactory} from "../../../Domain/Player";
 import FixedCard from "../../Components/FixedCard/FixedCard";
 import { Input, Button } from "antd";
 import Machine from "../../../Domain/Machine";

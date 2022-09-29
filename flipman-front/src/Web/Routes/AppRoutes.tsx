@@ -9,7 +9,7 @@ import PrizesPage from "../Pages/Prizes/PrizesPage";
 import PrizeSalePage from "../Pages/PrizeSale/PrizeSalePage";
 import LoginPage from "../Pages/Login/LoginPage";
 import PlayersManagerPage from "../Pages/PlayersManager/PlayersManagePage";
-import UsersPage from "../Pages/Users/Users";
+import UsersPage from "../Pages/Users/UsersPage";
 import { UserAuth } from "../../Domain/User";
 
 function AppRoutes() {

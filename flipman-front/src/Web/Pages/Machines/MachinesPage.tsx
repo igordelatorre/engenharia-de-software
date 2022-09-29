@@ -8,7 +8,6 @@ import {
   PageTitleContainer,
   Label
 } from "../../Styles/style";
-import Player, {PlayerFactory} from "../../../Domain/Player";
 import FixedCard from "../../Components/FixedCard/FixedCard";
 import { Input, Button } from "antd";
 import Machine from "../../../Domain/Machine";
@@ -19,7 +18,7 @@ import RemoveMachine from "./RemoveMachine";
 
 
 const {Search} = Input
-const id = "prizes-page";
+const id = "machine-page";
 
 function MachinesPage() {
 
@@ -44,12 +43,12 @@ function MachinesPage() {
     <PageContainer id={id}>
       <ContentContainer id={id}>
         <PageTitleContainer>
-          <PageTitle>{"Prêmios"}</PageTitle>
+          <PageTitle>{"Máquinas"}</PageTitle>
         </PageTitleContainer>
         <FixedCard>
             <AlignedPageButtonContainer>
               <Button onClick={() => setIsAddingMachine(true)}>
-                {"Novo Prêmio"}
+                {"Nova Máquina"}
               </Button> 
             </AlignedPageButtonContainer>
 

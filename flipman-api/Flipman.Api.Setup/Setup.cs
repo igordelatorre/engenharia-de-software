@@ -40,7 +40,10 @@ public class Setup
 
         var playerCard = 44;
 
-        var player = new Player(playerCard, "fulano", "fulano", "fulano@email.com", "55999887710");
+        var player = new Player(playerCard, "fulano", "fulano", "fulano@email.com", "55999887710")
+        {
+            Tokens = 4422,
+        };
         await dbContext.Players.AddAsync(player);
 
         var player2 = new Player(11, "josé teste", "jose_teste", "teste@email.com", "55999887710");
@@ -97,11 +100,11 @@ public class Setup
 
     private void ClearDatabase(AppDbContext dbContext)
     {
-        dbContext.Database.ExecuteSqlRaw("DELETE FROM players");
-        dbContext.Database.ExecuteSqlRaw("DELETE FROM machines");
         dbContext.Database.ExecuteSqlRaw("DELETE FROM matches");
-        dbContext.Database.ExecuteSqlRaw("DELETE FROM prizes");
         dbContext.Database.ExecuteSqlRaw("DELETE FROM prizes_transactions");
         dbContext.Database.ExecuteSqlRaw("DELETE FROM employees");
+        dbContext.Database.ExecuteSqlRaw("DELETE FROM prizes");
+        dbContext.Database.ExecuteSqlRaw("DELETE FROM machines");
+        dbContext.Database.ExecuteSqlRaw("DELETE FROM players");
     }
 }

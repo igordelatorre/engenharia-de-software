@@ -50,6 +50,19 @@ function MachineTable({machines, onClickEdit, onClickRemove} : Props){
             sorter: true
         },
         {
+            title: 'Total de Tempo Jogado',
+            dataIndex: 'totalHoursSpent',
+            key: 'totalHoursSpent',
+            sorter: true
+
+        },
+        {
+            title: 'Total de Tickets Emitidos',
+            dataIndex: 'totalTicketsEmitted',
+            key: 'totalTicketsEmitted',
+            sorter: true
+        },
+        {
             title: 'Actions',
             dataIndex: 'id',
             key: 'id',

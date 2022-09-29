@@ -25,7 +25,7 @@ const id = "machine-page";
 function MachinesPage() {
 
 
-  const [machines, setMachines] = useState<Machine[]>([{id: 4, name: 'Pacman', playCost: 5, pointsPerToken: 10}])
+  const [machines, setMachines] = useState<Machine[]>([{id: 4, name: 'Pacman', playCost: 5, pointsPerToken: 10, totalHoursSpent : 0, totalTicketsEmitted : 0}])
   const [selectedMachine, setSelectedMachine] = useState<Machine | undefined>()
   const [isAddingMachine, setIsAddingMachine] = useState<boolean>(false)
   const [isRemovingMachine, setIsRemovingMachine] = useState<boolean>(false)
@@ -41,6 +41,10 @@ function MachinesPage() {
     setSelectedMachine(machine)
   }
 
+  const handleGenerateReport = async () => {
+    //CHAMA O SERVICE PRA GERAR O REPORT
+  }
+
   return (
     <PageContainer id={id}>
       <ContentContainer id={id}>
@@ -52,6 +56,9 @@ function MachinesPage() {
               <Button onClick={() => setIsAddingMachine(true)}>
                 {"Nova Máquina"}
               </Button> 
+              <Button style={{marginLeft: '10px'}} onClick={() => handleGenerateReport()}>
+                {"Gerar Relatório"}
+              </Button>
             </AlignedPageButtonContainer>
 
           <ContentMenu>

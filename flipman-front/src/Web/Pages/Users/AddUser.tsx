@@ -1,57 +1,51 @@
 import React, { useState } from 'react'
-import Prize, {IncompletePrizeFactory, PrizeFactory} from '../../../Domain/Prize'
 import {Modal} from 'antd'
 import Input from '../../Components/Input/Input'
 import handlers from '../../Components/handlers'
 import validate from './validate'
 import { Col, Form, Row } from "antd";
 import { FormikHelpers, useFormik } from "formik";
-
+import User, {UserFactory, IncompleteUserFactory} from '../../../Domain/User'
 
 type Props = {
     isOpen : boolean
     onClose: () => void
-    prize?: Prize
 }
 
-function EditPrize({
+function AddUser({
 	isOpen, 
     onClose, 
-    prize
 }: Props) {
 
     const onSubmit = async (
-      values: Partial<Prize>,
-      formik: FormikHelpers<Partial<Prize>>
+      values: Partial<User>,
+      formik: FormikHelpers<Partial<User>>
     ) => {
-      const newPrize = PrizeFactory(values);
+      const newUser = UserFactory(values);
       formik.resetForm();
-      editPrize(newPrize);
+      addUser(newUser);
       onClose();
     };
 
-    const editPrize = async (newPrize: Prize) => {
-      // Edita o Prize Aqui
+    const addUser = async (newUser: User) => {
+      // ADICIONA O NOVO USUÁRIO AQUI
     };
 
 
-    const formik = useFormik<Partial<Prize>>({
-      initialValues: IncompletePrizeFactory({}),
+    const formik = useFormik<Partial<User>>({
+      initialValues: IncompleteUserFactory({}),
       onSubmit,
-      validate: (values: Partial<Prize>) => validate(values),
+      validate: (values: Partial<User>) => validate(values),
       enableReinitialize: true,
     });
 
-
-
-
 	return (
         <Modal 
-            title={"Editar Prêmio"}
+            title={"Novo Funcionário"}
             visible={isOpen}
             onCancel={onClose}
             onOk={formik.submitForm}
-            okText={'Editar'}
+            okText={'Adicionar'}
             cancelText={'Cancelar'}
         >
             <Form onSubmitCapture={(e) => e.preventDefault()} layout="vertical">
@@ -62,17 +56,18 @@ function EditPrize({
             </Form.Item>
           </Col>
           <Col xs={12} lg={12}>
-            <Form.Item label={"Quantidade"}>
-              <Input  font-size={1.0} height={2} {...handlers.string(formik, "amount")} />
+            <Form.Item label={"Email"}>
+              <Input  font-size={1.0} height={2} {...handlers.string(formik, "email")} />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={16}>
           <Col xs={12} lg={12}>
-            <Form.Item label={"Preço"}>
-              <Input font-size={1.0} height={2} {...handlers.string(formik, "price")} />
+            <Form.Item label={"Senha"}>
+              <Input font-size={1.0} height={2} {...handlers.string(formik, "password")} />
             </Form.Item>
           </Col>
+
         </Row>
       </Form>
 
@@ -81,4 +76,4 @@ function EditPrize({
 	)
 }
 
-export default EditPrize
+export default AddUser

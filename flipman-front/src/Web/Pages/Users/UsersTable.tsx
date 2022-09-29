@@ -1,31 +1,31 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import { Table} from 'antd';
-import Prize from '../../../Domain/Prize';
+import User from '../../../Domain/User';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons'
 
 
 type Props = {
-    prizes: Prize[]
-    onClickEdit: (prize: Prize) => void 
-    onClickRemove: (prize: Prize) => void 
+    users: User[]
+    onClickEdit: (user: User) => void 
+    onClickRemove: (user: User) => void 
 }
 
-function PrizesTable({prizes, onClickEdit, onClickRemove} : Props){
+function UsersTable({users, onClickEdit, onClickRemove} : Props){
 
     const handleEditClick = (id : number) => {
-        const prize = prizes.find(p => p.id === id)
-        if (prize)
+        const user = users.find(u => u.id === id)
+        if (user)
         {
-            onClickEdit(prize) 
+            onClickEdit(user) 
         }
     }
 
     const handleDeleteClick = (id : number) => {
-        const prize = prizes.find(p => p.id === id)
-        if (prize)
+        const user = users.find(u => u.id === id)
+        if (user)
         {
-            onClickRemove(prize) 
+            onClickRemove(user) 
         }
 
     }
@@ -66,10 +66,10 @@ function PrizesTable({prizes, onClickEdit, onClickRemove} : Props){
             style={{'paddingTop' : '3rem'}} 
             size={'small'} 
             columns={columns} 
-            dataSource={prizes}
+            dataSource={users}
         /> 
     )
 
 }
 
-export default PrizesTable
+export default UsersTable

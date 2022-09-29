@@ -1,44 +1,43 @@
 import React, { useState } from 'react'
-import Prize, {IncompletePrizeFactory, PrizeFactory} from '../../../Domain/Prize'
 import {Modal} from 'antd'
 import Input from '../../Components/Input/Input'
 import handlers from '../../Components/handlers'
 import validate from './validate'
 import { Col, Form, Row } from "antd";
 import { FormikHelpers, useFormik } from "formik";
-
+import User, {UserFactory, IncompleteUserFactory} from '../../../Domain/User'
 
 type Props = {
     isOpen : boolean
     onClose: () => void
-    prize?: Prize
+    user?: User
 }
 
-function RemovePrize({
+function RemoveUser({
 	isOpen, 
     onClose, 
-    prize
+    user
 }: Props) {
 
     const onSubmit = async (
-      values: Partial<Prize>,
-      formik: FormikHelpers<Partial<Prize>>
+      values: Partial<User>,
+      formik: FormikHelpers<Partial<User>>
     ) => {
-      const newPrize = PrizeFactory(values);
+      const newUser = UserFactory(values);
       formik.resetForm();
-      removePrize(newPrize);
+      removePrize(newUser);
       onClose();
     };
 
-    const removePrize = async (newPrier: Prize) => {
-      // Remove o Prize Aqui
+    const removePrize = async (newPrier: User) => {
+      // Remove o Usuário aqui
     };
 
 
-    const formik = useFormik<Partial<Prize>>({
-      initialValues: IncompletePrizeFactory({}),
+    const formik = useFormik<Partial<User>>({
+      initialValues: IncompleteUserFactory({}),
       onSubmit,
-      validate: (values: Partial<Prize>) => validate(values),
+      validate: (values: Partial<User>) => validate(values),
       enableReinitialize: true,
     });
 
@@ -47,18 +46,18 @@ function RemovePrize({
 
 	return (
         <Modal 
-            title={"Remover Prêmio:"}
+            title={"Remover Funcionário:"}
             visible={isOpen}
             onCancel={onClose}
             onOk={formik.submitForm}
             okText={'Remover'}
             cancelText={'Cancelar'}
         >
-            <p>{'Tem certeza que deseja remover o prêmio ' + prize?.name + '?'}</p>
+            <p>{'Tem certeza que deseja remover o funcionário ' + user?.name + '?'}</p>
 
         </Modal>
         
 	)
 }
 
-export default RemovePrize
+export default RemoveUser

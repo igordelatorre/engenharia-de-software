@@ -56,24 +56,22 @@ public class AuthController : ControllerBase
     [Route("login/player")]
     public async Task<IActionResult> PlayerLogin([FromBody] PlayerLoginRequest request)
     {
-        if (request.card == null)
-            return BadRequest("INVALID_INPUT");
+        if (request.Card == null)
+            return BadRequest();
 
-        var player = await DbContext.Players.Where(p => p.Card == request.card).FirstOrDefaultAsync();
+        var player = await DbContext.Players.Where(p => p.Card == request.Card).FirstOrDefaultAsync();
 
         if (player == null)
         {
-            return BadRequest();
+            return BadRequest("PLAYER_NOT_FOUND");
         }
-
-        var token = CreateToken(player);
 
         return Ok();
     }
 
     public class PlayerLoginRequest
     {
-        public long? card;
+        public int? Card;
     }
 
     private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
@@ -91,28 +89,6 @@ public class AuthController : ControllerBase
         {
             new Claim(ClaimTypes.Name, employee.Username),
             new Claim(employee.IsAdmin ? AppClaims.ManagerId : AppClaims.EmployeeId, employee.Id.ToString())
-        };
-
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("AppSettings:Token").Value));
-
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-        var token = new JwtSecurityToken(
-            claims: claims,
-            expires: DateTime.Now.AddDays(1),
-            signingCredentials: creds
-        );
-
-        var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-        return jwt;
-    }
-
-    private string CreateToken(Player player)
-    {
-        List<Claim> claims = new List<Claim>
-        {
-            new Claim(AppClaims.PlayerId, player.Card.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("AppSettings:Token").Value));

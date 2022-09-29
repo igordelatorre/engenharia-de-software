@@ -52,6 +52,27 @@ public class Setup
         var machine = new Machine("PacMan", 5);
         await dbContext.Machines.AddAsync(machine);
 
+        var machine2 = new Machine("Tetris", 10);
+        await dbContext.Machines.AddAsync(machine2);
+
+        var prize = new Prize
+        {
+            Name = "Xadrez",
+            Amount = 10,
+            Price = 25,
+            IsActive = true,
+        };
+        await dbContext.Prizes.AddAsync(prize);
+
+        var prize2 = new Prize
+        {
+            Name = "Cubo Mágico",
+            Amount = 15,
+            Price = 10,
+            IsActive = true,
+        };
+        await dbContext.Prizes.AddAsync(prize2);
+
         await dbContext.SaveChangesAsync();
 
         var machineId = await dbContext.Machines.Select(m => m.Id).FirstOrDefaultAsync();

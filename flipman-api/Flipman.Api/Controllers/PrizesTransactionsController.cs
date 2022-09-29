@@ -16,39 +16,22 @@ public class PrizesTransactionsController : ControllerBase
 
     [HttpGet]
     [Route("prizes-transactions")]
+    [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetPrizeTransactions()
     {
-        var transaction = await DbContext.PrizeTransactions.ToArrayAsync();
+        var transactions = await DbContext.PrizeTransactions.ToArrayAsync();
 
-        return Ok(transaction);
+        return Ok(transactions);
     }
 
     [HttpGet]
-    [Route("prizes-transactions/{id}/player")]
-    public async Task<IActionResult> GetPrizeTransactionByPlayer([FromRoute] int id)
+    [Route("prizes-transactions/{prizeId}")]
+    [Authorize(policy: "Employee")]
+    public async Task<IActionResult> GetPrizeTransactionByPrize([FromRoute] int prizeId)
     {
-        var transaction = await DbContext.PrizeTransactions.Where(transaction => transaction.PlayerCard == id).FirstOrDefaultAsync();
+        var prizeTransactions = await DbContext.PrizeTransactions.Where(transaction => transaction.PrizeId == prizeId).ToArrayAsync();
 
-        if (transaction == null)
-        {
-            return BadRequest("PRIZE_TRANSACTION_NOT_FOUND");
-        }
-
-        return Ok(transaction);
-    }
-
-    [HttpGet]
-    [Route("prizes-transactions/{id}/prize")]
-    public async Task<IActionResult> GetPrizeTransactionByPrize([FromRoute] int id)
-    {
-        var transaction = await DbContext.PrizeTransactions.Where(transaction => transaction.PrizeId == id).FirstOrDefaultAsync();
-
-        if (transaction == null)
-        {
-            return BadRequest("PRIZE_TRANSACTION_NOT_FOUND");
-        }
-
-        return Ok(transaction);
+        return Ok(prizeTransactions);
     }
 
     [HttpPost]

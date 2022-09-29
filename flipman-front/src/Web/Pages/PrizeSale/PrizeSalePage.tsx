@@ -1,97 +1,85 @@
-import { useState, FormEvent } from "react"
-import Prize from "../../../Domain/Prize"
-import { CenteredContentContainer, ContentContainer, HorizontalCenteredContainer, PageContainer, PageTitle, PageTitleContainer } from "../../Styles/style"
-import { Input, Button } from '@chakra-ui/react'
-import PrizesTable from "./Table/PrizesTable"
-import Player from "../../../Domain/Player"
+import React, {useEffect, useState } from "react";
+import {
+  ContentContainer,
+  ContentMenu,
+  AlignedPageButtonContainer,
+  PageContainer,
+  PageTitle,
+  PageTitleContainer,
+  Label
+} from "../../Styles/style";
+import Prize, {PrizeFactory} from "../../../Domain/Prize";
+import FixedCard from "../../Components/FixedCard/FixedCard";
+import { Input, Button } from "antd";
+import Player from "../../../Domain/Player";
+import PrizeSaleTable from "./PrizeSaleTable";
+import BuyPrize from "./BuyPrize";
 
-enum PageState {
-    CARD,
-    TABLE
-}
+
+const {Search} = Input
+const id = "holidays-page";
 
 function PrizeSalePage() {
-    const [selectedPrize, setSelectedPrize] = useState<Prize>()
-    const [playerCard, setPlayerCard] = useState<string | null>("")
-    const [pageState, setPageState] = useState<PageState>(PageState.CARD)
-    const [player, setPlayer] = useState<Player>()
-
-    const tempPlayer : Player = {
-        card: "00323753",
-        email: "basilveira@inf.ufrgs.br",
-        id: 5,
-        name: "Bruno Silveira",
-        tickets: 50,
-        tokens: 2
-    }
-    const prizes : Array<Prize> = [
-        {
-            id: 0,
-            name: "Pirulito",
-            amount: 8,
-            price: 2
-        },
-        {
-            id: 1,
-            name: "Iôiô",
-            amount: 2,
-            price: 15
-        },
-        {
-            id: 2,
-            name: "Xadrez",
-            amount: 1,
-            price: 80
-        },
-        {
-            id: 3,
-            name: "Aboeba",
-            amount: 0,
-            price: 30
-        },
-    ]
-
-    function sellPrize(player: Player, prize : Prize, amount : number) {
-        console.log(`Vendido ${amount} unidade(s) de ${prize.name} para ${player.name}`)
-    }
 
 
-    function handleSubmitPlayerCard() {
-        setPageState(PageState.TABLE)
-        // Aqui vai a requisição depois pra pegar o player com cartão {playerCard}
-        setPlayer(tempPlayer)
-    }
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | undefined>()
+  const [selectedPrize, setSelectedPrize] = useState<Prize | undefined>()
+  const [isBuyingPrize, setIsBuyingPrize] = useState<boolean>(false)
+  const [prizes, setPrizes] = useState<Prize[]>([{id: 4, name: 'boneco', amount: 10, price : 4}])
 
-    return (
-        <PageContainer>
-            <PageTitleContainer>
-              <PageTitle>Trocar prêmios</PageTitle>
-            </PageTitleContainer>
-            <CenteredContentContainer>
-                {pageState === PageState.CARD && (
-                    <HorizontalCenteredContainer>
-                        <form onSubmit={handleSubmitPlayerCard}>
-                            <Input width="50vw" placeholder={"Cartão do jogador"} onChange={(e : FormEvent<HTMLInputElement>) => {setPlayerCard(e.currentTarget.value)}}/>
-                            <Button type="submit">Buscar</Button>
-                        </form>
-                    </HorizontalCenteredContainer>
-                )}
-                {pageState === PageState.TABLE && (
-                    <>
-                        <h1>Jogador: {player?.name}</h1>
-                        <h1>Saldo: {player?.tickets}</h1>
-                        {player &&
-                            <PrizesTable
-                                player={player}
-                                sellPrize={sellPrize}
-                                prizes={prizes}
-                            />
-                        }
-                    </>
-                )}
-            </CenteredContentContainer>
-                
-        </PageContainer>
-    )
+
+  const onCardSearch = async (card: String) => {
+    // GET DO JOGADOR.
+    // GET ALL DOS ITEMS QUE O JOGADOR PODE COMPRAR
+   // setPlayerStats(....);
+   // setPlayer(...)
+   if (card === '123')
+   {
+        setSelectedPlayer({id: 5, name: 'joao', card: '123', email: 'joao@email.com', tickets: 5, tokens: 4})
+   }
+  }
+
+  const handleRowClick = (prize: Prize) => {
+    setIsBuyingPrize(true)
+    setSelectedPrize(prize)
+  }
+
+  return (
+    <PageContainer id={id}>
+      <ContentContainer id={id}>
+        <PageTitleContainer>
+          <PageTitle>{"Compra de Prêmios"}</PageTitle>
+        </PageTitleContainer>
+        <FixedCard>
+
+        <div>
+            <Search
+                placeholder="Busca por Cartão"
+                allowClear
+                onSearch={onCardSearch}
+                style={{width: 200}}
+            /> 
+            {selectedPlayer && <Label style={{paddingLeft: '3rem'}}>{'Jogador :  ' + selectedPlayer?.name}</Label>}
+            {selectedPlayer && <Label style={{paddingLeft: '3rem'}}>{'Saldo de Tickets :  ' + selectedPlayer?.tickets}</Label>}
+        </div>
+
+          <ContentMenu>
+            {selectedPlayer && <PrizeSaleTable prizes={prizes} onRowClick={handleRowClick} />}
+          </ContentMenu>
+
+          <BuyPrize 
+            isOpen={isBuyingPrize}
+            onClose={() => setIsBuyingPrize(false)}
+            player={selectedPlayer}
+            prize={selectedPrize}
+            />
+
+        </FixedCard>
+      </ContentContainer>
+    </PageContainer>
+  );
 }
-export default PrizeSalePage
+
+export default PrizeSalePage;
+
+

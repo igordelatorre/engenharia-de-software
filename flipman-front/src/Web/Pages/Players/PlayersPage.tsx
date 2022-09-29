@@ -19,7 +19,7 @@ import { NameSearch } from "../../Styles/style";
 import { Input, Button } from "antd";
 
 const {Search} = Input
-const id = "holidays-page";
+const id = "players-page";
 
 function PlayersPage() {
 
@@ -88,16 +88,16 @@ function PlayersPage() {
               players={players}
               onRowClick={handleAddTicket}
 			      />
-      <AddPlayer
-        isOpen={isAddingPlayer}
-				onClose={() => setIsAddingPlayer(false)}
-      />
+            <AddPlayer
+              isOpen={isAddingPlayer}
+              onClose={() => setIsAddingPlayer(false)}
+            />
 
-			<AddTicket
-				isOpen={isAddingTicket}
-				onClose={() => setIsAddingTicket(false)}
-				player={selectedPlayer}
-			/>
+            <AddTicket
+              isOpen={isAddingTicket}
+              onClose={() => setIsAddingTicket(false)}
+              player={selectedPlayer}
+            />
 
           </ContentMenu>
         </FixedCard>

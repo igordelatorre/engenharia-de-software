@@ -135,4 +135,33 @@ public class MachinesController : ControllerBase
 
     public record MachineStats(double hours, int tickets);
 
+    [HttpGet]
+    [Route("machines-report/{intervalDays}")]
+    [Authorize(policy: "Manager")]
+    public async Task<IActionResult> GetMachinesReport([FromRoute] int intervalDays)
+    {
+        var activeMachines = await DbContext.Machines.Where(machine => machine.IsActive).ToArrayAsync();
+
+        List<MachineReportByDateInterval> machinesReport = new List<MachineReportByDateInterval>();
+
+        foreach (var machine in activeMachines)
+        {
+            var machineMatches = await DbContext.Matches
+                .Where(match => match.MachineId == machine.Id && match.Datetime > System.DateTime.UtcNow.AddDays(-intervalDays))
+                .ToArrayAsync();
+
+            machinesReport.Add(new MachineReportByDateInterval(
+                    machine.Name ?? "---",
+                    machine.Id,
+                    machineMatches.Sum(m => m.Tickets),
+                    machineMatches.Sum(m => m.PlayTime) / 60.0
+                )
+            );
+        }
+
+        return Ok(machinesReport);
+    }
+
+    public record MachineReportByDateInterval(string machineName, int machineId, int tickets, double hoursPlayed);
+
 }

@@ -103,4 +103,30 @@ public class PlayersController : ControllerBase
 
         return Ok(new { Name = player.Name, tickets = allTimeTickets });
     }
+
+    [HttpPost]
+    [Route("player-tokens/{playerCard}")]
+    [Authorize(policy: "Employee")]
+    public async Task<IActionResult> PostPlayerTokens([FromRoute] int playerCard, [FromBody] PostPlayerTokensRequest request)
+    {
+        if (request.Tokens == null)
+            return BadRequest();
+
+        var player = await DbContext.Players.Where(player => player.Card == playerCard && player.IsActive).FirstOrDefaultAsync();
+
+        if (player == null)
+        {
+            return BadRequest("PLAYER_NOT_FOUND");
+        }
+
+        player.Tokens += (int)request.Tokens;
+        await DbContext.SaveChangesAsync();
+
+        return Ok();
+    }
+
+    public class PostPlayerTokensRequest
+    {
+        public int? Tokens { get; set; }
+    }
 }

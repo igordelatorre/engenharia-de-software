@@ -16,7 +16,7 @@ public class PlayersController : ControllerBase
 
     [HttpGet]
     [Route("players")]
-    [Authorize(policy: "Employee")]
+    [Authorize(policy: "Manager")]
     public async Task<IActionResult> GetPlayers()
     {
         var players = await DbContext.Players.ToArrayAsync();
@@ -103,6 +103,29 @@ public class PlayersController : ControllerBase
 
         return Ok(new { Name = player.Name, tickets = allTimeTickets });
     }
+
+    [HttpGet]
+    [Route("players-report")]
+    [Authorize(policy: "Manager")]
+    public async Task<IActionResult> GetPlayersReport()
+    {
+        var activePlayers = await DbContext.Players.Where(player => player.IsActive).ToListAsync();
+
+        List<PlayerReport> playersReport = new List<PlayerReport>();
+
+        foreach (var player in activePlayers)
+        {
+            var hoursPlayed = await DbContext.Matches
+                .Where(match => match.PlayerCard == player.Card)
+                .SumAsync(match => match.PlayTime) / 60.0;
+
+            playersReport.Add(new PlayerReport(player.Name ?? "---", player.Card, hoursPlayed));
+        }
+
+        return Ok(playersReport);
+    }
+
+    public record PlayerReport(string playerName, int playerCard, double hoursPlayed);
 
     [HttpPost]
     [Route("player-tokens/{playerCard}")]

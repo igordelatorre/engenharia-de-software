@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Flipman.Api.Controllers;
 
-[Route("prizes")]
 [ApiController]
 public class PrizesController : ControllerBase
 {
@@ -20,6 +19,7 @@ public class PrizesController : ControllerBase
 
 
     [HttpGet]
+    [Route("prizes")]
     [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetPrizes()
     {
@@ -27,28 +27,29 @@ public class PrizesController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{id}")]
+    [Route("prize/{prizeId}")]
     [Authorize(policy: "Manager")]
 
-    public async Task<IActionResult> GetPrize([FromRoute] int id)
+    public async Task<IActionResult> GetPrize([FromRoute] int prizeId)
     {
-        return await _prizesService.GetPrize(id);
+        return await _prizesService.GetPrize(prizeId);
     }
 
     [HttpPost]
+    [Route("prize")]
     [Authorize(policy: "Manager")]
     public async Task<IActionResult> PostPrize([FromBody] PostPrizeRequest request)
     {
-        if (request.name == null || request.amount == null || request.price == null)
+        if (request.Name == null || request.Amount == null || request.Price == null)
         {
             return BadRequest();
         }
 
         var newPrize = new Prize
         {
-            Name = request.name,
-            Amount = (int)request.amount,
-            Price = (int)request.price
+            Name = request.Name,
+            Amount = (int)request.Amount,
+            Price = (int)request.Price
         };
 
         await DbContext.Prizes.AddAsync(newPrize);
@@ -59,74 +60,26 @@ public class PrizesController : ControllerBase
 
     public class PostPrizeRequest
     {
-        public string? name { get; set; }
-        public int? amount { get; set; }
-        public int? price { get; set; }
-    }
-
-    [HttpPut]
-    [Route("{id}")]
-    [Authorize(policy: "Manager")]
-    public async Task<IActionResult> UpdatePrizeAmount([FromRoute] int id, [FromBody] PutPrizeRequest request)
-    {
-        if (request.Amount == null)
-        {
-            return BadRequest("AMOUNT_CANNOT_BE_NULL");
-        }
-
-        var prize = await DbContext.Prizes.Where(prize => prize.Id == id).FirstOrDefaultAsync();
-
-        if (prize == null)
-        {
-            return BadRequest("PRIZE_NOT_FOUND");
-        }
-
-        if (request.Amount == prize.Amount)
-        {
-            return BadRequest("SPECIFY_A_VALUE");
-        }
-
-        prize.Amount = (int)request.Amount;
-
-        if (request.Price != null && request.Price != prize.Price)
-        {
-            prize.Price = (int)request.Price;
-        }
-
-        if (request.Name != null && request.Name != prize.Name)
-        {
-            prize.Name = request.Name;
-        }
-
-        await DbContext.SaveChangesAsync();
-
-        return Ok();
-    }
-
-    public class PutPrizeRequest
-    {
         public string? Name { get; set; }
         public int? Amount { get; set; }
         public int? Price { get; set; }
-        public bool? IsActive { get; set; }
     }
 
-    [HttpDelete]
-    [Route("{id}")]
+    [HttpPost]
+    [Route("prize-amount/{prizeId}")]
     [Authorize(policy: "Manager")]
-    public async Task<IActionResult> DeletePrize([FromRoute] int id)
+
+    public async Task<IActionResult> RemoveAmountFromPrize([FromRoute] int prizeId, [FromBody] RemoveAmountFromPrizeRequest request)
     {
-        var prize = await DbContext.Prizes.Where(prize => prize.Id == id).FirstOrDefaultAsync();
+        if (request.Amount == null)
+            return BadRequest();
 
-        if (prize == null)
-        {
-            return BadRequest("PRIZE_NOT_FOUND");
-        }
-
-        prize.IsActive = false;
-
-        await DbContext.SaveChangesAsync();
-
-        return Ok();
+        return await _prizesService.DecreasePrizeAmount(prizeId, (int)request.Amount);
     }
+
+    public class RemoveAmountFromPrizeRequest
+    {
+        public int? Amount { get; set; }
+    }
+
 }

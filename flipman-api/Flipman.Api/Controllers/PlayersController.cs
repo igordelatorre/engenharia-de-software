@@ -16,13 +16,29 @@ public class PlayersController : ControllerBase
 
     [HttpGet]
     [Route("players")]
-    [Authorize(policy: "Manager")]
     public async Task<IActionResult> GetPlayers()
     {
         var players = await DbContext.Players.ToArrayAsync();
 
-        return Ok(players);
+        List<PlayerResponseElement> playerResponse = new List<PlayerResponseElement>();
+
+        foreach (var player in players)
+        {
+            var playerStats = await DbContext.Matches.Where(m => m.PlayerCard == player.Card).ToArrayAsync();
+
+            playerResponse.Add(new PlayerResponseElement(
+                    player,
+                    playerStats.Sum(p => p.PlayTime) / 60.0,
+                    playerStats.Sum(p => p.Tickets)
+                )
+            );
+        }
+
+        return Ok(playerResponse);
     }
+
+    public record PlayerResponseElement(Player Player, double HoursPlayed, int TicketsEarned);
+
 
     [HttpGet]
     [Route("player-info/{playerCard}")]

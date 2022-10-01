@@ -17,7 +17,7 @@ import BuyPrize from "./BuyPrize";
 
 
 const {Search} = Input
-const id = "holidays-page";
+const id = "prize-sale-page";
 
 function PrizeSalePage() {
 

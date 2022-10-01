@@ -12,6 +12,7 @@ class User {
 	constructor(
 		public id: number,
 		public name: string,
+		public email: string, 
 		public password: string, 
         public isAdmin: boolean
 	) {}
@@ -22,6 +23,7 @@ export function UserFactory(obj: Partial<User>): User {
 return new User(
 	obj.id || 0,
 	obj.name || "",
+	obj.email || "",
 	obj.password || "", 
     obj.isAdmin || false
 )
@@ -32,6 +34,7 @@ obj: Partial<User>
 ): Incomplete<User> {
 	obj.id = undefined
 	obj.name = undefined
+	obj.email = undefined 
 	obj.password = undefined 
     obj.isAdmin = undefined 
 	return Object.setPrototypeOf(obj, User.prototype)

@@ -26,54 +26,52 @@ public class AuthController : ControllerBase
     [Route("login/employee")]
     public async Task<IActionResult> EmployeeLogin([FromBody] EmployeeLoginRequest request)
     {
-        if (string.IsNullOrEmpty(request.username) || string.IsNullOrEmpty(request.password))
+        if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
             return BadRequest("INVALID_INPUT");
 
-        var employee = await DbContext.Employees.Where(e => e.Username == request.username).FirstOrDefaultAsync();
+        var employee = await DbContext.Employees.Where(e => e.Username == request.Username).FirstOrDefaultAsync();
 
         if (employee == null)
         {
             return BadRequest("EMPLOYEE_NOT_FOUND");
         }
 
-        if (!VerifyPasswordHash(request.password, employee.PasswordHash, employee.PasswordSalt))
+        if (!VerifyPasswordHash(request.Password, employee.PasswordHash, employee.PasswordSalt))
         {
             return BadRequest();
         }
 
         var token = CreateToken(employee);
 
-        return Ok(token);
+        return Ok(new { token });
     }
 
     public class EmployeeLoginRequest
     {
-        public string? username { get; set; }
-        public string? password { get; set; }
+        public string? Username { get; set; }
+        public string? Password { get; set; }
     }
 
     [HttpPost]
     [Route("login/player")]
     public async Task<IActionResult> PlayerLogin([FromBody] PlayerLoginRequest request)
     {
-        if (request.card == null)
-            return BadRequest("INVALID_INPUT");
+        if (request.Card == null)
+            return BadRequest();
 
-        var player = await DbContext.Players.Where(p => p.Card == request.card).FirstOrDefaultAsync();
+        var player = await DbContext.Players.Where(p => p.Card == request.Card).FirstOrDefaultAsync();
 
         if (player == null)
         {
-            return BadRequest();
+            return BadRequest("PLAYER_NOT_FOUND");
         }
-
-        var token = CreateToken(player);
 
         return Ok();
     }
 
     public class PlayerLoginRequest
     {
-        public long? card;
+        public int? Card;
     }
 
     private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
@@ -91,28 +89,6 @@ public class AuthController : ControllerBase
         {
             new Claim(ClaimTypes.Name, employee.Username),
             new Claim(employee.IsAdmin ? AppClaims.ManagerId : AppClaims.EmployeeId, employee.Id.ToString())
-        };
-
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("AppSettings:Token").Value));
-
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-        var token = new JwtSecurityToken(
-            claims: claims,
-            expires: DateTime.Now.AddDays(1),
-            signingCredentials: creds
-        );
-
-        var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-        return jwt;
-    }
-
-    private string CreateToken(Player player)
-    {
-        List<Claim> claims = new List<Claim>
-        {
-            new Claim(AppClaims.PlayerId, player.Card.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("AppSettings:Token").Value));

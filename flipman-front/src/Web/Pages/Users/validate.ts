@@ -11,7 +11,6 @@ function validate(user: Partial<User>) {
     
     if (!user.name) errors.name = 'Obrigatório'
     if (!user.password) errors.password = 'Obrigatório'
-    if (user.email && !emailRegexp.test(user.email)) errors.email = 'Formato Inválido'
 
 	return errors
 }

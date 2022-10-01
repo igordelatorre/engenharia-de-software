@@ -34,13 +34,17 @@ public class Setup
             Username = "atendente",
             PasswordHash = employeePasswordHash,
             PasswordSalt = employeePasswordSalt,
-            IsAdmin = true
+            IsAdmin = false
         };
         await dbContext.Employees.AddAsync(employee);
 
         var playerCard = 44;
 
-        var player = new Player(playerCard, "fulano", "fulano", "fulano@email.com", "55999887710");
+        var player = new Player(playerCard, "fulano", "fulano", "fulano@email.com", "55999887710")
+        {
+            Tokens = 4422,
+            Tickets = 2244,
+        };
         await dbContext.Players.AddAsync(player);
 
         var player2 = new Player(11, "josé teste", "jose_teste", "teste@email.com", "55999887710");
@@ -48,6 +52,27 @@ public class Setup
 
         var machine = new Machine("PacMan", 5);
         await dbContext.Machines.AddAsync(machine);
+
+        var machine2 = new Machine("Tetris", 10);
+        await dbContext.Machines.AddAsync(machine2);
+
+        var prize = new Prize
+        {
+            Name = "Xadrez",
+            Amount = 10,
+            Price = 25,
+            IsActive = true,
+        };
+        await dbContext.Prizes.AddAsync(prize);
+
+        var prize2 = new Prize
+        {
+            Name = "Cubo Mágico",
+            Amount = 15,
+            Price = 10,
+            IsActive = true,
+        };
+        await dbContext.Prizes.AddAsync(prize2);
 
         await dbContext.SaveChangesAsync();
 
@@ -83,6 +108,17 @@ public class Setup
         };
         await dbContext.Matches.AddAsync(match3);
 
+        var prizeId = await dbContext.Prizes.Select(p => p.Id).FirstOrDefaultAsync();
+
+        var prizeTransaction = new PrizeTransaction
+        {
+            PlayerCard = playerCard,
+            PrizeId = prizeId,
+            Datetime = System.DateTime.UtcNow,
+            Quantity = 2
+        };
+        await dbContext.PrizeTransactions.AddAsync(prizeTransaction);
+
         await dbContext.SaveChangesAsync();
     }
 
@@ -97,11 +133,11 @@ public class Setup
 
     private void ClearDatabase(AppDbContext dbContext)
     {
-        dbContext.Database.ExecuteSqlRaw("DELETE FROM players");
-        dbContext.Database.ExecuteSqlRaw("DELETE FROM machines");
         dbContext.Database.ExecuteSqlRaw("DELETE FROM matches");
-        dbContext.Database.ExecuteSqlRaw("DELETE FROM prizes");
         dbContext.Database.ExecuteSqlRaw("DELETE FROM prizes_transactions");
         dbContext.Database.ExecuteSqlRaw("DELETE FROM employees");
+        dbContext.Database.ExecuteSqlRaw("DELETE FROM prizes");
+        dbContext.Database.ExecuteSqlRaw("DELETE FROM machines");
+        dbContext.Database.ExecuteSqlRaw("DELETE FROM players");
     }
 }

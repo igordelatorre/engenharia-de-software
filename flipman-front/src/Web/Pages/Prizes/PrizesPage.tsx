@@ -40,6 +40,10 @@ function PrizesPage() {
     setSelectedPrize(prize)
   }
 
+  const handleGenerateReport = async () => {
+    //CHAMA O SERVICE PRA GERAR O REPORT
+  }
+
   return (
     <PageContainer id={id}>
       <ContentContainer id={id}>
@@ -50,7 +54,10 @@ function PrizesPage() {
             <AlignedPageButtonContainer>
               <Button onClick={() => setIsAddingPrize(true)}>
                 {"Novo Prêmio"}
-              </Button> 
+              </Button>
+              <Button style={{marginLeft: '10px'}} onClick={() => handleGenerateReport()}>
+                {"Gerar Relatório"}
+              </Button>
             </AlignedPageButtonContainer>
 
           <ContentMenu>

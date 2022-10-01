@@ -57,11 +57,6 @@ function EditUser({
               <Input font-size={1.0} height={2} {...handlers.string(formik, "name")} />
             </Form.Item>
           </Col>
-          <Col xs={12} lg={12}>
-            <Form.Item label={"Email"}>
-              <Input  font-size={1.0} height={2} {...handlers.string(formik, "email")} />
-            </Form.Item>
-          </Col>
         </Row>
         <Row gutter={16}>
           <Col xs={12} lg={12}>

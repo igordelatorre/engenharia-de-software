@@ -20,6 +20,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: ./flipman-api
+          context: ./flipman-api/Flipman.Api
           push: true
           tags: igordelatorre/flipman:latest

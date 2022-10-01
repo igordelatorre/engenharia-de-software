@@ -108,8 +108,29 @@ public class MachinesController : ControllerBase
     {
         var machines = await DbContext.Machines.ToArrayAsync();
 
-        return Ok(machines);
+        List<MachineResponseElement> machinesResponse = new List<MachineResponseElement>();
+
+        foreach (var machine in machines)
+        {
+            var machineMatches = await DbContext.Matches
+                .Where(match => match.MachineId == machine.Id)
+                .ToArrayAsync();
+
+            machinesResponse.Add(new MachineResponseElement(
+                    machine.Id,
+                    machine.Name ?? "---",
+                    machine.PlayCost,
+                    machine.IsActive,
+                    machineMatches.Sum(m => m.PlayTime) / 60.0,
+                    machineMatches.Sum(m => m.Tickets)
+                )
+            );
+        }
+
+        return Ok(machinesResponse);
     }
+
+    public record MachineResponseElement(int Id, string Name, int PlayCost, bool IsActive, double hoursPlayed, int tickets);
 
     [HttpGet]
     [Route("machine/{machineId}")]

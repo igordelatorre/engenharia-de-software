@@ -41,7 +41,6 @@ CREATE TABLE prizes_transactions(
     prize_id int NOT NULL,
     datetime timestamp NOT NULL,
     quantity int NOT NULL,
-    is_active boolean NOT NULL,
     CONSTRAINT fk_player FOREIGN KEY (player_card) REFERENCES players(card),
     CONSTRAINT fk_prize FOREIGN KEY (prize_id) REFERENCES prizes(id)
 );

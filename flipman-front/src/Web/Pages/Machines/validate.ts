@@ -6,7 +6,6 @@ function validate(machine: Partial<Machine>) {
     
     if (!machine.name) errors.name = 'Obrigatório'
     if (!machine.playCost) errors.playCost = 'Obrigatório'
-    if (!machine.pointsPerToken) errors.pointsPerToken = 'Obrigatório'
 
 	return errors
 }

@@ -1,5 +1,5 @@
 CREATE TABLE players(
-    card int PRIMARY KEY,
+    card varchar(32) PRIMARY KEY,
     name varchar(255) NOT NULL,
     username varchar(255) NOT NULL,
     email varchar(255) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE machines(
 
 CREATE TABLE matches(
     id SERIAL PRIMARY KEY,
-    player_card int NOT NULL,
+    player_card varchar(32) NOT NULL,
     machine_id int NOT NULL, 
     tickets int NOT NULL,
     play_time int NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE prizes(
 
 CREATE TABLE prizes_transactions(
     id SERIAL PRIMARY KEY,
-    player_card int NOT NULL,
+    player_card varchar(32) NOT NULL,
     prize_id int NOT NULL,
     datetime timestamp NOT NULL,
     quantity int NOT NULL,

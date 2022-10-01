@@ -56,8 +56,10 @@ public class AuthController : ControllerBase
     [Route("login/player")]
     public async Task<IActionResult> PlayerLogin([FromBody] PlayerLoginRequest request)
     {
-        if (request.Card == null)
+        if (string.IsNullOrEmpty(request.Card))
+        {
             return BadRequest();
+        }
 
         var player = await DbContext.Players.Where(p => p.Card == request.Card).FirstOrDefaultAsync();
 
@@ -71,7 +73,7 @@ public class AuthController : ControllerBase
 
     public class PlayerLoginRequest
     {
-        public int? Card;
+        public string? Card { get; set; }
     }
 
     private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)

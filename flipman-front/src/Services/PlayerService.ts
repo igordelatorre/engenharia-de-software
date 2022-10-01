@@ -15,9 +15,12 @@ type PayloadPlayer = {
 	name: string
 	card: string
 	email: string
-	tickets: number
-	tokens: number
 	cellphone?: string
+}
+
+type GetPlayerTicketsResponse = {
+	name: string, 
+	tickets: number 
 }
 
 type GetCollaboratorsResponse = ResponsePlayer[];
@@ -37,9 +40,7 @@ class PlayerService {
 			name: data.name,
 			card: data.card,
 			email: data.email,
-			cellphone: data.cellphone,
-			tickets: data.tickets,
-			tokens: data.tokens
+			cellphone: data.cellphone
 		}
 	}
 
@@ -63,22 +64,23 @@ class PlayerService {
 		return this.from(response.data)
 	}
 
-
-	static async getSelf(): Promise<Player> {
-		const response = await BaseService.get<ResponsePlayer, null>(
-			this.model,
-			'/Self'
-		)
-
-		return this.from(response.data)
+	static async getPlayerTickets(playerCard: number) : Promise<GetPlayerTicketsResponse> {
+		const response = await BaseService.get<GetPlayerTicketsResponse, void>('/player-tickets/' + {playerCard}, undefined)
+		return response.data
 	}
 
-	static async add(player: Player): Promise<number> {
+
+	static async addPlayer(player: Player): Promise<void> {
 			const response = await BaseService.post<
 				PayloadPlayer,
-				ResponsePlayer
+				void
 			>(this.model, this.into(player))
-			return response.data.id
+
 	}
+	
+	static async putTokens(player: Player, amount: number): Promise<void> {
+		await BaseService.post<number, void>('/player-tokens/' + player.card, amount)
+	}
+
 }
 export default PlayerService

@@ -25,7 +25,7 @@ const id = "machine-page";
 function MachinesPage() {
 
 
-  const [machines, setMachines] = useState<Machine[]>([{id: 4, name: 'Pacman', playCost: 5, pointsPerToken: 10, totalHoursSpent : 0, totalTicketsEmitted : 0}])
+  const [machines, setMachines] = useState<Machine[]>([{id: 4, name: 'Pacman', playCost: 5, isActive: true, totalHoursSpent : 0, totalTicketsEmitted : 0}])
   const [selectedMachine, setSelectedMachine] = useState<Machine | undefined>()
   const [isAddingMachine, setIsAddingMachine] = useState<boolean>(false)
   const [isRemovingMachine, setIsRemovingMachine] = useState<boolean>(false)

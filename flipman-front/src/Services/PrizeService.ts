@@ -17,7 +17,7 @@ type PayloadPrize = {
 type GetPrizesResponse = ResponsePrize[];
 
 class PrizeService {
-	private static model = '/prizes'
+	private static model = '/prize'
 
 	static from(data: ResponsePrize): Prize {
 		return PrizeFactory({
@@ -37,7 +37,7 @@ class PrizeService {
 	static async getAll(): Promise<GetPrizesResponse> {
 		const response = (
 			await BaseService.get<GetPrizesResponse, void>(
-				this.model,
+				'/prizes',
 				undefined
 			)
 		).data

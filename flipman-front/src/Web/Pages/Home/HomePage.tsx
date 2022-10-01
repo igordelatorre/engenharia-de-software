@@ -3,9 +3,9 @@ import { CheckCircleIcon } from '@chakra-ui/icons';
 import {useState, useEffect} from 'react'
 import User from '../../../Domain/User';
 
-export default function Success() {
+export default function HomePage() {
 
-  const [user, setUser] = useState<User>({id: 1, name: 'joao', password: '123', email: 'joao@email.com', isAdmin: true})
+  const [user, setUser] = useState<User>({id: 1, name: 'joao', password: '123', isAdmin: true})
 
 
   useEffect(() => {    

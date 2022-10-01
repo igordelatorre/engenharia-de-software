@@ -1,6 +1,6 @@
 import EntityError from '../../../Domain/EntityError'
 import Player from '../../../Domain/Player'
-import PlayerService from '../../../Service/PlayerService'
+import PlayerService from '../../../Services/PlayerService'
 
 function validate(player: Partial<Player>) {
 	const errors: EntityError<Player> = {}

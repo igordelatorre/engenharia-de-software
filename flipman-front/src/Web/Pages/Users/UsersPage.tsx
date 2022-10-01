@@ -20,10 +20,10 @@ import RemoveUser from "./RemoveUser";
 const {Search} = Input
 const id = "users-page";
 
-function PrizesPage() {
+function UsersPage() {
 
 
-  const [users, setUsers] = useState<User[]>([{id: 4, name: 'joao', password: 'senha', email: 'joao@email.com', isAdmin: true}])
+  const [users, setUsers] = useState<User[]>([{id: 4, name: 'joao', password: 'senha', isAdmin: true}])
   const [selectedUser, setSelectedUser] = useState<User | undefined>()
   const [isAddingUser, setIsAddingUser] = useState<boolean>(false)
   const [isRemovingUser, setIsRemovingUser] = useState<boolean>(false)
@@ -79,6 +79,6 @@ function PrizesPage() {
   );
 }
 
-export default PrizesPage;
+export default UsersPage;
 
 

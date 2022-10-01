@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Player from '../../../Domain/Player'
 import {Modal} from 'antd'
-import PlayerService from '../../../Service/PlayerService'
+import PlayerService from '../../../Services/PlayerService'
 import {InputNumber} from 'antd'
 import Prize from '../../../Domain/Prize'
 

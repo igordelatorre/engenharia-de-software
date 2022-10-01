@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Player, {IncompletePlayerFactory, PlayerFactory} from '../../../Domain/Player'
 import {Modal} from 'antd'
-import PlayerService from '../../../Service/PlayerService'
+import PlayerService from '../../../Services/PlayerService'
 import Input from '../../Components/Input/Input'
 import handlers from '../../Components/handlers'
 import validate from './validate'
@@ -30,7 +30,7 @@ function AddPlayer({
     };
 
     const addPlayer = async (newPlayer: Player) => {
-      await PlayerService.add(newPlayer);
+      await PlayerService.addPlayer(newPlayer);
     };
 
 

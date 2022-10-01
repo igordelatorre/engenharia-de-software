@@ -22,3 +22,5 @@ class PlayerReportService{
 
 
 }
+
+export default PlayerReportService

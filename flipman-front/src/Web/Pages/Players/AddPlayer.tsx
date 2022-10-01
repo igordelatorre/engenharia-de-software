@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Player, {IncompletePlayerFactory, PlayerFactory} from '../../../Domain/Player'
 import {Modal} from 'antd'
-import PlayerService from '../../../Services/PlayerService'
+import PlayerService from '../../../Services/ApiCalls/PlayerService'
 import Input from '../../Components/Input/Input'
 import handlers from '../../Components/handlers'
 import validate from './validate'

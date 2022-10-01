@@ -11,11 +11,9 @@ import Player, {PlayerFactory} from "../../../Domain/Player";
 import PlayersTable from "./PlayersTable";
 import AddPlayer from "./AddPlayer";
 import FixedCard from "../../Components/FixedCard/FixedCard";
-import PlayerService from "../../../Services/PlayerService";
-import { ResponsePlayer } from "../../../Services/PlayerService";
-import AddTicket from "./AddTicket";
-import useDebounce from "../../../Hooks/useDebounce";
-import { NameSearch } from "../../Styles/style";
+import PlayerService from "../../../Services/ApiCalls/PlayerService";
+import { ResponsePlayer } from "../../../Services/ApiCalls/PlayerService";
+import AddTokens from "./AddTokens"
 import { Input, Button } from "antd";
 
 const {Search} = Input
@@ -26,11 +24,16 @@ function PlayersPage() {
   const [selectedPlayer, setSelectedPlayer] = useState<Player>()
   const [isAddingTicket, setIsAddingTicket] = useState<boolean>(false)
   const [isAddingPlayer, setIsAddingPlayer] = useState<boolean>(false)
-  const [players, setPlayers] = useState<ResponsePlayer[]>([{id: 5, name: 'joao', card: '1231', email: 'joao@email.com', tickets: 5, tokens: 4}])
+  const [players, setPlayers] = useState<ResponsePlayer[]>([{id: 5, name: 'joao', card: '123', email: 'joao@email.com', tickets: 5, tokens: 4}])
 
-  const getAllPlayers = async () => {
-    const response = await PlayerService.getAll();
-    setPlayers(response);
+  const getPlayers = async () => {
+    try {
+      const response = await PlayerService.getAll();
+      setPlayers(response);
+    }
+    catch (error) {
+      console.log(error)
+    }
   };
 
   const handleAddTicket = (player : Player) => {
@@ -39,15 +42,26 @@ function PlayersPage() {
   }
 
   const onCardSearch = (card: string) => {
-    const filteredPlayers = players.filter(p => p.card.includes(card))
+    const filteredPlayers = players?.filter(p => p.card.includes(card))
     setPlayers(filteredPlayers)
   }
 
   const onNameSearch = (name: string) => {
-    const filteredPlayers = players.filter(p => p.name.includes(name))
+    const filteredPlayers = players?.filter(p => p.name.includes(name))
     setPlayers(filteredPlayers)
   }
 
+  const handleCloseAddPlayer = () => {
+    setIsAddingPlayer(false)
+    getPlayers()
+  }
+
+  const handleCloseAddTicket = () => {
+    setIsAddingTicket(false)
+    getPlayers()
+  }
+
+  getPlayers()
 
   return (
     <PageContainer id={id}>
@@ -90,12 +104,12 @@ function PlayersPage() {
 			      />
             <AddPlayer
               isOpen={isAddingPlayer}
-              onClose={() => setIsAddingPlayer(false)}
+              onClose={handleCloseAddPlayer}
             />
 
-            <AddTicket
+            <AddTokens
               isOpen={isAddingTicket}
-              onClose={() => setIsAddingTicket(false)}
+              onClose={handleCloseAddTicket}
               player={selectedPlayer}
             />
 

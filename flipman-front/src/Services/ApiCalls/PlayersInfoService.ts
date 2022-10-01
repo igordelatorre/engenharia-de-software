@@ -28,3 +28,5 @@ class PlayersInfoService {
 	}
 
 }
+
+export default PlayersInfoService

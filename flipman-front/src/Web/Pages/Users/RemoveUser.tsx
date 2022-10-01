@@ -6,6 +6,7 @@ import validate from './validate'
 import { Col, Form, Row } from "antd";
 import { FormikHelpers, useFormik } from "formik";
 import User, {UserFactory, IncompleteUserFactory} from '../../../Domain/User'
+import EmployeeService from '../../../Services/ApiCalls/EmployeeService'
 
 type Props = {
     isOpen : boolean
@@ -25,12 +26,12 @@ function RemoveUser({
     ) => {
       const newUser = UserFactory(values);
       formik.resetForm();
-      removePrize(newUser);
+      removeUser(newUser);
       onClose();
     };
 
-    const removePrize = async (newPrier: User) => {
-      // Remove o Usuário aqui
+    const removeUser = async (userToRemove: User) => {
+      //FALTA REMOVER FUNCIOANRIO
     };
 
 

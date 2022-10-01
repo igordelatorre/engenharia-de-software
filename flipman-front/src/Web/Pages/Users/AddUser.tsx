@@ -6,6 +6,7 @@ import validate from './validate'
 import { Col, Form, Row } from "antd";
 import { FormikHelpers, useFormik } from "formik";
 import User, {UserFactory, IncompleteUserFactory} from '../../../Domain/User'
+import EmployeeService from '../../../Services/ApiCalls/EmployeeService'
 
 type Props = {
     isOpen : boolean
@@ -28,7 +29,7 @@ function AddUser({
     };
 
     const addUser = async (newUser: User) => {
-      // ADICIONA O NOVO USUÁRIO AQUI
+      EmployeeService.add(newUser)
     };
 
 

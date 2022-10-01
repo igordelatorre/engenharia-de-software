@@ -17,3 +17,5 @@ class LoginService {
         return response.data
     }
 }
+
+export default LoginService

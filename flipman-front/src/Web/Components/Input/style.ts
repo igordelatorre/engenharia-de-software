@@ -19,7 +19,6 @@ export const CustomInput = styled.input<Props>`
 	width: 100%;
 	padding: 0 1.2rem;
 	padding-right: ${({ search }) => search && '30px'};
-	font-size: 1.4rem;
 	outline: none;
 	transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 

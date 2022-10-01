@@ -2,6 +2,7 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import { Space, Table, Input} from 'antd';
 import Player from '../../../Domain/Player';
+import PlayerService from '../../../Services/ApiCalls/PlayerService';
 
 type Props = {
     players: Player[]
@@ -34,17 +35,14 @@ function PlayersManagerTable({players} : Props){
             sorter: true
         },
         {
-            title: 'Tokens Obtidos',
-            dataIndex: 'tokens',
-            key: 'tokens',
+            title: 'Tickets Obtidos',
+            dataIndex: 'tickets',
+            key: 'tickets',
             sorter: true
         }
     ]
 
-    const playersWithTotalTokens = players.map(p => {
-        //CHAMADA PARA O TOTAL DE TICKETS AQUI.
-        return p
-    })
+    const playersWithTotalTickets = players
 
 
 
@@ -53,7 +51,7 @@ function PlayersManagerTable({players} : Props){
             style={{'paddingTop' : '3rem'}} 
             size={'small'} 
             columns={columns} 
-            dataSource={playersWithTotalTokens} 
+            dataSource={playersWithTotalTickets} 
         />)
     
 }

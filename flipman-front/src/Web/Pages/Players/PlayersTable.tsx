@@ -44,7 +44,7 @@ function PlayersManagerTable({onRowClick, players} : Props){
             dataSource={players} 
             onRow={(columns, rowIndex) => {
                 return {
-                    onClick: () => onRowClick(players[rowIndex || 0])
+                    onClick: () => onRowClick(players![rowIndex || 0])
                 }
             }} />
     )

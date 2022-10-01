@@ -10,7 +10,7 @@ export type GetMachinesReport = {
 
 
 
-class MachinesReportService {
+export class MachinesReportService {
     private static model = '/machines-report'
 
     static async getAll(intervalDays: number): Promise<GetMachinesReport[]> {
@@ -25,3 +25,5 @@ class MachinesReportService {
 	}
 
 }
+
+export default MachinesReportService

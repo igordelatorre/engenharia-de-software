@@ -1,5 +1,5 @@
 import BaseService from './BaseService'
-import Player, {PlayerFactory} from '../Domain/Player'
+import Player, {PlayerFactory} from '../../Domain/Player'
 
 export type ResponsePlayer = {
     id: number
@@ -25,7 +25,7 @@ type GetPlayerTicketsResponse = {
 
 type GetCollaboratorsResponse = ResponsePlayer[];
 
-class PlayerService {
+export class PlayerService {
 	private static model = '/players'
 
 	static from(data: ResponsePlayer): Player {

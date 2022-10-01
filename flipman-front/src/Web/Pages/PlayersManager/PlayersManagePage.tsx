@@ -9,15 +9,15 @@ import {
 } from "../../Styles/style";
 import Player, {PlayerFactory} from "../../../Domain/Player";
 import FixedCard from "../../Components/FixedCard/FixedCard";
-import PlayerService from "../../../Services/PlayerService";
-import { ResponsePlayer } from "../../../Services/PlayerService";
+import PlayerService from "../../../Services/ApiCalls/PlayerService";
+import { ResponsePlayer } from "../../../Services/ApiCalls/PlayerService";
 import useDebounce from "../../../Hooks/useDebounce";
 import { NameSearch } from "../../Styles/style";
 import { Input, Button } from "antd";
 import PlayersManagerTable from "./PlayersManagerTable";
 
 const {Search} = Input
-const id = "holidays-page";
+const id = "player-manage-page";
 
 function PlayersManager() {
 
@@ -40,7 +40,7 @@ function PlayersManager() {
     setPlayers(filteredPlayers)
   }
 
-
+  //getAllPlayers()
   return (
     <PageContainer id={id}>
       <ContentContainer id={id}>

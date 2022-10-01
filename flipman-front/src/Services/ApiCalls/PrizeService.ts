@@ -1,5 +1,5 @@
 import BaseService from './BaseService'
-import Prize, {PrizeFactory} from '../Domain/Prize'
+import Prize, {PrizeFactory} from '../../Domain/Prize'
 
 export type ResponsePrize = {
     id: number,
@@ -16,7 +16,7 @@ type PayloadPrize = {
 
 type GetPrizesResponse = ResponsePrize[];
 
-class PrizeService {
+export class PrizeService {
 	private static model = '/prize'
 
 	static from(data: ResponsePrize): Prize {

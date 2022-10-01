@@ -15,6 +15,8 @@ import UsersTable from "./UsersTable";
 import AddUser from "./AddUser";
 import EditUser from "./EditUser";
 import RemoveUser from "./RemoveUser";
+import EmployeeService from "../../../Services/ApiCalls/EmployeeService";
+import { GetEmployeesReponse } from "../../../Services/ApiCalls/EmployeeService";
 
 
 const {Search} = Input
@@ -22,8 +24,7 @@ const id = "users-page";
 
 function UsersPage() {
 
-
-  const [users, setUsers] = useState<User[]>([{id: 4, name: 'joao', password: 'senha', isAdmin: true}])
+  const [users, setUsers] = useState<User[]>([{id: 1, name: 'João', password: '12345', isAdmin: true}])
   const [selectedUser, setSelectedUser] = useState<User | undefined>()
   const [isAddingUser, setIsAddingUser] = useState<boolean>(false)
   const [isRemovingUser, setIsRemovingUser] = useState<boolean>(false)

@@ -50,7 +50,7 @@ function PrizesTable({prizes, onClickEdit, onClickRemove} : Props){
             sorter: true
         },
         {
-            title: 'Actions',
+            title: '',
             dataIndex: 'id',
             key: 'id',
             render: (id : number) => (

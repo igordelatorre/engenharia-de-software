@@ -38,19 +38,7 @@ function UsersTable({users, onClickEdit, onClickRemove} : Props){
             sorter: true
         },
         {
-            title: 'Preço',
-            dataIndex: 'price',
-            key: 'price',
-            sorter: true
-        },
-        {
-            title: 'Estoque',
-            dataIndex: 'amount',
-            key: 'amount',
-            sorter: true
-        },
-        {
-            title: 'Actions',
+            title: '',
             dataIndex: 'id',
             key: 'id',
             render: (id : number) => (

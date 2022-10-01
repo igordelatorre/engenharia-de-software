@@ -44,12 +44,6 @@ function MachineTable({machines, onClickEdit, onClickRemove} : Props){
             sorter: true
         },
         {
-            title: 'Pontos por Ficha',
-            dataIndex: 'pointsPerToken',
-            key: 'pointsPerToken',
-            sorter: true
-        },
-        {
             title: 'Total de Tempo Jogado',
             dataIndex: 'totalHoursSpent',
             key: 'totalHoursSpent',

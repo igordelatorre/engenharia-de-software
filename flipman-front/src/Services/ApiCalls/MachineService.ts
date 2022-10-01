@@ -1,5 +1,5 @@
 import BaseService from './BaseService'
-import Machine, {MachineFactory} from '../Domain/Machine'
+import Machine, {MachineFactory} from '../../Domain/Machine'
 
 export type GetMachineResponse = {
     id: number
@@ -20,7 +20,7 @@ type PayloadPutMachine = {
 	isActive: boolean
 }
 
-class MachineService {
+export class MachineService {
 	private static model = '/machine'
 
 

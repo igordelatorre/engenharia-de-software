@@ -13,9 +13,11 @@ import FixedCard from "../../Components/FixedCard/FixedCard";
 import { Input, Button } from "antd";
 import PlayersStatsTable from "./PlayerStatsTable";
 import PlayerStats from "../../../Domain/PlayerStats";
+import PlayersInfoService from "../../../Services/ApiCalls/PlayersInfoService";
+
 
 const {Search} = Input
-const id = "holidays-page";
+const id = "player-stats-page";
 
 function PlayerStatsPage() {
 
@@ -24,11 +26,9 @@ function PlayerStatsPage() {
   const [playerStats, setPlayerStats] = useState<PlayerStats[]>([{id : 1, machineName : 'Pacman', hoursPlayed: 3.5, spentTokens : 10, earnedTickets: 5, playerCard: '123'}])
 
 
-  const onCardSearch = async (card: String) => {
-    // GET DO JOGADOR.
-    // GET ALL DAS ESTATÍSTICAS DO JOGADOR SELECIONADO
-   // setPlayerStats(....);
-   // setPlayer(...)
+  const onCardSearch = async (card: string) => {
+    const playerInfo = PlayersInfoService.getAll(card)
+
    if (card === '123')
    {
         setSelectedPlayer({id: 5, name: 'joao', card: '123', email: 'joao@email.com', tickets: 5, tokens: 4})

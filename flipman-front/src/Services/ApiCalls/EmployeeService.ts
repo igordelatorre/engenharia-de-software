@@ -1,5 +1,5 @@
 import BaseService from "./BaseService";
-import User from "../Domain/User";
+import User from "../../Domain/User";
 
 
 export type GetEmployeesReponse = {
@@ -28,14 +28,17 @@ class EmployeeService {
         return response
     }
 
-    static async add(employee: User): Promise<void> {
+    static async add(employee: User): Promise<GetEmployeesReponse> {
         const response = await BaseService.post<
             User,
-            void
+            GetEmployeesReponse
         >(this.model, employee)
+        return response.data
 }
 
 
 
 
 }
+
+export default EmployeeService

@@ -8,6 +8,12 @@ export enum UserAuth {
     DEVELOPER
 }
 
+export type LocalUserType = {
+	token : string;
+	auth: UserAuth;
+	name: string;
+} | undefined
+
 class User {
 	constructor(
 		public id: number,

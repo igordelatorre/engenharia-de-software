@@ -7,11 +7,15 @@ export type PayloadEmployee = {
 
 }
 
-class LoginService {
+type ReturnLogin = {
+    token: string;
+}
 
-    static async add(newUser: PayloadEmployee): Promise<string> {
+export class LoginService {
+
+    static async add(newUser: PayloadEmployee): Promise<ReturnLogin> {
         const response = await BaseService.post<
-            PayloadEmployee, string
+            PayloadEmployee, ReturnLogin
         >('/login/employee', newUser)
 
         return response.data

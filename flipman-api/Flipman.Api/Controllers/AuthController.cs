@@ -43,8 +43,11 @@ public class AuthController : ControllerBase
 
         var token = CreateToken(employee);
 
-        return Ok(new { token });
+
+        return Ok(new EmployeeLoginResponse(token, employee.IsAdmin, employee.Name ?? "---"));
     }
+
+    public record EmployeeLoginResponse(string Token, bool IsManager, string Name);
 
     public class EmployeeLoginRequest
     {

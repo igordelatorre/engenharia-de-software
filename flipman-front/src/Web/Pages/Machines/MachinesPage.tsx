@@ -56,9 +56,6 @@ function MachinesPage() {
               <Button onClick={() => setIsAddingMachine(true)}>
                 {"Nova Máquina"}
               </Button> 
-              <Button style={{marginLeft: '10px'}} onClick={() => handleGenerateReport()}>
-                {"Gerar Relatório"}
-              </Button>
             </AlignedPageButtonContainer>
 
           <ContentMenu>

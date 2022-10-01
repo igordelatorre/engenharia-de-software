@@ -55,9 +55,6 @@ function PrizesPage() {
               <Button onClick={() => setIsAddingPrize(true)}>
                 {"Novo Prêmio"}
               </Button>
-              <Button style={{marginLeft: '10px'}} onClick={() => handleGenerateReport()}>
-                {"Gerar Relatório"}
-              </Button>
             </AlignedPageButtonContainer>
 
           <ContentMenu>

@@ -17,7 +17,7 @@ import { Input, Button } from "antd";
 import PlayersManagerTable from "./PlayersManagerTable";
 
 const {Search} = Input
-const id = "holidays-page";
+const id = "player-manager-page";
 
 function PlayersManager() {
 

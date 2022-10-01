@@ -23,7 +23,7 @@ const id = "users-page";
 function UsersPage() {
 
 
-  const [users, setUsers] = useState<User[]>([{id: 4, name: 'joao', password: 'senha', isAdmin: true}])
+  const [users, setUsers] = useState<User[]>([{id: 4, name: 'joao', email: 'joao@email.com', password: 'senha', isAdmin: true}])
   const [selectedUser, setSelectedUser] = useState<User | undefined>()
   const [isAddingUser, setIsAddingUser] = useState<boolean>(false)
   const [isRemovingUser, setIsRemovingUser] = useState<boolean>(false)

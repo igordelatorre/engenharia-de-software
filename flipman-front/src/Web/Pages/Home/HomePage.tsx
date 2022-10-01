@@ -5,7 +5,7 @@ import User from '../../../Domain/User';
 
 export default function HomePage() {
 
-  const [user, setUser] = useState<User>({id: 1, name: 'joao', password: '123', isAdmin: true})
+  const [user, setUser] = useState<User>({id: 1, name: 'joao', email: 'joao@email.com', password: '123', isAdmin: true})
 
 
   useEffect(() => {    

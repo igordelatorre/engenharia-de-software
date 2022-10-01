@@ -34,14 +34,14 @@ function PlayersManagerTable({players} : Props){
             sorter: true
         },
         {
-            title: 'Tokens Obtidos',
-            dataIndex: 'tokens',
-            key: 'tokens',
+            title: 'Tickets Obtidos',
+            dataIndex: 'tickets',
+            key: 'tickets',
             sorter: true
         }
     ]
 
-    const playersWithTotalTokens = players.map(p => {
+    const playersWithTotalTickets = players.map(p => {
         //CHAMADA PARA O TOTAL DE TICKETS AQUI.
         return p
     })
@@ -53,7 +53,7 @@ function PlayersManagerTable({players} : Props){
             style={{'paddingTop' : '3rem'}} 
             size={'small'} 
             columns={columns} 
-            dataSource={playersWithTotalTokens} 
+            dataSource={playersWithTotalTickets} 
         />)
     
 }

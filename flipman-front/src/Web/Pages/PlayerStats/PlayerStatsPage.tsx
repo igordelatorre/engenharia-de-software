@@ -15,7 +15,7 @@ import PlayersStatsTable from "./PlayerStatsTable";
 import PlayerStats from "../../../Domain/PlayerStats";
 
 const {Search} = Input
-const id = "holidays-page";
+const id = "player-stats-page";
 
 function PlayerStatsPage() {
 

@@ -38,7 +38,7 @@ public class Setup
         };
         await dbContext.Employees.AddAsync(employee);
 
-        var playerCard = 44;
+        var playerCard = "44";
 
         var player = new Player(playerCard, "fulano", "fulano", "fulano@email.com", "55999887710")
         {
@@ -47,7 +47,7 @@ public class Setup
         };
         await dbContext.Players.AddAsync(player);
 
-        var player2 = new Player(11, "josé teste", "jose_teste", "teste@email.com", "55999887710");
+        var player2 = new Player("11", "josé teste", "jose_teste", "teste@email.com", "55999887710");
         await dbContext.Players.AddAsync(player2);
 
         var machine = new Machine("PacMan", 5);

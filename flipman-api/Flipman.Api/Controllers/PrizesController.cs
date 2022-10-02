@@ -66,7 +66,8 @@ public class PrizesController : ControllerBase
     }
 
     [HttpPost]
-    [Route("prize-amount/{prizeId}")]
+    [Route("prize-amount/{prizeId}/add")]
+    [Route("prize-amount/{prizeId}/remove")]
     [Authorize(policy: "Manager")]
 
     public async Task<IActionResult> RemoveAmountFromPrize([FromRoute] int prizeId, [FromBody] RemoveAmountFromPrizeRequest request)
@@ -74,7 +75,17 @@ public class PrizesController : ControllerBase
         if (request.Amount == null)
             return BadRequest();
 
-        return await _prizesService.DecreasePrizeAmount(prizeId, (int)request.Amount);
+        if (Request.Path.Value.Contains("add"))
+        {
+            return await _prizesService.IncreasePrizeAmount(prizeId, (int)request.Amount);
+        }
+
+        if (Request.Path.Value.Contains("remove"))
+        {
+            return await _prizesService.DecreasePrizeAmount(prizeId, (int)request.Amount);
+        }
+
+        return BadRequest();
     }
 
     public class RemoveAmountFromPrizeRequest

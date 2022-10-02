@@ -19,7 +19,7 @@ public class MatchesController : ControllerBase
     public async Task<IActionResult> PostMatch([FromBody] PostMatchRequest request)
     {
         if (
-            request.PlayerCard == null ||
+            string.IsNullOrEmpty(request.PlayerCard) ||
             request.MachineId == null ||
             request.PlayTime == null ||
             request.Tickets == null
@@ -43,7 +43,7 @@ public class MatchesController : ControllerBase
 
         var newMatch = new Match
         {
-            PlayerCard = (int)request.PlayerCard,
+            PlayerCard = request.PlayerCard,
             MachineId = (int)request.MachineId,
             Tickets = (int)request.Tickets,
             PlayTime = (int)request.PlayTime,
@@ -62,7 +62,7 @@ public class MatchesController : ControllerBase
 
     public class PostMatchRequest
     {
-        public int? PlayerCard { get; set; }
+        public string? PlayerCard { get; set; }
         public int? MachineId { get; set; }
         public int? PlayTime { get; set; }
         public int? Tickets { get; set; }

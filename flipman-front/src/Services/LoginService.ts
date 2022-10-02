@@ -9,6 +9,8 @@ export type PayloadEmployee = {
 
 type ReturnLogin = {
     token: string;
+    isManager: boolean;
+    name: string
 }
 
 export class LoginService {

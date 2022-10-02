@@ -10,7 +10,7 @@ function validate(player: Partial<Player>) {
     
     const isValidCard = async () => {
         const players = await PlayerService.getAll()
-        const isUnique = players.find(p => p.card === player.card) || false
+        const isUnique = players.find(p => p.player.card === player.card) || false
     }
     
     if (!player.name) errors.name = 'Obrigatório'

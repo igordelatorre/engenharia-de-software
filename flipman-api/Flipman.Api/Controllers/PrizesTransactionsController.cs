@@ -86,7 +86,7 @@ public class PrizesTransactionsController : ControllerBase
 
     public class PostTransactionRequest
     {
-        public int? PlayerCard { get; set; }
+        public string? PlayerCard { get; set; }
         public int? PrizeId { get; set; }
         public int? Quantity { get; set; }
     }

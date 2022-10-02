@@ -1,14 +1,22 @@
 import BaseService from './BaseService'
 import Player, {PlayerFactory} from '../Domain/Player'
 
-export type ResponsePlayer = {
-    id: number
+export type RPlayer = {
 	name: string
 	card: string
 	email: string 
 	cellphone?: string
 	tickets: number
 	tokens: number
+	username?: string
+	isActive: boolean
+	id?: number
+}
+
+export type ResponsePlayer = {
+	hoursPlayed?: number
+	ticketsEarned?: number
+	player: RPlayer
 }
 
 type PayloadPlayer = {
@@ -30,8 +38,8 @@ class PlayerService {
 
 	static from(data: ResponsePlayer): Player {
 		return PlayerFactory({
-            id: data.id,
-			name: data.name
+            id: data.player.id,
+			name: data.player.card
 		})
 	}
 

@@ -3,6 +3,7 @@ import { RestartProcess } from "concurrently";
 import { createContext, useState } from "react"
 import { LocalUserType } from "../../Domain/User"
 import { UserAuth } from "../../Domain/User";
+import { setToken } from "../../Services/BaseService";
 
 export type UserContextType = {
     logoutUser: () => void;
@@ -29,6 +30,7 @@ export function UserContextProvider({children}: Props): JSX.Element {
     function saveUser(token: string) {
         //Mudar depois o auth e o name pros valores que a API vai mandar
         setUser({token, auth: UserAuth.MANAGER, name: "Bruno"})
+        setToken(token)
     }
 
     return (

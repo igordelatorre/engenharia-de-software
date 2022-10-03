@@ -20,7 +20,6 @@ public class PrizesController : ControllerBase
 
     [HttpGet]
     [Route("prizes")]
-    [Authorize(policy: "Employee")]
     public async Task<IActionResult> GetPrizes()
     {
         return await _prizesService.GetPrizes();

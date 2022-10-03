@@ -5,7 +5,8 @@ export type ResponsePrize = {
     id: number,
     name: string,
     amount: number, 
-    price: number
+    price: number,
+	isActive: boolean
 }
 
 type PayloadPrize = {

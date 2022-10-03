@@ -14,7 +14,7 @@ function PlayersStatsTable({playerStats} : Props){
     const columns = [
         {
             title: 'Máquina',
-            dataIndex: 'machineName',
+            dataIndex: 'machineId',  //MUDAR PRA MACHINE NAME   
             key: 'machineName',
             sorter: true
         },
@@ -22,17 +22,6 @@ function PlayersStatsTable({playerStats} : Props){
             title: 'Horas Jogadas',
             dataIndex: 'hoursPlayed',
             key: 'hoursPlayed',
-        },
-        {
-            title: 'Fichas Gastas',
-            dataIndex: 'spentTokens',
-            key: 'spentTokens',
-        },
-        {
-            title: 'Tickets Ganhos',
-            dataIndex: 'earnedTickets',
-            key: 'earnedTickets',
-            sorter: true
         }
     ]
 

@@ -14,11 +14,11 @@ export type GetPlayersInfoResponse = {
 
 }
 
-class PlayersInfoService {
+export class PlayersInfoService {
 
-    static async getAll(playerCard: string): Promise<GetPlayersInfoResponse[]> {
+    static async get(playerCard: string): Promise<GetPlayersInfoResponse> {
 		const response = (
-			await BaseService.get<GetPlayersInfoResponse[], void>(
+			await BaseService.get<GetPlayersInfoResponse, void>(
 				'/player-info/' + playerCard,
 				undefined
 			)

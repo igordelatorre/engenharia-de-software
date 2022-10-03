@@ -13,26 +13,35 @@ import FixedCard from "../../Components/FixedCard/FixedCard";
 import { Input, Button } from "antd";
 import PlayersStatsTable from "./PlayerStatsTable";
 import PlayerStats from "../../../Domain/PlayerStats";
+import { PlayersInfoService } from "../../../Services/PlayersInfoService";
 
 const {Search} = Input
 const id = "player-stats-page";
 
 function PlayerStatsPage() {
 
+  type PartialPlayer = {
+    name: string;
+    tokens: number;
+    tickets: number;
+  }
+  const [selectedPlayer, setSelectedPlayer] = useState<PartialPlayer | undefined>(undefined)
+  const [playerStats, setPlayerStats] = useState<PlayerStats[]>([])
 
-  const [selectedPlayer, setSelectedPlayer] = useState<Player | undefined>(undefined)
-  const [playerStats, setPlayerStats] = useState<PlayerStats[]>([{id : 1, machineName : 'Pacman', hoursPlayed: 3.5, spentTokens : 10, earnedTickets: 5, playerCard: '123'}])
 
-
-  const onCardSearch = async (card: String) => {
+  const onCardSearch = async (card: string) => {
     // GET DO JOGADOR.
     // GET ALL DAS ESTATÍSTICAS DO JOGADOR SELECIONADO
    // setPlayerStats(....);
    // setPlayer(...)
-   if (card === '123')
-   {
-        setSelectedPlayer({id: 5, name: 'joao', card: '123', email: 'joao@email.com', tickets: 5, tokens: 4})
-   }
+   const playerData = await PlayersInfoService.get(card)
+    setSelectedPlayer({
+      name: playerData.name,
+      tokens: playerData.tokens,
+      tickets: playerData.tickets  
+    })
+    
+    setPlayerStats(playerData.gameStats)
   }
 
   return (

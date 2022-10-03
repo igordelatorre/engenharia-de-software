@@ -27,8 +27,8 @@ export default function LoginPage() {
 
     async function onSubmitForm() {
       const responseData = await LoginService.add({username, password})
-      userContextObject?.saveUser(responseData.token)
-      console.log("Logged in with token" + responseData.token)
+      userContextObject?.saveUser(responseData.token, responseData.isManager, responseData.name)
+      console.log(responseData)
       navigate("/")
     }
 

@@ -8,7 +8,7 @@ import { setToken } from "../../Services/BaseService";
 export type UserContextType = {
     logoutUser: () => void;
     getUser: () => LocalUserType;
-    saveUser: (token: string) => void; 
+    saveUser: (token: string, isManager: boolean, name: string) => void; 
 } | null
 
 type Props = {
@@ -27,9 +27,9 @@ export function UserContextProvider({children}: Props): JSX.Element {
     function getUser(): LocalUserType {
         return user
     }
-    function saveUser(token: string) {
+    function saveUser(token: string, isManager: boolean, name: string) {
         //Mudar depois o auth e o name pros valores que a API vai mandar
-        setUser({token, auth: UserAuth.MANAGER, name: "Bruno"})
+        setUser({token: token, auth: isManager ? UserAuth.MANAGER : UserAuth.EMPLOYEE, name: name})
         setToken(token)
     }
 

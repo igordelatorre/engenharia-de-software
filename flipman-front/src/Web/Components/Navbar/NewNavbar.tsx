@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useContext } from 'react';
 import {
   Box,
   Flex,
@@ -17,8 +17,9 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-import { UserAuth } from '../../../Domain/User';
+import User, { UserAuth } from '../../../Domain/User';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../Contexts/UserContext';
 
 const pages = [
   {text: "Jogadores (F)", path: "/players", auth: [UserAuth.EMPLOYEE]},
@@ -51,7 +52,16 @@ function NavLink ({ path, children }: { path: string; children: ReactNode }) {
 export default function Simple() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate()
-  const userAuth = UserAuth.DEVELOPER
+  const userContextObject = useContext(UserContext)
+  const tempUserAuth: UserAuth | undefined = userContextObject?.getUser()?.auth
+  let userAuth: UserAuth = UserAuth.NO_AUTH
+  if (tempUserAuth !== undefined) {
+    userAuth = tempUserAuth
+  }
+
+  function onLogout() {
+    userContextObject?.logoutUser()
+  }
 
   return (
     <>
@@ -77,19 +87,24 @@ export default function Simple() {
           </HStack>
           <Flex alignItems={'center'}>
             <Menu>
-              <MenuButton
-                as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}
-                minW={0}>
-                <Avatar
-                  size={'sm'}
-                />
-              </MenuButton>
-              <MenuList>
-                <MenuItem onClick={() => console.log("logout")}>Logout</MenuItem>
-              </MenuList>
+            {userAuth !== UserAuth.NO_AUTH && (
+              <>
+                <MenuButton
+                  as={Button}
+                  rounded={'full'}
+                  variant={'link'}
+                  cursor={'pointer'}
+                  minW={0}>
+                  <Avatar
+                    size={'sm'}
+                    />
+                </MenuButton>
+                <MenuList>
+                  
+                    <MenuItem onClick={onLogout}>Logout</MenuItem>
+                </MenuList>
+               </>
+                )}
             </Menu>
           </Flex>
         </Flex>

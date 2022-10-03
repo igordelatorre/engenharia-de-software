@@ -21,25 +21,37 @@ const id = "player-manager-page";
 
 function PlayersManager() {
 
-  const [players, setPlayers] = useState<ResponsePlayer[]>([{id: 5, name: 'joao', card: '1231', email: 'joao@email.com', tickets: 5, tokens: 4}])
+  const [players, setPlayers] = useState<ResponsePlayer[]>([])
 
   const getAllPlayers = async () => {
     const response = await PlayerService.getAll();
+    console.log(response)
     setPlayers(response);
   };
 
+  function parsedResponsePlayers() : Player[] {
+    let parsedPlayers: Player[] = []
+    players.forEach((p) => {
+      parsedPlayers.push({hoursPlayed: p.hoursPlayed, ticketsEarned: p.ticketsEarned, name: p.player.name, email: p.player.email, cellphone: p.player.cellphone, card: p.player.card, tickets: p.player.tickets, tokens: p.player.tokens})
+    })
+    return parsedPlayers
+  }
+
 
   const onCardSearch = (card: string) => {
-    const filteredPlayers = players.filter(p => p.card.includes(card))
+    const filteredPlayers = players.filter(p => p.player.card.includes(card))
     setPlayers(filteredPlayers)
   }
 
   const onNameSearch = (name: string) => {
     console.log(name)
-    const filteredPlayers = players.filter(p => p.name.includes(name))
+    const filteredPlayers = players.filter(p => p.player.name.includes(name))
     setPlayers(filteredPlayers)
   }
 
+  useEffect(() => {
+    getAllPlayers()
+  }, [])
 
   return (
     <PageContainer id={id}>
@@ -72,7 +84,7 @@ function PlayersManager() {
             </div> 
 
             <PlayersManagerTable
-              players={players}
+              players={parsedResponsePlayers()}
 			/>
           </ContentMenu>
         </FixedCard>

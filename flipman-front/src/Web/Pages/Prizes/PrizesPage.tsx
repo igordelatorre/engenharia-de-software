@@ -16,6 +16,8 @@ import PrizesTable from "./PrizesTable";
 import AddPrize from "./AddPrize";
 import EditPrize from "./EditPrize";
 import RemovePrize from "./RemovePrize";
+import { useEventCallback } from "@material-ui/core";
+import PrizeService from "../../../Services/PrizeService";
 
 
 const {Search} = Input
@@ -24,7 +26,7 @@ const id = "prizes-page";
 function PrizesPage() {
 
 
-  const [prizes, setPrizes] = useState<Prize[]>([{id: 4, name: 'boneco', amount: 10, price : 4}])
+  const [prizes, setPrizes] = useState<Prize[]>([])
   const [selectedPrize, setSelectedPrize] = useState<Prize | undefined>()
   const [isAddingPrize, setIsAddingPrize] = useState<boolean>(false)
   const [isRemovingPrize, setIsRemovingPrize] = useState<boolean>(false)
@@ -43,6 +45,16 @@ function PrizesPage() {
   const handleGenerateReport = async () => {
     //CHAMA O SERVICE PRA GERAR O REPORT
   }
+
+  useEffect(() => {
+    async function getAllPrizes() {
+      const responsePrizes = await PrizeService.getAll()
+      setPrizes(responsePrizes)
+    }
+
+    getAllPrizes()
+
+  }, [])
 
   return (
     <PageContainer id={id}>

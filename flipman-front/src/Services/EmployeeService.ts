@@ -9,7 +9,7 @@ export type GetEmployeesReponse = {
 
 }
 
-class EmployeeService {
+export default class EmployeeService {
     private static model = '/employees'
 
 	static async getAll(): Promise<GetEmployeesReponse[]> {
@@ -32,7 +32,7 @@ class EmployeeService {
         const response = await BaseService.post<
             User,
             void
-        >(this.model, employee)
+        >(this.model + '/register', employee)
 }
 
 

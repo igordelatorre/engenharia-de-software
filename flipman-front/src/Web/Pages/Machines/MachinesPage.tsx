@@ -17,6 +17,8 @@ import MachineTable from "./MachineTable";
 import AddMachine from "./AddMachine";
 import EditMachine from "./EditMachine";
 import RemoveMachine from "./RemoveMachine";
+import MachineService from "../../../Services/MachineService";
+import { GetMachineResponse } from "../../../Services/MachineService";
 
 
 const {Search} = Input
@@ -25,18 +27,18 @@ const id = "machine-page";
 function MachinesPage() {
 
 
-  const [machines, setMachines] = useState<Machine[]>([{id: 4, name: 'Pacman', playCost: 5, isActive: true, totalHoursSpent : 0, totalTicketsEmitted : 0}])
-  const [selectedMachine, setSelectedMachine] = useState<Machine | undefined>()
+  const [machines, setMachines] = useState<GetMachineResponse[]>([])
+  const [selectedMachine, setSelectedMachine] = useState<GetMachineResponse | undefined>()
   const [isAddingMachine, setIsAddingMachine] = useState<boolean>(false)
   const [isRemovingMachine, setIsRemovingMachine] = useState<boolean>(false)
   const [isEditingMachine, setIsEditingMachine] = useState<boolean>(false)
 
-  const handleClickEdit = (machine: Machine) => {
+  const handleClickEdit = (machine: GetMachineResponse) => {
     setIsEditingMachine(true)
     setSelectedMachine(machine)
   }
 
-  const handleClickRemove = (machine: Machine) => {
+  const handleClickRemove = (machine: GetMachineResponse) => {
     setIsRemovingMachine(true)
     setSelectedMachine(machine)
   }
@@ -44,6 +46,20 @@ function MachinesPage() {
   const handleGenerateReport = async () => {
     //CHAMA O SERVICE PRA GERAR O REPORT
   }
+
+  const getAllMachines = async () => {
+    const response = await MachineService.getAll()
+   // response.filter
+    setMachines(response)
+  }
+
+  const handleClose = (action: () => void) =>
+  {
+    action()
+    getAllMachines()
+  }
+
+  useEffect(() => {getAllMachines()}, [])
 
   return (
     <PageContainer id={id}>
@@ -64,18 +80,18 @@ function MachinesPage() {
 
           <AddMachine 
             isOpen={isAddingMachine}
-            onClose={() => setIsAddingMachine(false)}
+            onClose={() => handleClose(() => setIsAddingMachine(false))}
             />
 
             <EditMachine
                 isOpen={isEditingMachine}
-                onClose={() => setIsEditingMachine(false)}
+                onClose={() => handleClose(() => setIsEditingMachine(false))}
                 machine={selectedMachine}
             />
 
             <RemoveMachine
                 isOpen={isRemovingMachine}
-                onClose={() => setIsRemovingMachine(false)}
+                onClose={() => handleClose(() => setIsRemovingMachine(false))}
                 machine={selectedMachine}
             />
 

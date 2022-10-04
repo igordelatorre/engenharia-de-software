@@ -13,8 +13,8 @@ import { Input, Button } from "antd";
 import User from "../../../Domain/User";
 import UsersTable from "./UsersTable";
 import AddUser from "./AddUser";
-import EditUser from "./EditUser";
-import RemoveUser from "./RemoveUser";
+import EmployeeService from "../../../Services/EmployeeService";
+import { GetEmployeesReponse } from "../../../Services/EmployeeService";
 
 
 const {Search} = Input
@@ -23,7 +23,7 @@ const id = "users-page";
 function UsersPage() {
 
 
-  const [users, setUsers] = useState<User[]>([{id: 4, name: 'joao', email: 'joao@email.com', password: 'senha', isAdmin: true}])
+  const [users, setUsers] = useState<GetEmployeesReponse[]>([])
   const [selectedUser, setSelectedUser] = useState<User | undefined>()
   const [isAddingUser, setIsAddingUser] = useState<boolean>(false)
   const [isRemovingUser, setIsRemovingUser] = useState<boolean>(false)
@@ -34,10 +34,18 @@ function UsersPage() {
     setSelectedUser(user)
   }
 
-  const handleClickRemove = (user: User) => {
-    setIsRemovingUser(true)
-    setSelectedUser(user)
+
+  const getAllUsers = async () => {
+    const response = await EmployeeService.getAll()
+    setUsers(response)
   }
+
+  const handleClose = (action: () => void) => {
+      action()
+      getAllUsers()
+  }
+
+  useEffect(() => {getAllUsers()}, [])
 
   return (
     <PageContainer id={id}>
@@ -53,24 +61,12 @@ function UsersPage() {
             </AlignedPageButtonContainer>
 
           <ContentMenu>
-            <UsersTable users={users} onClickEdit={handleClickEdit} onClickRemove={handleClickRemove}/>
+            <UsersTable users={users}/>
           </ContentMenu>
 
           <AddUser
             isOpen={isAddingUser}
-            onClose={() => setIsAddingUser(false)}
-            />
-
-            <EditUser
-                isOpen={isEditingUser}
-                onClose={() => setIsEditingUser(false)}
-                user={selectedUser}
-            />
-
-            <RemoveUser
-                isOpen={isRemovingUser}
-                onClose={() => setIsRemovingUser(false)}
-                user={selectedUser}
+            onClose={() => handleClose(() => setIsAddingUser(false))}
             />
 
         </FixedCard>

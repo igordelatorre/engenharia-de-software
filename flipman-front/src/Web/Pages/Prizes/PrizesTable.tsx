@@ -2,30 +2,30 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import { Table} from 'antd';
 import Prize from '../../../Domain/Prize';
-import {DeleteOutlined, EditOutlined} from '@ant-design/icons'
+import {MinusCircleOutlined, PlusCircleOutlined} from '@ant-design/icons'
 
 
 type Props = {
     prizes: Prize[]
-    onClickEdit: (prize: Prize) => void 
-    onClickRemove: (prize: Prize) => void 
+    onClickSubtract: (prize: Prize) => void 
+    onClickAdd: (prize: Prize) => void 
 }
 
-function PrizesTable({prizes, onClickEdit, onClickRemove} : Props){
+function PrizesTable({prizes, onClickSubtract, onClickAdd} : Props){
 
-    const handleEditClick = (id : number) => {
+    const handleSubtractClick = (id : number) => {
         const prize = prizes.find(p => p.id === id)
         if (prize)
         {
-            onClickEdit(prize) 
+            onClickSubtract(prize) 
         }
     }
 
-    const handleDeleteClick = (id : number) => {
+    const handleAddClick = (id : number) => {
         const prize = prizes.find(p => p.id === id)
         if (prize)
         {
-            onClickRemove(prize) 
+            onClickAdd(prize) 
         }
 
     }
@@ -55,8 +55,8 @@ function PrizesTable({prizes, onClickEdit, onClickRemove} : Props){
             key: 'id',
             render: (id : number) => (
                 <>
-                  <DeleteOutlined style={{paddingLeft: '1rem'}} onClick={() => handleDeleteClick(id)}/>
-                  <EditOutlined style={{paddingLeft: '1rem'}} onClick={() => handleEditClick(id)}/>                  
+                  <MinusCircleOutlined style={{paddingLeft: '1rem'}} onClick={() => handleSubtractClick(id)}/>
+                  <PlusCircleOutlined style={{paddingLeft: '1rem'}} onClick={() => handleAddClick(id)}/>                  
                 </>)
         }
     ]

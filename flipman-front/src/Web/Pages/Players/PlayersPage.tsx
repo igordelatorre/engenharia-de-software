@@ -56,6 +56,13 @@ function PlayersPage() {
     return parsedPlayers
   }
 
+  useEffect(() => {getAllPlayers()}, [])
+
+  const handleClose = (action: any) => {
+    action()
+    getAllPlayers()
+  }
+
 
   return (
     <PageContainer id={id}>
@@ -98,12 +105,12 @@ function PlayersPage() {
 			      />
             <AddPlayer
               isOpen={isAddingPlayer}
-              onClose={() => setIsAddingPlayer(false)}
+              onClose={() => handleClose(() => setIsAddingPlayer(false))}
             />
 
             <AddTicket
               isOpen={isAddingTicket}
-              onClose={() => setIsAddingTicket(false)}
+              onClose={() => handleClose(() => setIsAddingTicket(false))}
               player={selectedPlayer}
             />
 

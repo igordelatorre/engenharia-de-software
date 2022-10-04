@@ -78,16 +78,16 @@ class PlayerService {
 	}
 
 
-	static async addPlayer(player: Player): Promise<void> {
+	static async addPlayer(player: any): Promise<void> {
 			const response = await BaseService.post<
 				PayloadPlayer,
 				void
-			>(this.model, this.into(player))
+			>('/player', player)
 
 	}
 	
 	static async putTokens(player: Player, amount: number): Promise<void> {
-		await BaseService.post<number, void>('/player-tokens/' + player.card, amount)
+		await BaseService.post<any, void>('/player-tokens/' + player.card, {tokens: amount})
 	}
 
 }

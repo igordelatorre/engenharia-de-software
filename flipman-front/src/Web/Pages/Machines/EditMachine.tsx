@@ -26,13 +26,13 @@ function AddMachine({
       values: Partial<Machine>,
       formik: FormikHelpers<Partial<Machine>>
     ) => {
-      const newMachine = MachineFactory(values);
+      const newMachine = {id: machine?.id, name: values?.name, playCost: values?.playCost}
       formik.resetForm();
       editMachine(newMachine);
       onClose();
     };
 
-    const editMachine = async (newMachine: Machine) => {
+    const editMachine = async (newMachine: any) => {
       await MachineService.update(newMachine)
       onClose()
     };

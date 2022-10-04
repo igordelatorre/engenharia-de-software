@@ -18,6 +18,7 @@ import SubtractAmountPrize from "./SubtractAmountPrize";
 import AddAmountPrize from "./AddAmountPrize";
 import { useEventCallback } from "@material-ui/core";
 import PrizeService from "../../../Services/PrizeService";
+import PrizesReport from "./PrizesReport";
 
 
 const {Search} = Input
@@ -31,6 +32,7 @@ function PrizesPage() {
   const [isAddingPrize, setIsAddingPrize] = useState<boolean>(false)
   const [isAddingAmountPrize, setIsAddingAmountPrize] = useState<boolean>(false)
   const [isSubtractingAmountPrize, setIsSubtractingPrize] = useState<boolean>(false)
+  const [relatorio, setRelatorio] = useState<boolean>(false)
 
   const handleClickSubtract = (prize: Prize) => {
     setIsSubtractingPrize(true)
@@ -42,8 +44,6 @@ function PrizesPage() {
     setSelectedPrize(prize)
   }
 
-  const handleGenerateReport = async () => {
-  }
 
 
   const getAllPrizes = async () => {
@@ -70,6 +70,9 @@ function PrizesPage() {
               <Button onClick={() => setIsAddingPrize(true)}>
                 {"Novo Prêmio"}
               </Button>
+              <Button onClick={() => setRelatorio(true)}>
+                {"Gerar Relatório"}
+              </Button>
             </AlignedPageButtonContainer>
 
           <ContentMenu>
@@ -92,6 +95,12 @@ function PrizesPage() {
                 onClose={() => handleCloseCard(() => setIsSubtractingPrize(false))}
                 prize={selectedPrize}
             />
+
+            <PrizesReport
+              isOpen={relatorio}
+              onClose={() => handleCloseCard(() => setRelatorio(false))}
+            />
+
         </FixedCard>
       </ContentContainer>
     </PageContainer>

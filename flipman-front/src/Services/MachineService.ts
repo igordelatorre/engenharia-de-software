@@ -17,6 +17,7 @@ type PayloadPostMachine = {
 type PayloadPutMachine = {
 	name: string 
 	playCost: number 
+	isActive: boolean
 }
 
 class MachineService {
@@ -34,6 +35,7 @@ class MachineService {
 		return {
 			name: data.name,
 			playCost: data.playCost, 
+			isActive: true
 		}
 	}
 

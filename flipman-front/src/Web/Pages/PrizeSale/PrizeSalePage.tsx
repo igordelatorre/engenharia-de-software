@@ -33,8 +33,9 @@ function PrizeSalePage() {
 
   const [relatorio, setRelatorio] = useState<boolean>(false)
 
-  const onNameSearch = async (card: string) => {
-      
+  const onNameSearch = (name: string) => {
+    const filteredPlayers = prizes.filter(p => p.name.includes(name))
+    setPrizes(filteredPlayers)
   }
 
   const handleRowClick = (prize: Prize) => {

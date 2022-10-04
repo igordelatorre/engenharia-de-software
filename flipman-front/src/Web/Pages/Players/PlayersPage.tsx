@@ -56,6 +56,9 @@ function PlayersPage() {
     return parsedPlayers
   }
 
+  useEffect(() => {
+    getAllPlayers()
+  }, [])
 
   return (
     <PageContainer id={id}>

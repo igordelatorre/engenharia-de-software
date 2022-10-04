@@ -7,6 +7,7 @@ import handlers from '../../Components/handlers'
 import validate from './validate'
 import { Col, Form, Row } from "antd";
 import { FormikHelpers, useFormik } from "formik";
+import { Email } from '@material-ui/icons'
 
 
 type Props = {
@@ -30,7 +31,7 @@ function AddPlayer({
 
     const addPlayer = async (newPlayer: any) => {
       console.log(newPlayer)
-      await PlayerService.addPlayer({...newPlayer, username: 'username'})
+      await PlayerService.addPlayer({...newPlayer, username: newPlayer.email})
     };
 
 

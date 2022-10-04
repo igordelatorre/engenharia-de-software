@@ -17,9 +17,9 @@ function AddTicket({
     player
 }: Props) {
 
-    const addTickets = () => {
+    const addTokens = async () => {
         const newTickets = (tickets || 0) + (player?.tickets || 0)
-        //Chama o transaction Service aqui
+        await PlayerService.putTokens(player!, newTickets)
         setTickets(undefined)
         onClose()
     }
@@ -29,10 +29,10 @@ function AddTicket({
 
 	return (
         <Modal 
-            title={"Adicionar Tickets ao Jogador"}
+            title={"Adicionar Fichas ao Jogador"}
             visible={isOpen}
             onCancel={onClose}
-            onOk={addTickets}
+            onOk={addTokens}
             okText={'Adicionar'}
             cancelText={'Cancelar'}
         >

@@ -4,6 +4,7 @@ import {Modal} from 'antd'
 import PlayerService from '../../../Services/PlayerService'
 import {InputNumber} from 'antd'
 import Prize from '../../../Domain/Prize'
+import { PrizeTransaction } from '../../../Services/PrizeTransaction'
 
 
 type Props = {
@@ -20,12 +21,12 @@ function BuyPrize({
     prize
 }: Props) {
 
-    const buyPrize = () => {
-        //Chama o Transaction Service aqui. 
+    const buyPrize = async () => {
+        await PrizeTransaction.add({playerCard: player?.card!, prizeId: prize?.id, quantity: quantity})
         onClose()
     }
 
-    const [tickets, setTickets] = useState<number>()
+    const [quantity, setQuantity] = useState<number>()
 
 
 	return (
@@ -38,9 +39,9 @@ function BuyPrize({
             cancelText={'Cancelar'}
         >
             <InputNumber style={{'width' : '6rem'}}
-                value={tickets}  
+                value={quantity}  
                 type="number" 
-                onChange={(e) => setTickets(e)}
+                onChange={(e) => setQuantity(e)}
             >
             </InputNumber>
         </Modal>

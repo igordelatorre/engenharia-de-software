@@ -32,7 +32,6 @@ function PrizesPage() {
   const [isAddingPrize, setIsAddingPrize] = useState<boolean>(false)
   const [isAddingAmountPrize, setIsAddingAmountPrize] = useState<boolean>(false)
   const [isSubtractingAmountPrize, setIsSubtractingPrize] = useState<boolean>(false)
-  const [relatorio, setRelatorio] = useState<boolean>(false)
 
   const handleClickSubtract = (prize: Prize) => {
     setIsSubtractingPrize(true)
@@ -70,9 +69,6 @@ function PrizesPage() {
               <Button onClick={() => setIsAddingPrize(true)}>
                 {"Novo Prêmio"}
               </Button>
-              <Button onClick={() => setRelatorio(true)}>
-                {"Gerar Relatório"}
-              </Button>
             </AlignedPageButtonContainer>
 
           <ContentMenu>
@@ -96,10 +92,6 @@ function PrizesPage() {
                 prize={selectedPrize}
             />
 
-            <PrizesReport
-              isOpen={relatorio}
-              onClose={() => handleCloseCard(() => setRelatorio(false))}
-            />
 
         </FixedCard>
       </ContentContainer>

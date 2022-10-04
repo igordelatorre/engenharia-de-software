@@ -39,8 +39,9 @@ function PlayersPage() {
   }
 
   const onCardSearch = (card: string) => {
-    const filteredPlayers = players.filter(p => p.player.card.includes(card))
-    setPlayers(filteredPlayers)
+      const filteredPlayers = players.filter(p => p.player.card.includes(card))
+      setPlayers(filteredPlayers)
+    
   }
 
   const onNameSearch = (name: string) => {
@@ -54,6 +55,13 @@ function PlayersPage() {
       parsedPlayers.push({hoursPlayed: p.hoursPlayed, ticketsEarned: p.ticketsEarned, name: p.player.name, email: p.player.email, cellphone: p.player.cellphone, card: p.player.card, tickets: p.player.tickets, tokens: p.player.tokens})
     })
     return parsedPlayers
+  }
+
+  useEffect(() => {getAllPlayers()}, [])
+
+  const handleClose = (action: any) => {
+    action()
+    getAllPlayers()
   }
 
 
@@ -98,12 +106,12 @@ function PlayersPage() {
 			      />
             <AddPlayer
               isOpen={isAddingPlayer}
-              onClose={() => setIsAddingPlayer(false)}
+              onClose={() => handleClose(() => setIsAddingPlayer(false))}
             />
 
             <AddTicket
               isOpen={isAddingTicket}
-              onClose={() => setIsAddingTicket(false)}
+              onClose={() => handleClose(() => setIsAddingTicket(false))}
               player={selectedPlayer}
             />
 

@@ -3,12 +3,13 @@ import 'antd/dist/antd.css';
 import { Table} from 'antd';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons'
 import Machine from '../../../Domain/Machine';
+import { GetMachineResponse } from '../../../Services/MachineService';
 
 
 type Props = {
-    machines: Machine[]
-    onClickEdit: (machine: Machine) => void 
-    onClickRemove: (machine: Machine) => void 
+    machines: GetMachineResponse[]
+    onClickEdit: (machine: GetMachineResponse) => void 
+    onClickRemove: (machine: GetMachineResponse) => void 
 }
 
 function MachineTable({machines, onClickEdit, onClickRemove} : Props){

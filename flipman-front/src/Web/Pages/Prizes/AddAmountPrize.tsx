@@ -6,44 +6,43 @@ import handlers from '../../Components/handlers'
 import validate from './validate'
 import { Col, Form, Row } from "antd";
 import { FormikHelpers, useFormik } from "formik";
-import Machine, {MachineFactory} from '../../../Domain/Machine'
-import { GetMachineResponse } from '../../../Services/MachineService'
-import MachineService from '../../../Services/MachineService'
+import PrizeService from '../../../Services/PrizeService'
+import { InputNumber } from 'antd'
 
 
 type Props = {
     isOpen : boolean
     onClose: () => void
-    machine?: GetMachineResponse
+    prize?: Prize
 }
 
-function RemoveMachine({
-	isOpen, 
+function AddAmountPrize({
+	  isOpen, 
     onClose, 
-    machine
+    prize
 }: Props) {
 
+    const [amount, setAmount] = useState<number>(0)
 
-    const removeMachine = async () => {
-      await MachineService.remove(machine?.id!)
-      onClose()
+      const addAmountPrize = async () => {
+        await PrizeService.addAmount(prize?.id!, amount)
+        onClose()
     };
-
 
 	return (
         <Modal 
-            title={"Remover Máquina"}
+            title={"Adicionar Quantia do prêmio: " + prize?.name}
             visible={isOpen}
             onCancel={onClose}
-            onOk={(e) => removeMachine()}
-            okText={'Remover'}
+            onOk={(e) => addAmountPrize()}
+            okText={'Adicionar'}
             cancelText={'Cancelar'}
         >
-            <p>{'Tem certeza que deseja remover a máquina ' + machine?.name + '?'}</p>
+            <InputNumber onChange={(number : number) => setAmount(number)}/>
 
         </Modal>
         
 	)
 }
 
-export default RemoveMachine
+export default AddAmountPrize

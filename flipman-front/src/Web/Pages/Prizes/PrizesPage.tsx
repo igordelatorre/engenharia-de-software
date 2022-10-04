@@ -14,8 +14,8 @@ import { Input, Button } from "antd";
 import Prize from "../../../Domain/Prize";
 import PrizesTable from "./PrizesTable";
 import AddPrize from "./AddPrize";
-import EditPrize from "./EditPrize";
-import RemovePrize from "./RemovePrize";
+import SubtractAmountPrize from "./SubtractAmountPrize";
+import AddAmountPrize from "./AddAmountPrize";
 import { useEventCallback } from "@material-ui/core";
 import PrizeService from "../../../Services/PrizeService";
 
@@ -29,32 +29,35 @@ function PrizesPage() {
   const [prizes, setPrizes] = useState<Prize[]>([])
   const [selectedPrize, setSelectedPrize] = useState<Prize | undefined>()
   const [isAddingPrize, setIsAddingPrize] = useState<boolean>(false)
-  const [isRemovingPrize, setIsRemovingPrize] = useState<boolean>(false)
-  const [isEditingPrize, setIsEditingPrize] = useState<boolean>(false)
+  const [isAddingAmountPrize, setIsAddingAmountPrize] = useState<boolean>(false)
+  const [isSubtractingAmountPrize, setIsSubtractingPrize] = useState<boolean>(false)
 
-  const handleClickEdit = (prize: Prize) => {
-    setIsEditingPrize(true)
+  const handleClickSubtract = (prize: Prize) => {
+    setIsSubtractingPrize(true)
     setSelectedPrize(prize)
   }
 
-  const handleClickRemove = (prize: Prize) => {
-    setIsRemovingPrize(true)
+  const handleClickAddAmount = (prize: Prize) => {
+    setIsAddingAmountPrize(true)
     setSelectedPrize(prize)
   }
 
   const handleGenerateReport = async () => {
-    //CHAMA O SERVICE PRA GERAR O REPORT
   }
 
-  useEffect(() => {
-    async function getAllPrizes() {
-      const responsePrizes = await PrizeService.getAll()
-      setPrizes(responsePrizes)
-    }
 
+  const getAllPrizes = async () => {
+    const responsePrizes = await PrizeService.getAll()
+    setPrizes(responsePrizes)
+  }
+
+  const handleCloseCard = (action : () => void) => {
+    action()
     getAllPrizes()
 
-  }, [])
+  }
+
+  useEffect(() => {getAllPrizes()}, [])
 
   return (
     <PageContainer id={id}>
@@ -70,26 +73,25 @@ function PrizesPage() {
             </AlignedPageButtonContainer>
 
           <ContentMenu>
-            <PrizesTable prizes={prizes} onClickEdit={handleClickEdit} onClickRemove={handleClickRemove}/>
+            <PrizesTable prizes={prizes} onClickSubtract={handleClickSubtract} onClickAdd={handleClickAddAmount}/>
           </ContentMenu>
 
           <AddPrize 
             isOpen={isAddingPrize}
-            onClose={() => setIsAddingPrize(false)}
+            onClose={() => handleCloseCard(() => setIsAddingPrize(false))}
             />
 
-            <EditPrize
-                isOpen={isEditingPrize}
-                onClose={() => setIsEditingPrize(false)}
+            <AddAmountPrize
+                isOpen={isAddingAmountPrize}
+                onClose={() => handleCloseCard(() => setIsAddingAmountPrize(false))}
                 prize={selectedPrize}
             />
 
-            <RemovePrize
-                isOpen={isRemovingPrize}
-                onClose={() => setIsRemovingPrize(false)}
+            <SubtractAmountPrize
+                isOpen={isSubtractingAmountPrize}
+                onClose={() => handleCloseCard(() => setIsSubtractingPrize(false))}
                 prize={selectedPrize}
             />
-
         </FixedCard>
       </ContentContainer>
     </PageContainer>

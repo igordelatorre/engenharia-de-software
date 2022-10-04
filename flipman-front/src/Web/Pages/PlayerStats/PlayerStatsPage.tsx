@@ -28,7 +28,7 @@ function PlayerStatsPage() {
   }
   const [selectedPlayer, setSelectedPlayer] = useState<PartialPlayer | undefined>(undefined)
   const [playerStats, setPlayerStats] = useState<PlayerStats[]>([])
-
+  const [count, setCount] = useState<number>(0)
 
   const onCardSearch = async (card: string) => {
     // GET DO JOGADOR.
@@ -81,6 +81,9 @@ function PlayerStatsPage() {
 
           <ContentMenu>
             {selectedPlayer && <PlayersStatsTable playerStats={playerStats}/>}
+            {JSON.stringify(playerStats)}
+            <button onClick={() => {setCount((c) => c+1)}}>COUNT</button>
+            <h1>{count}</h1>
           </ContentMenu>
         </FixedCard>
       </ContentContainer>

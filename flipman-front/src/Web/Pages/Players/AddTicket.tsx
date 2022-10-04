@@ -17,29 +17,33 @@ function AddTicket({
     player
 }: Props) {
 
-    const addTickets = () => {
-        const newTickets = (tickets || 0) + (player?.tickets || 0)
+    const addTokens = async () => {
+        const newTickets = (tokens || 0) + (player?.tokens || 0)
         //Chama o transaction Service aqui
-        setTickets(undefined)
+        if (player === undefined) {
+            return
+        }
+        await PlayerService.putTokens(player, tokens)
+        setTokens(1)
         onClose()
     }
 
-    const [tickets, setTickets] = useState<number>()
+    const [tokens, setTokens] = useState<number>(1)
 
 
 	return (
         <Modal 
-            title={"Adicionar Tickets ao Jogador"}
+            title={"Adicionar Fichas ao Jogador"}
             visible={isOpen}
             onCancel={onClose}
-            onOk={addTickets}
+            onOk={addTokens}
             okText={'Adicionar'}
             cancelText={'Cancelar'}
         >
             <InputNumber style={{'width' : '6rem'}}
-                value={tickets}  
+                value={tokens}  
                 type="number" 
-                onChange={(e) => setTickets(e)}
+                onChange={(e) => setTokens(e)}
             >
             </InputNumber>
         </Modal>

@@ -31,6 +31,10 @@ type GetPlayerTicketsResponse = {
 	tickets: number 
 }
 
+type PayloadTokens = {
+	tokens: number
+}
+
 type GetCollaboratorsResponse = ResponsePlayer[];
 
 class PlayerService {
@@ -87,7 +91,7 @@ class PlayerService {
 	}
 	
 	static async putTokens(player: Player, amount: number): Promise<void> {
-		await BaseService.post<number, void>('/player-tokens/' + player.card, amount)
+		await BaseService.post<PayloadTokens, void>('/player-tokens/' + player.card, {tokens: amount})
 	}
 
 }

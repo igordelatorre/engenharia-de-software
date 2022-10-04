@@ -6,12 +6,14 @@ import handlers from '../../Components/handlers'
 import validate from './validate'
 import { Col, Form, Row } from "antd";
 import { FormikHelpers, useFormik } from "formik";
+import { GetMachineResponse } from '../../../Services/MachineService'
+import MachineService from '../../../Services/MachineService'
 
 
 type Props = {
     isOpen : boolean
     onClose: () => void
-    machine?: Machine
+    machine?: GetMachineResponse
 }
 
 function AddMachine({
@@ -24,14 +26,15 @@ function AddMachine({
       values: Partial<Machine>,
       formik: FormikHelpers<Partial<Machine>>
     ) => {
-      const newMachine = MachineFactory(values);
+      const newMachine = {id: machine?.id, name: values?.name, playCost: values?.playCost}
       formik.resetForm();
       editMachine(newMachine);
       onClose();
     };
 
-    const editMachine = async (newMachine: Machine) => {
-      // EDITA A MÁQUINA AQUI
+    const editMachine = async (newMachine: any) => {
+      await MachineService.update(newMachine)
+      onClose()
     };
 
 

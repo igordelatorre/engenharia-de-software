@@ -6,6 +6,7 @@ import handlers from '../../Components/handlers'
 import validate from './validate'
 import { Col, Form, Row } from "antd";
 import { FormikHelpers, useFormik } from "formik";
+import MachineService from '../../../Services/MachineService'
 
 
 type Props = {
@@ -29,7 +30,8 @@ function AddMachine({
     };
 
     const addMachine = async (newMachine: Machine) => {
-      // ADICIONA A NOVA MÁQUINA AQUI
+      await MachineService.add(newMachine)
+      onClose()
     };
 
 

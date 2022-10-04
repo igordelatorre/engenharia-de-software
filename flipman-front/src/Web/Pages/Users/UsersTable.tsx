@@ -3,32 +3,15 @@ import 'antd/dist/antd.css';
 import { Table} from 'antd';
 import User from '../../../Domain/User';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons'
+import { GetEmployeesReponse } from '../../../Services/EmployeeService';
 
 
 type Props = {
-    users: User[]
-    onClickEdit: (user: User) => void 
-    onClickRemove: (user: User) => void 
+    users: any
 }
 
-function UsersTable({users, onClickEdit, onClickRemove} : Props){
+function UsersTable({users} : Props){
 
-    const handleEditClick = (id : number) => {
-        const user = users.find(u => u.id === id)
-        if (user)
-        {
-            onClickEdit(user) 
-        }
-    }
-
-    const handleDeleteClick = (id : number) => {
-        const user = users.find(u => u.id === id)
-        if (user)
-        {
-            onClickRemove(user) 
-        }
-
-    }
 
     const columns = [
         {
@@ -39,19 +22,9 @@ function UsersTable({users, onClickEdit, onClickRemove} : Props){
         },
         {
             title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
+            dataIndex: 'username',
+            key: 'username',
             sorter: true
-        },
-        {
-            title: '',
-            dataIndex: 'id',
-            key: 'id',
-            render: (id : number) => (
-                <>
-                  <DeleteOutlined style={{paddingLeft: '1rem'}} onClick={() => handleDeleteClick(id)}/>
-                  <EditOutlined style={{paddingLeft: '1rem'}} onClick={() => handleEditClick(id)}/>                  
-                </>)
         }
     ]
 

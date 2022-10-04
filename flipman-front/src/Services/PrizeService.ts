@@ -15,6 +15,10 @@ type PayloadPrize = {
     price: number
 }
 
+type PayloadAmount = {
+	amount: number
+}
+
 type GetPrizesResponse = ResponsePrize[];
 
 class PrizeService {
@@ -55,28 +59,16 @@ class PrizeService {
 		return this.from(response.data)
 	}
 
-	static async update(prize: Prize): Promise<Prize> {
-		const response = (
-			await BaseService.put<PayloadPrize, ResponsePrize>(
-				this.model,
-				this.into(prize),
-				`/${prize.id}`
-			)
-		).data
-
-		return this.from(response)
+	static async addAmount(id: number, amount: number) {
+		const response = await BaseService.post<PayloadAmount, void>(
+			'/prize-amount/' + id + '/add',
+			{amount: amount})
 	}
 
-	static async remove(prize: Prize): Promise<Prize> {
-		const response = (
-			await BaseService.remove<PayloadPrize, ResponsePrize>(
-				this.model,
-				this.into(prize),
-				`/${prize.id}`
-			)
-		).data
-
-		return this.from(response)
+	static async subtractAmount(id: number, amount: number) {
+		const response = await BaseService.post<PayloadAmount, void>(
+			'/prize-amount/' + id + '/remove',
+			{amount: amount})
 	}
 
 

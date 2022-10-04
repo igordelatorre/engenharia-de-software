@@ -18,7 +18,7 @@ public class Setup
 
         var admin = new Employee
         {
-            Name = "adm",
+            Name = "Administrador",
             Username = "admin",
             PasswordHash = adminPasswordHash,
             PasswordSalt = adminPasswordSalt,
@@ -26,50 +26,43 @@ public class Setup
         };
         await dbContext.Employees.AddAsync(admin);
 
-        CreatePasswordHash("123456", out byte[] employeePasswordHash, out byte[] employeePasswordSalt);
-
-        var employee = new Employee
-        {
-            Name = "atendente",
-            Username = "atendente",
-            PasswordHash = employeePasswordHash,
-            PasswordSalt = employeePasswordSalt,
-            IsAdmin = false
-        };
-        await dbContext.Employees.AddAsync(employee);
-
         var playerCard = "44";
 
-        var player = new Player(playerCard, "fulano", "fulano", "fulano@email.com", "55999887710")
+        var player = new Player(playerCard, "Marcos da Silva", "marcossilva@gmail.com", "marcossilva@gmail.com", "51994657633")
         {
-            Tokens = 4422,
-            Tickets = 2244,
+            Tokens = 2,
+            Tickets = 15,
         };
         await dbContext.Players.AddAsync(player);
 
-        var player2 = new Player("11", "josé teste", "jose_teste", "teste@email.com", "55999887710");
+        var player2 = new Player("11", "Leonardo Oliveira", "leoliveira@hotmail.com", "leoliveira@hotmail.com", "51995472265")
+        {
+            Tokens = 2,
+            Tickets = 5,
+        };
         await dbContext.Players.AddAsync(player2);
 
-        var machine = new Machine("PacMan", 5);
+
+        var machine = new Machine("PacMan", 3);
         await dbContext.Machines.AddAsync(machine);
 
-        var machine2 = new Machine("Tetris", 10);
+        var machine2 = new Machine("Pinball", 1);
         await dbContext.Machines.AddAsync(machine2);
 
         var prize = new Prize
         {
-            Name = "Xadrez",
-            Amount = 10,
-            Price = 25,
+            Name = "Pirulito",
+            Amount = 67,
+            Price = 1,
             IsActive = true,
         };
         await dbContext.Prizes.AddAsync(prize);
 
         var prize2 = new Prize
         {
-            Name = "Cubo Mágico",
-            Amount = 15,
-            Price = 10,
+            Name = "Amoeba",
+            Amount = 8,
+            Price = 50,
             IsActive = true,
         };
         await dbContext.Prizes.AddAsync(prize2);
@@ -83,30 +76,10 @@ public class Setup
             MachineId = machineId,
             PlayerCard = playerCard,
             Datetime = System.DateTime.UtcNow,
-            PlayTime = 80,
-            Tickets = 22
+            PlayTime = 15,
+            Tickets = 15
         };
         await dbContext.Matches.AddAsync(match);
-
-        var match2 = new Match
-        {
-            MachineId = machineId,
-            PlayerCard = playerCard,
-            Datetime = System.DateTime.UtcNow.AddDays(-35),
-            PlayTime = 80,
-            Tickets = 22
-        };
-        await dbContext.Matches.AddAsync(match2);
-
-        var match3 = new Match
-        {
-            MachineId = machineId,
-            PlayerCard = playerCard,
-            Datetime = System.DateTime.UtcNow.AddDays(-8),
-            PlayTime = 33,
-            Tickets = 11
-        };
-        await dbContext.Matches.AddAsync(match3);
 
         var prizeId = await dbContext.Prizes.Select(p => p.Id).FirstOrDefaultAsync();
 
@@ -114,8 +87,8 @@ public class Setup
         {
             PlayerCard = playerCard,
             PrizeId = prizeId,
-            Datetime = System.DateTime.UtcNow,
-            Quantity = 2
+            Datetime = System.DateTime.UtcNow.AddDays(-5),
+            Quantity = 3
         };
         await dbContext.PrizeTransactions.AddAsync(prizeTransaction);
 

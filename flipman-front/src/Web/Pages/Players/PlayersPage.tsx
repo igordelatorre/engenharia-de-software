@@ -57,7 +57,7 @@ function PlayersPage() {
     return parsedPlayers
   }
 
-  useEffect(() => {getAllPlayers()}, [])
+  useEffect(() => {getAllPlayers()}, [isAddingPlayer, isAddingTicket])
 
   const handleClose = (action: any) => {
     action()

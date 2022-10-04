@@ -56,7 +56,7 @@ function PrizesPage() {
 
   }
 
-  useEffect(() => {getAllPrizes()}, [])
+  useEffect(() => {getAllPrizes()}, [isAddingPrize, selectedPrize, isSubtractingAmountPrize, isAddingAmountPrize])
 
   return (
     <PageContainer id={id}>

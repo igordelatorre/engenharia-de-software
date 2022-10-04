@@ -19,7 +19,7 @@ import EditMachine from "./EditMachine";
 import RemoveMachine from "./RemoveMachine";
 import MachineService from "../../../Services/MachineService";
 import { GetMachineResponse } from "../../../Services/MachineService";
-
+import MachineReport from "./MachineReport";
 
 const {Search} = Input
 const id = "machine-page";
@@ -32,6 +32,7 @@ function MachinesPage() {
   const [isAddingMachine, setIsAddingMachine] = useState<boolean>(false)
   const [isRemovingMachine, setIsRemovingMachine] = useState<boolean>(false)
   const [isEditingMachine, setIsEditingMachine] = useState<boolean>(false)
+  const [relatorio, setRelatorio] = useState<boolean>(false)
 
   const handleClickEdit = (machine: GetMachineResponse) => {
     setIsEditingMachine(true)
@@ -49,8 +50,8 @@ function MachinesPage() {
 
   const getAllMachines = async () => {
     const response = await MachineService.getAll()
-   // response.filter
-    setMachines(response)
+    const newResponse = response.filter(m => m.isActive)
+    setMachines(newResponse)
   }
 
   const handleClose = (action: () => void) =>
@@ -60,6 +61,7 @@ function MachinesPage() {
   }
 
   useEffect(() => {getAllMachines()}, [])
+
 
   return (
     <PageContainer id={id}>
@@ -72,8 +74,10 @@ function MachinesPage() {
               <Button onClick={() => setIsAddingMachine(true)}>
                 {"Nova Máquina"}
               </Button> 
+              <Button onClick={() => setRelatorio(true)}>
+                {"Gerar Relatório"}
+              </Button> 
             </AlignedPageButtonContainer>
-
           <ContentMenu>
             <MachineTable machines={machines} onClickEdit={handleClickEdit} onClickRemove={handleClickRemove}/>
           </ContentMenu>
@@ -94,6 +98,12 @@ function MachinesPage() {
                 onClose={() => handleClose(() => setIsRemovingMachine(false))}
                 machine={selectedMachine}
             />
+            
+            <MachineReport
+              isOpen={relatorio}
+              onClose={() => handleClose(() => setRelatorio(false))}
+            />
+
 
         </FixedCard>
       </ContentContainer>

@@ -33,6 +33,18 @@ function PlayersManagerTable({onRowClick, players} : Props){
             dataIndex: 'card',
             key: 'card',
             sorter: true
+        },
+        {
+            title: 'Fichas',
+            dataIndex: 'tokens',
+            key: 'tokens',
+            sorter: true
+        },
+        {
+            title: 'Tickets',
+            dataIndex: 'tickets',
+            key: 'tickets',
+            sorter: true
         }
     ]
 

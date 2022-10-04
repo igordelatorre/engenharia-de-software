@@ -16,6 +16,7 @@ import PrizeSaleTable from "./PrizeSaleTable";
 import BuyPrize from "./BuyPrize";
 import PrizesReport from "../Prizes/PrizesReport";
 import PlayerService from "../../../Services/PlayerService";
+import PrizeService from "../../../Services/PrizeService";
 
 
 const {Search} = Input
@@ -32,9 +33,8 @@ function PrizeSalePage() {
 
   const [relatorio, setRelatorio] = useState<boolean>(false)
 
-  const onCardSearch = async (card: string) => {
-      const player = await PlayerService.get(card)
-      setSelectedPlayer(player)
+  const onNameSearch = async (card: string) => {
+      
   }
 
   const handleRowClick = (prize: Prize) => {
@@ -43,8 +43,15 @@ function PrizeSalePage() {
   }
   const handleCloseCard = (action : () => void) => {
     action()
-
   }
+
+  const getAllPrizes = async () =>
+  {
+    const response = await PrizeService.getAll()
+    setPrizes(response)
+  }
+
+  useEffect(() => {getAllPrizes()}, [isBuyingPrize, selectedPlayer])
 
   return (
     <PageContainer id={id}>
@@ -56,9 +63,9 @@ function PrizeSalePage() {
 
         <div>
             <Search
-                placeholder="Busca por Cartão"
+                placeholder="Buscar por Nome"
                 allowClear
-                onSearch={onCardSearch}
+                onSearch={onNameSearch}
                 style={{width: 200}}
             /> 
             {selectedPlayer && <Label style={{paddingLeft: '3rem'}}>{'Jogador :  ' + selectedPlayer?.name}</Label>}
@@ -69,7 +76,7 @@ function PrizeSalePage() {
         </div>
 
           <ContentMenu>
-            {selectedPlayer && <PrizeSaleTable prizes={prizes} onRowClick={handleRowClick} />}
+            <PrizeSaleTable prizes={prizes} onRowClick={handleRowClick} />
           </ContentMenu>
 
           <BuyPrize 

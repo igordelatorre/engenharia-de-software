@@ -19,7 +19,7 @@ export default function PrizesReport({onClose, isOpen} : Props){
         setRelatorio(response)
     }
 
-    useEffect(() => {getReport()}, [])
+    useEffect(() => {getReport()}, [isOpen])
 
 
     const columns = [

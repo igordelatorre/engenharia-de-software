@@ -3,10 +3,10 @@ import {Modal} from 'antd'
 import Input from '../../Components/Input/Input'
 import handlers from '../../Components/handlers'
 import validate from './validate'
-import { Col, Form, Row } from "antd";
+import { Col, Form, Row, Switch } from "antd";
 import { FormikHelpers, useFormik } from "formik";
 import User, {UserFactory, IncompleteUserFactory} from '../../../Domain/User'
-import EmployeeService from '../../../Services/EmployeeService'
+import EmployeeService, { PayloadUser } from '../../../Services/EmployeeService'
 
 type Props = {
     isOpen : boolean
@@ -19,26 +19,29 @@ function AddUser({
 }: Props) {
 
     const onSubmit = async (
-      values: Partial<User>,
-      formik: FormikHelpers<Partial<User>>
+      values: Partial<PayloadUser>,
+      formik: FormikHelpers<Partial<PayloadUser>>
     ) => {
-      const newUser = UserFactory(values);
+      if (values.name === undefined || values.password === undefined || values.isAdmin === undefined || values.username === undefined) {
+        return
+      }
+      const newUser: PayloadUser = {name: values.name, isAdmin: values.isAdmin, password: values.password, username: values.username}
       formik.resetForm();
       addUser(newUser);
       onClose();
     };
 
-    const addUser = async (newUser: User) => {
+    const addUser = async (newUser: PayloadUser) => {
       console.log(newUser)
       await EmployeeService.add(newUser)
       onClose()
     };
 
 
-    const formik = useFormik<Partial<User>>({
-      initialValues: IncompleteUserFactory({}),
+    const formik = useFormik<Partial<PayloadUser>>({
+      initialValues: {isAdmin: false, name: "", password: "", username: ""},
       onSubmit,
-      validate: (values: Partial<User>) => validate(values),
+      validate: (values: Partial<PayloadUser>) => validate(values),
       enableReinitialize: true,
     });
 
@@ -71,7 +74,7 @@ function AddUser({
             <Form.Item label={"Email"}>
               <Input font-size={1.0} height={2} {...handlers.string(formik, "username")} />
             </Form.Item>
-          </Col>
+          </Col> {/*JOAO FORMIK SWITCH isAdmin AQUI*/ }
         </Row>
       </Form>
 

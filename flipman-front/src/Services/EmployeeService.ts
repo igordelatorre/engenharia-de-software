@@ -9,6 +9,13 @@ export type GetEmployeesReponse = {
 
 }
 
+export type PayloadUser = {
+    username: string;
+    password: string;
+    name: string;
+    isAdmin: boolean;
+}
+
 export default class EmployeeService {
     private static model = '/employees'
 
@@ -28,9 +35,9 @@ export default class EmployeeService {
         return response
     }
 
-    static async add(employee: User): Promise<void> {
+    static async add(employee: PayloadUser): Promise<void> {
         const response = await BaseService.post<
-            User,
+            PayloadUser,
             void
         >(this.model + '/register', employee)
 }

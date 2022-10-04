@@ -15,7 +15,6 @@ function PlayersManagerTable({players} : Props){
             title: 'Nome',
             dataIndex: 'name',
             key: 'name',
-            sorter: true
         },
         {
             title: 'Email',
@@ -31,7 +30,6 @@ function PlayersManagerTable({players} : Props){
             title: 'Cartão',
             dataIndex: 'card',
             key: 'card',
-            sorter: true
         },
         {
             title: 'Tickets Obtidos',

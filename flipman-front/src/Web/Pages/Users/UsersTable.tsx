@@ -18,13 +18,11 @@ function UsersTable({users} : Props){
             title: 'Nome',
             dataIndex: 'name',
             key: 'name',
-            sorter: true
         },
         {
             title: 'Email',
             dataIndex: 'username',
             key: 'username',
-            sorter: true
         }
     ]
 

@@ -35,19 +35,16 @@ function PrizesTable({prizes, onClickSubtract, onClickAdd} : Props){
             title: 'Nome',
             dataIndex: 'name',
             key: 'name',
-            sorter: true
         },
         {
             title: 'Preço',
             dataIndex: 'price',
             key: 'price',
-            sorter: true
         },
         {
             title: 'Estoque',
             dataIndex: 'amount',
             key: 'amount',
-            sorter: true
         },
         {
             title: '',

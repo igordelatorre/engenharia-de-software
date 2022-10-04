@@ -63,9 +63,9 @@ class PlayerService {
 		return response
 	}
 
-	static async get(id: number): Promise<Player> {
+	static async get(id: string): Promise<Player> {
 		const response = await BaseService.get<ResponsePlayer, void>(
-			this.model,
+			'/player-info',
 			`/${id}`
 		)
 

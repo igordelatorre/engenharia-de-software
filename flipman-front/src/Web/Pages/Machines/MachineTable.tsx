@@ -41,13 +41,11 @@ function MachineTable({machines, onClickEdit, onClickRemove} : Props){
             title: 'Nome',
             dataIndex: 'name',
             key: 'name',
-            sorter: true
         },
         {
             title: 'Preço para Jogar',
             dataIndex: 'playCost',
             key: 'playCost',
-            sorter: true
         },
         {
             title: '',

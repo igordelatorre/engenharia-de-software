@@ -29,7 +29,7 @@ function AddTicket({
 
 	return (
         <Modal 
-            title={"Adicionar Fichas ao Jogador"}
+            title={"Adicionar Fichas ao Jogador " + player?.name}
             visible={isOpen}
             onCancel={onClose}
             onOk={addTokens}

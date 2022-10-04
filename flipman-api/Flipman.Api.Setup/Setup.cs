@@ -26,7 +26,7 @@ public class Setup
         };
         await dbContext.Employees.AddAsync(admin);
 
-        var playerCard = "44";
+        var playerCard = "4489655621210786";
 
         var player = new Player(playerCard, "Marcos da Silva", "marcossilva@gmail.com", "marcossilva@gmail.com", "51994657633")
         {
@@ -35,7 +35,7 @@ public class Setup
         };
         await dbContext.Players.AddAsync(player);
 
-        var player2 = new Player("11", "Leonardo Oliveira", "leoliveira@hotmail.com", "leoliveira@hotmail.com", "51995472265")
+        var player2 = new Player("6564875510030245", "Leonardo Oliveira", "leoliveira@hotmail.com", "leoliveira@hotmail.com", "51995472265")
         {
             Tokens = 2,
             Tickets = 5,

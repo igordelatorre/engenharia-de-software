@@ -15,6 +15,7 @@ export default function PrizesReport({onClose, isOpen} : Props){
 
     const getReport = async () => {
         const response = await PrizeReportService.getAll()
+        console.log(response)
         setRelatorio(response)
     }
 

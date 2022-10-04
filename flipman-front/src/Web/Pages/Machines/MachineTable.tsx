@@ -1,17 +1,22 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import { Table} from 'antd';
-import {DeleteOutlined, EditOutlined} from '@ant-design/icons'
+import {DeleteOutlined, EditOutlined, FormOutlined} from '@ant-design/icons'
 import Machine from '../../../Domain/Machine';
+import { GetMachineResponse } from '../../../Services/MachineService';
+import { report } from 'process';
+import { MachinesReportService } from '../../../Services/MachinesReportService';
+import { useState } from 'react';
 
 
 type Props = {
-    machines: Machine[]
-    onClickEdit: (machine: Machine) => void 
-    onClickRemove: (machine: Machine) => void 
+    machines: GetMachineResponse[]
+    onClickEdit: (machine: GetMachineResponse) => void 
+    onClickRemove: (machine: GetMachineResponse) => void 
 }
 
 function MachineTable({machines, onClickEdit, onClickRemove} : Props){
+
 
     const handleEditClick = (id : number) => {
         const machine = machines.find(p => p.id === id)
@@ -30,6 +35,7 @@ function MachineTable({machines, onClickEdit, onClickRemove} : Props){
 
     }
 
+
     const columns = [
         {
             title: 'Nome',
@@ -41,19 +47,6 @@ function MachineTable({machines, onClickEdit, onClickRemove} : Props){
             title: 'Preço para Jogar',
             dataIndex: 'playCost',
             key: 'playCost',
-            sorter: true
-        },
-        {
-            title: 'Total de Tempo Jogado',
-            dataIndex: 'totalHoursSpent',
-            key: 'totalHoursSpent',
-            sorter: true
-
-        },
-        {
-            title: 'Total de Tickets Emitidos',
-            dataIndex: 'totalTicketsEmitted',
-            key: 'totalTicketsEmitted',
             sorter: true
         },
         {

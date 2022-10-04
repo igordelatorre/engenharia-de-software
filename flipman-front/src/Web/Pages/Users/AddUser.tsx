@@ -6,6 +6,7 @@ import validate from './validate'
 import { Col, Form, Row } from "antd";
 import { FormikHelpers, useFormik } from "formik";
 import User, {UserFactory, IncompleteUserFactory} from '../../../Domain/User'
+import EmployeeService from '../../../Services/EmployeeService'
 
 type Props = {
     isOpen : boolean
@@ -28,7 +29,9 @@ function AddUser({
     };
 
     const addUser = async (newUser: User) => {
-      // ADICIONA O NOVO USUÁRIO AQUI
+      console.log(newUser)
+      await EmployeeService.add(newUser)
+      onClose()
     };
 
 
@@ -66,7 +69,7 @@ function AddUser({
         <Row gutter={16}>
           <Col xs={12} lg={12}>
             <Form.Item label={"Email"}>
-              <Input font-size={1.0} height={2} {...handlers.string(formik, "email")} />
+              <Input font-size={1.0} height={2} {...handlers.string(formik, "username")} />
             </Form.Item>
           </Col>
         </Row>

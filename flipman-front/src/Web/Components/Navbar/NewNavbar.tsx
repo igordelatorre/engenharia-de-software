@@ -22,11 +22,11 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../Contexts/UserContext';
 
 const pages = [
-  {text: "Jogadores (F)", path: "/players", auth: [UserAuth.EMPLOYEE]},
-  {text: "Jogadores (G)", path: "/playersManager", auth: [UserAuth.MANAGER]},
+  {text: "Jogadores", path: "/players", auth: [UserAuth.EMPLOYEE]},
+  {text: "Jogadores", path: "/playersManager", auth: [UserAuth.MANAGER]},
   {text: "Consultar Jogador", path: "/playerStats", auth: [UserAuth.NO_AUTH]},
   {text: "Trocar prêmios", path: "/prizeSale", auth: [UserAuth.EMPLOYEE]},
-  {text: "Gerenciar prêmios", path: "/prizes", auth: [UserAuth.MANAGER]},
+  {text: "Prêmios", path: "/prizes", auth: [UserAuth.MANAGER]},
   {text: "Máquinas", path: "/machines", auth: [UserAuth.MANAGER]},
   {text: "Usuários", path: "/users", auth: [UserAuth.MANAGER]}
 ]

@@ -35,7 +35,7 @@ class MachineService {
 		return {
 			name: data.name,
 			playCost: data.playCost, 
-			isActive: data.isActive
+			isActive: true
 		}
 	}
 
@@ -62,12 +62,12 @@ class MachineService {
 
 	}
 
-	static async remove(machine: Machine): Promise<void> {
+	static async remove(id: number): Promise<void> {
 		const response = (
 			await BaseService.remove<number, void>(
 				this.model,
-				machine.id,
-				`/${machine.id}`
+				id,
+				`/${id}`
 			)
 		).data
 	}

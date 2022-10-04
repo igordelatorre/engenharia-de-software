@@ -6,6 +6,7 @@ import handlers from '../../Components/handlers'
 import validate from './validate'
 import { Col, Form, Row } from "antd";
 import { FormikHelpers, useFormik } from "formik";
+import PrizeService from '../../../Services/PrizeService'
 
 
 type Props = {
@@ -28,8 +29,8 @@ function AddPrize({
       onClose();
     };
 
-    const addPrize = async (newPrier: Prize) => {
-      // ADICIONA O NOVO PRIZE AQUI
+    const addPrize = async (newPrize: Prize) => {
+      PrizeService.add(newPrize)
     };
 
 

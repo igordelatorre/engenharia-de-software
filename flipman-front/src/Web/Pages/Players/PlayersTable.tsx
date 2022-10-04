@@ -41,7 +41,7 @@ function PlayersManagerTable({onRowClick, players} : Props){
             title: 'Tickets',
             dataIndex: 'tickets',
             key: 'tickets',
-        },
+        }
     ]
 
 

@@ -39,8 +39,9 @@ function PlayersPage() {
   }
 
   const onCardSearch = (card: string) => {
-    const filteredPlayers = players.filter(p => p.player.card.includes(card))
-    setPlayers(filteredPlayers)
+      const filteredPlayers = players.filter(p => p.player.card.includes(card))
+      setPlayers(filteredPlayers)
+    
   }
 
   const onNameSearch = (name: string) => {

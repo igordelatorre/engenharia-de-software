@@ -23,14 +23,14 @@ function AddPlayer({
       values: Partial<Player>,
       formik: FormikHelpers<Partial<Player>>
     ) => {
-      const newPlayer = PlayerFactory(values);
       formik.resetForm();
-      addPlayer(newPlayer);
+      addPlayer(values);
       onClose();
     };
 
-    const addPlayer = async (newPlayer: Player) => {
-      await PlayerService.addPlayer(newPlayer);
+    const addPlayer = async (newPlayer: any) => {
+      console.log(newPlayer)
+      await PlayerService.addPlayer({...newPlayer, username: 'username'})
     };
 
 

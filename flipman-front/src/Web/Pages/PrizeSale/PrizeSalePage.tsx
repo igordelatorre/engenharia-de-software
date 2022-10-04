@@ -14,6 +14,8 @@ import { Input, Button } from "antd";
 import Player from "../../../Domain/Player";
 import PrizeSaleTable from "./PrizeSaleTable";
 import BuyPrize from "./BuyPrize";
+import PrizesReport from "../Prizes/PrizesReport";
+import PlayerService from "../../../Services/PlayerService";
 
 
 const {Search} = Input
@@ -25,23 +27,23 @@ function PrizeSalePage() {
   const [selectedPlayer, setSelectedPlayer] = useState<Player | undefined>()
   const [selectedPrize, setSelectedPrize] = useState<Prize | undefined>()
   const [isBuyingPrize, setIsBuyingPrize] = useState<boolean>(false)
-  const [prizes, setPrizes] = useState<Prize[]>([{id: 4, name: 'boneco', amount: 10, price : 4}])
+  const [prizes, setPrizes] = useState<Prize[]>([])
 
 
-  const onCardSearch = async (card: String) => {
-    // GET DO JOGADOR.
-    // GET ALL DOS ITEMS QUE O JOGADOR PODE COMPRAR
-   // setPlayerStats(....);
-   // setPlayer(...)
-   if (card === '123')
-   {
-        setSelectedPlayer({id: 5, name: 'joao', card: '123', email: 'joao@email.com', tickets: 5, tokens: 4})
-   }
+  const [relatorio, setRelatorio] = useState<boolean>(false)
+
+  const onCardSearch = async (card: string) => {
+      const player = await PlayerService.get(card)
+      setSelectedPlayer(player)
   }
 
   const handleRowClick = (prize: Prize) => {
     setIsBuyingPrize(true)
     setSelectedPrize(prize)
+  }
+  const handleCloseCard = (action : () => void) => {
+    action()
+
   }
 
   return (
@@ -61,6 +63,9 @@ function PrizeSalePage() {
             /> 
             {selectedPlayer && <Label style={{paddingLeft: '3rem'}}>{'Jogador :  ' + selectedPlayer?.name}</Label>}
             {selectedPlayer && <Label style={{paddingLeft: '3rem'}}>{'Saldo de Tickets :  ' + selectedPlayer?.tickets}</Label>}
+            <Button onClick={() => setRelatorio(true)}>
+                {"Gerar Relatório"}
+              </Button>
         </div>
 
           <ContentMenu>
@@ -72,6 +77,11 @@ function PrizeSalePage() {
             onClose={() => setIsBuyingPrize(false)}
             player={selectedPlayer}
             prize={selectedPrize}
+            />
+
+          <PrizesReport
+              isOpen={relatorio}
+              onClose={() => handleCloseCard(() => setRelatorio(false))}
             />
 
         </FixedCard>

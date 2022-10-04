@@ -14,6 +14,7 @@ import { Input, Button } from "antd";
 import PlayersStatsTable from "./PlayerStatsTable";
 import PlayerStats from "../../../Domain/PlayerStats";
 import { PlayersInfoService } from "../../../Services/PlayersInfoService";
+import MachineService from "../../../Services/MachineService";
 
 const {Search} = Input
 const id = "player-stats-page";
@@ -40,9 +41,23 @@ function PlayerStatsPage() {
       tokens: playerData.tokens,
       tickets: playerData.tickets  
     })
-    
-    setPlayerStats(playerData.gameStats)
+    let parsedPlayerStats: PlayerStats[] = []
+    playerData.gameStats.forEach(async (gs) => {
+      const id = gs.machineId
+      const machineData = await MachineService.getAll()
+      machineData.forEach((m) => {
+        if (m.id === id) {
+            parsedPlayerStats.push({machineName: m.name, hoursPlayed: gs.hoursPlayed})
+        }
+      })
+    })
+    console.log(parsedPlayerStats)
+    setPlayerStats(parsedPlayerStats)
   }
+
+  useEffect(() => {
+    console.log(playerStats)
+  }, [playerStats])
 
   return (
     <PageContainer id={id}>

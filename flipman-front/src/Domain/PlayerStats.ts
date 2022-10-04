@@ -4,7 +4,7 @@ import Incomplete from "../Common/Incomplete"
 
 class PlayerStats {
 	constructor(
-        public machineId: number, //MUDAR ISSO PRA NAME: STRING DEPOIS QUE DER PRA PEGAR DO BACK 
+        public machineName: string, //MUDAR ISSO PRA NAME: STRING DEPOIS QUE DER PRA PEGAR DO BACK 
         public hoursPlayed: number,
 	) {}
 }
@@ -12,7 +12,7 @@ class PlayerStats {
 
 export function PlayerStatsFactory(obj: Partial<PlayerStats>): PlayerStats {
 return new PlayerStats(
-	obj.machineId || 0,
+	obj.machineName || "",
     obj.hoursPlayed || 0,
 )
 }
@@ -20,7 +20,7 @@ return new PlayerStats(
 export function IncompletePlayerFactory(
 obj: Partial<PlayerStats>
 ): Incomplete<PlayerStats> {
-	obj.machineId = undefined 
+	obj.machineName = undefined 
 	obj.hoursPlayed = undefined 
 	return Object.setPrototypeOf(obj, PlayerStats.prototype)
 }

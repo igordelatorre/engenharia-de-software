@@ -7,6 +7,7 @@ export type GetMachineResponse = {
 	playCost: number 
 	isActive: boolean 
 	hoursPlayed: number,
+	tickets: number
 }
 
 type PayloadPostMachine = {

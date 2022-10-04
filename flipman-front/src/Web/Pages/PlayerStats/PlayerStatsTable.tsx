@@ -14,7 +14,7 @@ function PlayersStatsTable({playerStats} : Props){
     const columns = [
         {
             title: 'Máquina',
-            dataIndex: 'machineId',  //MUDAR PRA MACHINE NAME   
+            dataIndex: 'machineName',  //MUDAR PRA MACHINE NAME   
             key: 'machineName',
             sorter: true
         },

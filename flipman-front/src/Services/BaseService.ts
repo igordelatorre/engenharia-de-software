@@ -3,8 +3,8 @@ import axios, { AxiosResponse } from "axios";
 const baseURL =
   process.env.NODE_ENV === "development" || !process.env.NODE_ENV
    // ? "https://localhost:7021"
-    ? "http://15.229.23.79"
-    : `http://15.229.23.79`;
+    ? "http://18.229.239.33"
+    : `http://18.229.239.33`;
 
 const api = axios.create({
   baseURL,

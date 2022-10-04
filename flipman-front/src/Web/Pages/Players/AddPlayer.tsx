@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Player, {IncompletePlayerFactory, PlayerFactory} from '../../../Domain/Player'
 import {Modal} from 'antd'
-import PlayerService from '../../../Services/PlayerService'
+import PlayerService, { PayloadPlayer } from '../../../Services/PlayerService'
 import Input from '../../Components/Input/Input'
 import handlers from '../../Components/handlers'
 import validate from './validate'
@@ -20,22 +20,28 @@ function AddPlayer({
 }: Props) {
 
     const onSubmit = async (
-      values: Partial<Player>,
-      formik: FormikHelpers<Partial<Player>>
+      values:PayloadPlayer,
+      formik: FormikHelpers<PayloadPlayer>
     ) => {
-      const newPlayer = PlayerFactory(values);
+      const newPlayer: PayloadPlayer = {
+        card: values.card,
+        name: values.name,
+        username: "USERNAME",
+        cellphone: values.cellphone,
+        email: values.email
+      }
       formik.resetForm();
       addPlayer(newPlayer);
       onClose();
     };
 
-    const addPlayer = async (newPlayer: Player) => {
+    const addPlayer = async (newPlayer: PayloadPlayer) => {
       await PlayerService.addPlayer(newPlayer);
     };
 
 
-    const formik = useFormik<Partial<Player>>({
-      initialValues: IncompletePlayerFactory({}),
+    const formik = useFormik<PayloadPlayer>({
+      initialValues: {card: "", cellphone: "", email: "", name: "", username: ""},
       onSubmit,
       validate: (values: Partial<Player>) => validate(values),
       enableReinitialize: true,

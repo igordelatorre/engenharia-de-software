@@ -19,11 +19,12 @@ export type ResponsePlayer = {
 	player: RPlayer
 }
 
-type PayloadPlayer = {
+export type PayloadPlayer = {
 	name: string
 	card: string
 	email: string
-	cellphone?: string
+	cellphone: string
+	username: string
 }
 
 type GetPlayerTicketsResponse = {
@@ -47,12 +48,13 @@ class PlayerService {
 		})
 	}
 
-	static into(data: Player): PayloadPlayer {
+	static into(data: PayloadPlayer): PayloadPlayer {
 		return {
 			name: data.name,
 			card: data.card,
 			email: data.email,
-			cellphone: data.cellphone
+			cellphone: data.cellphone,
+			username: "USERNAME"
 		}
 	}
 
@@ -82,11 +84,11 @@ class PlayerService {
 	}
 
 
-	static async addPlayer(player: Player): Promise<void> {
+	static async addPlayer(player: PayloadPlayer): Promise<void> {
 			const response = await BaseService.post<
 				PayloadPlayer,
 				void
-			>(this.model, this.into(player))
+			>("/player", this.into(player))
 
 	}
 	
